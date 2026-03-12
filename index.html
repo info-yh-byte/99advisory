@@ -1,494 +1,1091 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>九十九アドバイザリー | 貴社の数字に、静かに寄り添います</title>
-    <meta name="description" content="利益は出ているのに現金が増えない。九十九アドバイザリーは、公認会計士をはじめとする専門家が匿名で連携し、中小企業経営者の数字に静かに寄り添うパートナー集団です。">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>九十九アドバイザリー | 貴社の数字に、静かに寄り添います</title>
+  <meta name="description" content="利益は出ているけれど、手元に残る現金が少ない。九十九アドバイザリーは、中小企業の財務と経営管理を静かに支えるCFO型伴走支援です。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fcfbf9;
+      --paper: #ffffff;
+      --paper-2: #f5f3ee;
+      --ink: #182332;
+      --ink-soft: #4a5562;
+      --line: #d9dfdf;
+      --line-strong: rgba(183,132,96,0.45);
+      --accent: #b78460;
+      --accent-dark: #6a4a34;
+      --sage: #3f5d55;
+      --shadow: 0 10px 30px rgba(24,35,50,0.06);
+      --font-serif: "Shippori Mincho", serif;
+      --font-sans: "Zen Kaku Gothic New", sans-serif;
+      --radius: 10px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      color: var(--ink-soft);
+      background:
+        radial-gradient(circle at top right, rgba(183,132,96,0.08), transparent 26%),
+        linear-gradient(to bottom, #fff 0%, var(--bg) 100%);
+      line-height: 1.9;
+      letter-spacing: 0.03em;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    h1, h2, h3, h4 { margin: 0; color: var(--ink); font-family: var(--font-serif); font-weight: 600; line-height: 1.45; }
+    p { margin: 0 0 1.1rem; }
+    .container { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+    .narrow { width: min(calc(100% - 40px), 860px); margin: 0 auto; }
+    .muted { color: var(--ink-soft); }
+    .small { font-size: 0.93rem; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(24,35,50,0.12);
+      background: rgba(255,255,255,0.72);
+      padding: 7px 12px; border-radius: 999px; font-size: 0.78rem; color: var(--ink-soft);
+      backdrop-filter: blur(6px);
+    }
+
+    header {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(252,251,249,0.84);
+      border-bottom: 1px solid rgba(24,35,50,0.08);
+    }
+    .header-inner {
+      width: min(calc(100% - 40px), 1220px); margin: 0 auto; height: 74px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    .brand { text-decoration: none; min-width: 220px; }
+    .brand-ja { display: block; font-family: var(--font-serif); color: var(--ink); font-size: 1.12rem; letter-spacing: 0.08em; }
+    .brand-en { display: block; color: var(--accent); font-size: 0.66rem; letter-spacing: 0.18em; margin-top: 2px; }
+    nav ul {
+      margin: 0; padding: 0; list-style: none; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; justify-content: flex-end;
+    }
+    nav a { text-decoration: none; font-size: 0.82rem; color: var(--ink-soft); }
+    nav a:hover { color: var(--accent-dark); }
+    .header-btn {
+      display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; text-decoration: none;
+      border: 1px solid var(--ink); color: var(--ink); border-radius: 999px; font-size: 0.82rem; transition: .25s ease;
+    }
+    .header-btn:hover { background: var(--ink); color: #fff; }
+
+    section { padding: 108px 0; }
+    .section-soft { background: linear-gradient(to bottom, rgba(245,243,238,0.6), rgba(255,255,255,0)); }
+    .section-line-top { border-top: 1px solid rgba(24,35,50,0.08); }
+    .section-head { max-width: 760px; margin-bottom: 48px; }
+    .section-kicker {
+      display: inline-block; color: var(--accent); font-size: 0.78rem; letter-spacing: 0.16em; margin-bottom: 12px; font-weight: 500;
+    }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 16px; }
+    .section-desc { font-size: 1rem; color: var(--ink-soft); max-width: 680px; }
+
+    .hero { padding: 52px 0 88px; position: relative; overflow: hidden; }
+    .hero::after {
+      content: ""; position: absolute; inset: 120px auto auto calc(50% + 80px);
+      width: 360px; height: 360px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(183,132,96,0.13), transparent 66%);
+      filter: blur(10px); pointer-events: none;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.04fr 0.96fr; gap: 54px; align-items: center;
+    }
+    .hero-copy { position: relative; z-index: 2; }
+    .hero-mark { color: var(--accent); font-size: 0.78rem; letter-spacing: 0.18em; margin-bottom: 14px; display: block; }
+    .hero-title {
+      font-size: clamp(2rem, 4.8vw, 3.7rem); margin-bottom: 16px; line-height: 1.35;
+    }
+    .hero-summary {
+      margin: 0 0 24px; padding: 18px 0 0; border-top: 1px solid var(--line-strong);
+    }
+    .hero-summary p {
+      margin: 0 0 0.24rem; font-family: var(--font-serif); color: var(--ink); font-size: clamp(1.02rem, 2vw, 1.14rem); line-height: 1.85;
+    }
+    .hero-summary p:last-child { margin-bottom: 0; }
+    .hero-text { max-width: 560px; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 28px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 48px; padding: 0 22px; border-radius: 999px; text-decoration: none; font-size: 0.92rem; transition: .25s ease;
+    }
+    .btn-primary { background: var(--sage); color: #fff; box-shadow: 0 12px 24px rgba(63,93,85,0.18); }
+    .btn-primary:hover { transform: translateY(-1px); background: #314d46; }
+    .btn-secondary { background: rgba(255,255,255,0.75); color: var(--ink); border: 1px solid rgba(24,35,50,0.12); }
+    .btn-secondary:hover { border-color: rgba(24,35,50,0.25); }
+    .hero-note { font-size: 0.85rem; color: var(--ink-soft); }
+
+    .hero-visual {
+      position: relative; min-height: 520px; display: grid; place-items: center;
+    }
+    .diagram {
+      position: relative; width: min(100%, 500px); aspect-ratio: 1 / 1; border-radius: 28px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(247,244,239,0.94));
+      border: 1px solid rgba(24,35,50,0.08); box-shadow: var(--shadow); overflow: hidden;
+    }
+    .diagram::before,
+    .diagram::after {
+      content: ""; position: absolute; inset: 18px; border-radius: 22px; border: 1px solid rgba(183,132,96,0.18);
+    }
+    .diagram::after { inset: 34px; border-style: dashed; }
+    .orbit { position: absolute; inset: 0; }
+    .orbit-line {
+      position: absolute; border: 1px solid rgba(24,35,50,0.08); border-radius: 50%;
+    }
+    .orbit-line.one { inset: 56px; }
+    .orbit-line.two { inset: 108px; }
+    .orbit-line.three { inset: 156px; }
+    .node, .core {
+      position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      background: rgba(255,255,255,0.95); border: 1px solid rgba(24,35,50,0.12); color: var(--ink-soft);
+      box-shadow: 0 8px 20px rgba(24,35,50,0.06);
+    }
+    .node { width: 112px; height: 112px; border-radius: 22px; padding: 12px; font-size: 0.82rem; line-height: 1.4; transition: .3s ease; }
+    .node:hover { transform: scale(1.05); border-color: rgba(183,132,96,0.4); }
+    .node strong { display: block; font-family: var(--font-serif); font-size: 1.05rem; margin-bottom: 6px; color: var(--ink); }
+    .node.a { top: 46px; left: 62px; }
+    .node.b { top: 56px; right: 44px; }
+    .node.c { bottom: 62px; left: 78px; }
+    .node.d { bottom: 48px; right: 56px; }
+    .core {
+      width: 172px; height: 172px; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: radial-gradient(circle at top, #ffffff, #f2efe9);
+      border-color: rgba(183,132,96,0.35); box-shadow: 0 12px 30px rgba(183,132,96,0.12);
+      font-family: var(--font-serif); font-size: 1.12rem; line-height: 1.7; color: var(--ink); font-weight: 500;
+    }
+    .connector {
+      position: absolute; height: 1px; background: linear-gradient(90deg, rgba(183,132,96,0), rgba(183,132,96,0.5), rgba(183,132,96,0));
+      transform-origin: left center;
+    }
+    .conn-a { width: 122px; top: 145px; left: 160px; transform: rotate(25deg); }
+    .conn-b { width: 130px; top: 152px; right: 152px; transform: rotate(-26deg); }
+    .conn-c { width: 128px; bottom: 150px; left: 165px; transform: rotate(-24deg); }
+    .conn-d { width: 122px; bottom: 148px; right: 160px; transform: rotate(24deg); }
+
+    .paper {
+      background: rgba(255,255,255,0.86); border: 1px solid rgba(24,35,50,0.08); border-radius: var(--radius); box-shadow: var(--shadow);
+    }
+
+    .mobile-cta {
+      display: none; position: sticky; bottom: 14px; z-index: 60; margin: 0 16px;
+      text-decoration: none; text-align: center; background: var(--sage); color: #fff;
+      border-radius: 999px; min-height: 48px; line-height: 48px; box-shadow: 0 14px 28px rgba(63,93,85,0.22);
+    }
+
+    .problem-table {
+      overflow: hidden; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,248,244,0.94));
+    }
+    .problem-head {
+      display: grid; grid-template-columns: 80px minmax(0, 260px) 1fr;
+      margin: 0; border-bottom: 1px solid var(--line);
+      color: var(--ink-soft); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .problem-head > div { padding: 14px 18px; }
+    .problem-head-no { text-align: center; opacity: 0.8; }
+    .problem-head-title, .problem-head-desc { opacity: 0.8; }
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* =========================================
-           変数定義（カラー・フォント）
-           ========================================= */
-        :root {
-            --bg-color: #ffffff;
-            --main-color: #0b192c;   
-            --accent-1: #b78460;     
-            --accent-2: #385a52;     
-            --sub-color: #f8f9fa;    
-            --header-bg: #fcfaf8;    
-            --text-color: #333333;   
-            --light-text: #666666;
-            --border-color: #e2e8f0;
-            --cta-bg: #f2efe9;       
-            
-            --font-serif: "Shippori Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
-            --font-sans: "Zen Kaku Gothic New", "Yu Gothic", "Hiragino Sans", sans-serif;
-        }
+    .problem-list { display: grid; gap: 0; }
+    .problem-item {
+      display: grid; grid-template-columns: 80px minmax(0, 260px) 1fr; align-items: stretch;
+      border-bottom: 1px solid var(--line);
+    }
+    .problem-item:last-child { border-bottom: none; }
+    .problem-item > div { padding: 22px 18px; }
+    .problem-no { 
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-family: var(--font-serif); font-size: 1.15rem; 
+      border-right: 1px dashed var(--line);
+    }
+    .problem-title { 
+      font-size: 0.95rem; color: var(--ink-soft); 
+      border-right: 1px dashed var(--line);
+      display: flex; align-items: center;
+    }
+    .problem-desc { 
+      color: var(--ink); font-size: 1.05rem; font-weight: 500; font-family: var(--font-sans); 
+      display: flex; align-items: center;
+    }
 
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-color); line-height: 1.9; letter-spacing: 0.05em; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; animation: fadeIn 0.8s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .guide-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .guide-card {
+      position: relative; padding: 24px 20px 22px; text-decoration: none; background: linear-gradient(180deg, #fff, #fbfaf7);
+      border: 1px solid rgba(24,35,50,0.08); border-radius: var(--radius); box-shadow: var(--shadow); transition: .25s ease;
+    }
+    .guide-card:hover { transform: translateY(-2px); border-color: rgba(183,132,96,0.38); box-shadow: 0 16px 34px rgba(24,35,50,0.08); }
+    .guide-step { color: var(--accent); font-size: 0.76rem; letter-spacing: 0.14em; display: block; margin-bottom: 14px; }
+    .guide-card h3 { font-size: 1.06rem; margin-bottom: 12px; }
+    .guide-card p { font-size: 0.92rem; color: var(--ink-soft); margin-bottom: 14px; }
+    .guide-arrow { color: var(--sage); font-size: 0.88rem; }
 
-        .container { max-width: 760px; margin: 0 auto; padding: 0 20px; }
-        h1, h2, h3 { font-family: var(--font-serif); color: var(--main-color); margin: 0; line-height: 1.4; }
-        p { margin: 0 0 1.8rem 0; font-size: clamp(0.95rem, 2vw, 1.05rem); }
+    .fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .fit-card {
+      padding: 28px 26px; border: 1px solid rgba(24,35,50,0.08); border-radius: 18px; background: #fff; box-shadow: var(--shadow);
+    }
+    .fit-card.alt { background: linear-gradient(180deg, #fcfbf8, #f6f4ef); }
+    .fit-card h3 { font-size: 1.18rem; margin-bottom: 16px; }
+    .fit-card ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+    .fit-card li {
+      position: relative; padding-left: 20px; font-size: 0.95rem; color: var(--ink-soft);
+    }
+    .fit-card li::before {
+      content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); position: absolute; left: 0; top: 0.88em;
+    }
+    .fit-card.alt li::before { background: var(--sage); }
 
-        /* =========================================
-           ヘッダー
-           ========================================= */
-        header { background: var(--header-bg); border-bottom: 1px solid rgba(183, 132, 96, 0.3); position: sticky; top: 0; z-index: 1000; }
-        .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; height: 75px; }
+    .sample-grid { display: grid; gap: 22px; }
+    .sample-card {
+      display: grid; grid-template-columns: 260px 1fr; gap: 28px; padding: 28px; align-items: center;
+      border: 1px solid rgba(24,35,50,0.08); border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,248,244,0.92)); box-shadow: var(--shadow);
+    }
+    .sample-cover {
+      position: relative; aspect-ratio: 3 / 4; border-radius: 14px; border: 1px solid rgba(24,35,50,0.08);
+      background: linear-gradient(160deg, #fdfcf9, #f1ece4);
+      overflow: hidden; box-shadow: 0 18px 36px rgba(24,35,50,0.08);
+    }
+    .sample-cover::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 8px; background: linear-gradient(90deg, var(--accent), rgba(183,132,96,0.12));
+    }
+    .cover-inner { padding: 26px 22px; height: 100%; display: flex; flex-direction: column; }
+    .cover-label { font-size: 0.72rem; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 16px; }
+    .cover-title { font-family: var(--font-serif); font-size: 1.18rem; color: var(--ink); line-height: 1.75; margin-bottom: 16px; }
+    .cover-lines { margin-top: auto; display: grid; gap: 9px; }
+    .cover-line { height: 8px; border-radius: 999px; background: rgba(24,35,50,0.08); }
+    .cover-line.short { width: 62%; }
+    .cover-line.mid { width: 76%; }
+    .sample-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+    .tag { display: inline-flex; align-items: center; border: 1px solid rgba(24,35,50,0.08); padding: 6px 10px; border-radius: 999px; font-size: 0.78rem; color: var(--ink-soft); }
+    .sample-card h3 { font-size: 1.28rem; margin-bottom: 10px; }
+    .sample-points { display: grid; gap: 10px; margin: 16px 0 18px; }
+    .sample-points div { padding-left: 18px; position: relative; color: var(--ink-soft); font-size: 0.94rem; }
+    .sample-points div::before { content: "・"; position: absolute; left: 0; top: 0; color: var(--accent); }
+    .sample-status {
+      margin-top: 12px; padding-top: 16px; border-top: 1px solid rgba(24,35,50,0.08); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .sample-link { text-decoration: none; color: var(--sage); font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 999px; background: rgba(63,93,85,0.08); }
 
-        .header-logo { display: flex; flex-direction: column; justify-content: center; text-decoration: none; flex-shrink: 0; }
-        .logo-ja { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 600; color: var(--main-color); letter-spacing: 0.08em; line-height: 1.2; }
-        .logo-en { font-family: var(--font-sans); font-size: 0.65rem; color: var(--accent-1); letter-spacing: 0.15em; font-weight: 500; margin-top: 2px; }
+    .service-section { padding-top: 92px; }
+    .service-card {
+      display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 34px; padding: 34px;
+      border: 1px solid rgba(24,35,50,0.08); border-radius: 18px; background: #fff; box-shadow: var(--shadow);
+    }
+    .service-label { color: var(--accent); font-size: 0.78rem; letter-spacing: 0.16em; margin-bottom: 12px; display: block; }
+    .service-card h3 { font-size: 1.6rem; margin-bottom: 14px; }
+    .service-side-note {
+      margin-top: 18px; padding: 16px 18px; border-left: 3px solid var(--accent); background: rgba(247,243,239,0.7); border-radius: 0 8px 8px 0; font-size: 0.92rem;
+    }
+    .service-detail { display: grid; gap: 16px; }
+    .service-block { padding-bottom: 14px; border-bottom: 1px solid rgba(24,35,50,0.08); }
+    .service-block:last-child { border-bottom: none; padding-bottom: 0; }
+    .service-block h4 { font-family: var(--font-sans); font-size: 0.92rem; color: var(--ink); margin-bottom: 8px; }
+    .service-block p { font-size: 0.95rem; margin-bottom: 0; }
+    .price-line { font-size: 0.98rem; color: var(--ink); }
+    .price-line strong { font-family: var(--font-serif); font-size: 1.15rem; margin-right: 6px; }
 
-        nav { display: flex; align-items: center; flex-grow: 1; justify-content: flex-end; }
-        nav ul { list-style: none; display: flex; padding: 0; margin: 0; gap: 20px; }
-        nav a { text-decoration: none; color: var(--light-text); font-size: 0.85rem; letter-spacing: 0.05em; font-weight: 500; transition: color 0.3s ease; white-space: nowrap; }
-        nav a:hover { color: var(--accent-1); }
+    .outcome-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    }
+    .outcome-card {
+      padding: 28px 26px; border: 1px solid rgba(24,35,50,0.08); border-radius: 18px; background: #fff; box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .outcome-card::before {
+      content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, var(--accent), transparent);
+    }
+    .outcome-card:last-child::before { background: linear-gradient(90deg, var(--sage), transparent); }
+    .outcome-card h3 { font-size: 1.22rem; margin-bottom: 16px; }
+    .outcome-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+    .outcome-card li { padding-left: 18px; position: relative; font-size: 0.95rem; color: var(--ink-soft); }
+    .outcome-card li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); position: absolute; left: 0; top: .86em; }
+    .outcome-card:last-child li::before { background: var(--sage); }
 
-        .header-cta { margin-left: 30px; padding: 8px 18px; border: 1px solid var(--main-color); color: var(--main-color); text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: all 0.3s ease; white-space: nowrap; border-radius: 3px; }
-        .header-cta:hover { background-color: var(--main-color); color: #fff; }
+    .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .process-card {
+      padding: 28px 24px; border: 1px solid rgba(24,35,50,0.08); border-radius: 18px; background: #fff; box-shadow: var(--shadow);
+    }
+    .process-no { display: block; color: var(--accent); font-size: 0.78rem; letter-spacing: 0.16em; margin-bottom: 12px; }
+    .process-card h3 { font-size: 1.14rem; margin-bottom: 12px; }
+    .process-card p { font-size: 0.94rem; margin-bottom: 0; }
+    .data-box {
+      margin-top: 26px; padding: 24px; border: 1px solid rgba(24,35,50,0.08); border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(246,244,240,0.9)); box-shadow: var(--shadow);
+    }
+    .data-box h3 { font-size: 1.05rem; margin-bottom: 10px; }
+    .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+    .data-item { padding: 18px; border: 1px solid rgba(24,35,50,0.08); border-radius: 14px; background: rgba(255,255,255,0.75); }
+    .data-item h4 { font-family: var(--font-sans); font-size: 0.92rem; margin-bottom: 8px; color: var(--ink); }
+    .data-item p { font-size: 0.9rem; margin-bottom: 0; }
 
-        /* =========================================
-           セクション・見出し設定
-           ========================================= */
-        section { padding: 110px 0; position: relative; }
-        .section-sub { background-color: var(--sub-color); }
-        #top { padding: 80px 0 60px; background: linear-gradient(to bottom, #ffffff 0%, #f4f6f9 100%); }
+    .flow-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+    .flow-steps { display: grid; gap: 14px; }
+    .flow-step {
+      display: grid; grid-template-columns: 70px 1fr; gap: 16px; padding: 22px; border: 1px solid rgba(24,35,50,0.08); border-radius: 18px; background: #fff; box-shadow: var(--shadow);
+    }
+    .flow-step-no { color: var(--accent); font-family: var(--font-serif); font-size: 1.12rem; }
+    .flow-step h3 { font-size: 1.02rem; margin-bottom: 6px; }
+    .flow-step p { font-size: 0.93rem; margin-bottom: 0; }
+    .faq-stack { display: grid; gap: 12px; }
+    details.faq {
+      border: 1px solid rgba(24,35,50,0.08); border-radius: 16px; background: #fff; box-shadow: var(--shadow); overflow: hidden;
+    }
+    details.faq summary {
+      list-style: none; cursor: pointer; padding: 18px 22px; font-family: var(--font-serif); color: var(--ink); font-size: 1rem; position: relative;
+    }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after {
+      content: "+"; position: absolute; right: 20px; top: 16px; color: var(--accent); font-size: 1.1rem;
+    }
+    details.faq[open] summary::after { content: "−"; }
+    .faq-body { padding: 0 22px 20px; font-size: 0.93rem; color: var(--ink-soft); }
+    .faq-note {
+      margin-top: 18px; padding: 18px 20px; border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,246,241,0.94)); border: 1px solid rgba(24,35,50,0.08); box-shadow: var(--shadow);
+    }
 
-        .lead-h1 { font-size: clamp(1.4rem, 3.5vw, 1.8rem); margin-bottom: 0.5rem; color: var(--main-color); font-weight: 500; }
-        .lead-catch { font-family: var(--font-serif); font-size: clamp(1.5rem, 4vw, 2.2rem); color: var(--accent-1); margin-bottom: 2.5rem; line-height: 1.5; font-weight: 600; }
-        .lead-wrapper { border-left: 4px solid var(--accent-1); padding-left: 1.5rem; margin-bottom: 3.5rem; }
-        
-        .section-label { display: block; text-align: center; font-family: var(--font-sans); color: var(--accent-1); font-size: 0.85rem; letter-spacing: 0.15em; margin-bottom: 0.8rem; font-weight: 500; }
-        .section-h1 { font-size: clamp(1.8rem, 5vw, 2.2rem); text-align: center; margin-bottom: 1.2rem; font-weight: 600; }
-        .section-lead { text-align: center; font-size: clamp(1rem, 2.5vw, 1.15rem); color: var(--light-text); margin-bottom: 3.5rem; position: relative; padding-bottom: 25px; }
-        .section-lead::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 2px; background-color: var(--accent-1); }
-        
-        .sub-h2 { font-size: clamp(1.15rem, 3vw, 1.35rem); margin-top: 4rem; margin-bottom: 1.5rem; padding: 12px 16px; border-left: 5px solid var(--accent-1); background-color: #f7f3ef; border-radius: 0 4px 4px 0; font-weight: 500; }
+    .about-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 30px; align-items: start; }
+    .about-copy,
+    .about-panel {
+      padding: 30px; border: 1px solid rgba(24,35,50,0.08); border-radius: 20px; background: #fff; box-shadow: var(--shadow);
+    }
+    .about-panel { background: linear-gradient(180deg, #fff, #fbfaf7); }
+    .about-panel-grid { display: grid; gap: 16px; margin-top: 18px; }
+    .about-mini { padding: 16px 0 0; border-top: 1px solid rgba(24,35,50,0.08); }
+    .about-mini:first-child { border-top: none; padding-top: 0; }
+    .about-mini h4 { font-family: var(--font-sans); font-size: .92rem; margin-bottom: 8px; color: var(--ink); }
+    .about-copy p:last-child,
+    .about-panel p:last-child { margin-bottom: 0; }
 
-        /* =========================================
-           お悩みリスト
-           ========================================= */
-        .worries-box { background-color: #fff; border: 1px solid var(--border-color); padding: 35px 30px; margin-bottom: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-radius: 4px; }
-        .worries-box ul { list-style: none; padding: 0; margin: 0; }
-        .worries-box li { position: relative; padding-left: 2.2rem; margin-bottom: 22px; color: var(--text-color); font-weight: 500; font-size: 0.98rem; line-height: 1.7; }
-        .worries-box li:last-child { margin-bottom: 0; }
-        .worries-box li::before { content: '✓'; position: absolute; left: 0; top: -2px; color: var(--accent-2); font-weight: bold; font-size: 1.3rem; }
-        .worries-box li strong { color: var(--main-color); font-weight: 700; }
+    .final-cta {
+      padding: 62px 42px; border: 1px solid rgba(24,35,50,0.08); border-radius: 28px; background:
+      linear-gradient(180deg, rgba(255,255,255,0.96), rgba(245,243,238,0.95));
+      box-shadow: 0 20px 50px rgba(24,35,50,0.08);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .final-cta::before {
+      content: ""; position: absolute; inset: auto -80px -120px auto; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(183,132,96,0.16), transparent 65%);
+    }
+    .final-cta h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); margin-bottom: 14px; }
+    .final-push {
+      max-width: 620px; margin: 0 auto 22px; padding: 14px 18px; border: 1px solid rgba(24,35,50,0.08); border-radius: 999px; background: rgba(255,255,255,0.75); font-size: 0.92rem;
+    }
+    .cta-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+    .cta-sub { margin-top: 14px; font-size: 0.86rem; color: var(--ink-soft); }
 
-        /* =========================================
-           ご支援の対象・業種
-           ========================================= */
-        .target-box { margin-bottom: 30px; }
-        .target-box-title { display: inline-block; font-family: var(--font-serif); background-color: var(--main-color); color: #fff; padding: 6px 15px; font-size: 0.9rem; border-radius: 3px; margin-bottom: 15px; }
-        .target-list { background: #fff; border: 1px solid var(--border-color); padding: 25px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .target-list ul { list-style: none; padding: 0; margin: 0; }
-        .target-list li { margin-bottom: 15px; font-size: 0.95rem; line-height: 1.6; padding-left: 1.2rem; position: relative; }
-        .target-list li:last-child { margin-bottom: 0; }
-        .target-list li::before { content: '◆'; position: absolute; left: 0; color: var(--accent-2); font-size: 0.8rem; top: 3px; }
-        .target-list li strong { color: var(--main-color); display: block; margin-bottom: 3px; }
-        
-        .target-note { background: #fdfdfd; border: 1px dashed var(--border-color); padding: 20px; border-radius: 4px; font-size: 0.9rem; color: var(--light-text); line-height: 1.6; }
+    footer { padding: 42px 0 54px; border-top: 1px solid rgba(24,35,50,0.08); background: rgba(252,251,249,0.92); }
+    .footer-inner { display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+    .footer-brand h3 { font-size: 1.1rem; margin-bottom: 10px; }
+    .footer-info p { margin-bottom: 0.5rem; font-size: 0.88rem; }
+    .footer-copy { margin-top: 18px; font-size: 0.82rem; color: var(--ink-soft); }
 
-        /* =========================================
-           伴走プロセス（紐解き方）とデータボックス
-           ========================================= */
-        .process-steps { margin-top: 30px; }
-        .step-box { background: #fff; border: 1px solid var(--border-color); border-top: 4px solid var(--accent-2); padding: 25px; margin-bottom: 20px; position: relative; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        .step-num { font-family: var(--font-serif); color: var(--accent-2); font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; display: block; }
-        .step-title { font-weight: 700; font-size: 1.1rem; color: var(--main-color); margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; }
-        .step-desc { font-size: 0.95rem; color: var(--text-color); margin: 0; }
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .about-grid,
+      .sample-card,
+      .service-card,
+      .flow-wrap { grid-template-columns: 1fr; }
+      .guide-grid { grid-template-columns: repeat(2, 1fr); }
+      .fit-grid,
+      .outcome-wrap,
+      .process-grid,
+      .data-grid { grid-template-columns: 1fr; }
+      .hero-visual { min-height: auto; }
+      .diagram { max-width: 520px; margin: 0 auto; }
+    }
 
-        .data-box { background: #fcfaf8; border: 1px solid rgba(183, 132, 96, 0.2); padding: 20px 25px; margin-top: 20px; border-radius: 4px; }
-        .data-box-title { font-weight: 600; color: var(--main-color); margin-bottom: 10px; font-size: 0.95rem; display: flex; align-items: center; }
-        .data-box-title::before { content: '💡'; margin-right: 8px; }
-        .data-box p { font-size: 0.85rem; color: var(--light-text); margin-bottom: 15px; line-height: 1.6; }
-        .data-box ul { list-style: none; padding: 0; margin: 0; }
-        .data-box li { position: relative; padding-left: 1.2rem; margin-bottom: 10px; font-size: 0.9rem; color: var(--text-color); line-height: 1.5; }
-        .data-box li:last-child { margin-bottom: 0; }
-        .data-box li::before { content: '・'; position: absolute; left: 0; color: var(--accent-1); font-weight: bold; }
-        .data-box li strong { color: var(--main-color); }
-
-        /* =========================================
-           チーム体制
-           ========================================= */
-        .team-box { background-color: #fff; border: 1px solid var(--border-color); border-top: 4px solid var(--main-color); padding: 30px; margin-top: 20px; margin-bottom: 30px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .team-box ul { list-style: none; padding: 0; margin: 0; }
-        .team-box li { margin-bottom: 25px; font-size: 0.95rem; line-height: 1.7; }
-        .team-box li:last-child { margin-bottom: 0; }
-        .team-box li strong { display: flex; align-items: center; color: var(--main-color); font-size: 1.05rem; margin-bottom: 8px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; }
-        .team-box li strong span { background: var(--accent-2); color: #fff; font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; margin-left: 10px; font-weight: normal; }
-        .team-note { margin-top: 25px; padding: 15px 20px; background: #fdfdfd; border-left: 4px solid var(--accent-1); border-radius: 2px; font-size: 0.9rem; color: var(--text-color); }
-
-        /* =========================================
-           各種メタ情報とPDFボタン
-           ========================================= */
-        .meta-info { background: #fff; border: 1px solid var(--border-color); border-top: 4px solid var(--main-color); padding: 25px 30px; margin: 30px 0; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .meta-info ul { list-style: none; padding: 0; margin: 0; }
-        .meta-info ul li { margin-bottom: 12px; font-size: 0.95rem; display: flex; align-items: flex-start; }
-        .meta-info ul li::before { content: "◆"; color: var(--accent-2); font-size: 0.85em; margin-right: 10px; margin-top: 4px; }
-        .meta-info ul li strong { white-space: nowrap; margin-right: 0.5em; color: var(--main-color); }
-
-        .pdf-btn-wrapper { margin-bottom: 20px; }
-        .sample-link { display: inline-flex; align-items: center; justify-content: center; background-color: #fff; border: 1px solid var(--accent-1); color: var(--accent-1); text-decoration: none; padding: 10px 25px; font-size: 0.9rem; font-weight: 500; border-radius: 4px; transition: all 0.3s ease; }
-        .sample-link::before { content: '📄'; margin-right: 8px; }
-        .sample-link:hover { background-color: var(--accent-1); color: #fff; }
-
-        /* =========================================
-           FAQ
-           ========================================= */
-        .faq-item { margin-bottom: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
-        .faq-q { font-family: var(--font-serif); font-weight: 600; color: var(--main-color); margin-bottom: 10px; display: flex; align-items: flex-start; line-height: 1.5; }
-        .faq-q::before { content: 'Q.'; color: var(--accent-1); margin-right: 10px; font-weight: bold; }
-        .faq-a { display: flex; align-items: flex-start; color: var(--text-color); font-size: 0.95rem; line-height: 1.7; }
-        .faq-a::before { content: 'A.'; color: var(--light-text); margin-right: 10px; font-weight: bold; }
-
-        /* =========================================
-           CTA（行動の意味を持たせた強力なコピー）
-           ========================================= */
-        .cta { background-color: var(--cta-bg); border: 1px solid #e8e3da; padding: 50px 40px; margin-top: 70px; text-align: center; border-radius: 6px; }
-        .cta h3 { color: var(--main-color); font-size: clamp(1.2rem, 3vw, 1.4rem); margin-bottom: 1rem; }
-        .cta p { color: var(--text-color); margin-bottom: 25px; font-size: 0.95rem; }
-        .contact-link { display: inline-flex; align-items: center; justify-content: center; background-color: var(--accent-2); border: 1px solid var(--accent-2); color: #ffffff; text-decoration: none; padding: 15px 45px; font-size: 1rem; font-weight: 500; border-radius: 4px; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(56, 90, 82, 0.2); }
-        .contact-link::after { content: '🗓️'; margin-left: 8px; font-size: 1.1em; } 
-        .contact-link:hover { background-color: #2c4740; border-color: #2c4740; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(56, 90, 82, 0.25); }
-
-        /* =========================================
-           フッター（実在感・YMYL対策の追加）
-           ========================================= */
-        footer { padding: 60px 20px; background-color: #fcfaf8; color: var(--light-text); font-size: 0.85rem; border-top: 1px solid var(--border-color); }
-        .footer-inner { max-width: 760px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
-        .footer-info p { margin: 0 0 5px 0; }
-        .footer-info strong { color: var(--main-color); font-size: 1rem; display: block; margin-bottom: 10px; font-family: var(--font-serif); }
-        .footer-copy { width: 100%; text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px dashed var(--border-color); }
-
-        /* =========================================
-           スマートフォン向け微調整
-           ========================================= */
-        @media (max-width: 850px) {
-            .header-inner { flex-direction: column; height: auto; padding: 15px 0 0 0; }
-            .header-logo { margin-bottom: 12px; align-items: center; }
-            .header-cta { display: none; } 
-            nav { width: 100%; justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; border-top: 1px solid #f0eadd; }
-            nav::-webkit-scrollbar { display: none; }
-            nav ul { padding: 12px 20px; gap: 20px; min-width: max-content; }
-
-            section { padding: 80px 0; }
-            #top { padding: 40px 0 60px; }
-            .sub-h2 { padding: 10px 14px; margin-top: 3rem; }
-            .cta { padding: 40px 20px; margin-top: 50px; }
-            .contact-link { display: flex; width: 100%; box-sizing: border-box; }
-            .meta-info { padding: 20px; margin: 30px 0; }
-            .worries-box { padding: 25px 20px; }
-            .worries-box li { font-size: 0.92rem; margin-bottom: 20px; }
-            .team-box, .data-box, .target-list { padding: 20px; }
-            .sample-link { display: flex; width: 100%; box-sizing: border-box; }
-            .footer-inner { flex-direction: column; text-align: center; }
-        }
-    </style>
+    @media (max-width: 820px) {
+      header { position: static; }
+      .header-inner { height: auto; padding: 16px 0; flex-direction: column; align-items: flex-start; gap: 12px; }
+      nav { width: 100%; overflow-x: auto; }
+      nav ul { min-width: max-content; padding-bottom: 6px; }
+      .header-btn { display: none; }
+      .mobile-cta { display: block; }
+      section { padding: 78px 0; }
+      .hero { padding-top: 30px; }
+      .hero-meta { gap: 8px; }
+      .pill { font-size: 0.74rem; }
+      
+      .problem-head { grid-template-columns: 58px 1fr; padding: 0; }
+      .problem-head-desc, .problem-head-title { padding: 10px; border: none; }
+      .problem-head-title { display: none; }
+      .problem-item { grid-template-columns: 58px 1fr; }
+      .problem-item > div { padding: 16px 12px; }
+      .problem-title { display: none; }
+      
+      .guide-grid { grid-template-columns: 1fr; }
+      .sample-card { padding: 20px; gap: 18px; }
+      .sample-status { align-items: flex-start; }
+      .service-card,
+      .about-copy,
+      .about-panel,
+      .final-cta { padding: 24px; }
+      .flow-step { grid-template-columns: 56px 1fr; }
+      .hero-actions,
+      .cta-actions { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="header-inner">
+      <a href="#top" class="brand">
+        <span class="brand-ja">九十九アドバイザリー</span>
+        <span class="brand-en">99 ADVISORY</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#guide">ご支援の入口</a></li>
+          <li><a href="#samples">サンプル資料</a></li>
+          <li><a href="#services">ご支援内容</a></li>
+          <li><a href="#outcomes">整っていくこと</a></li>
+          <li><a href="#flow">Flow / FAQ</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a class="header-btn" href="https://docs.google.com/forms/d/e/1FAIpQLScrqWQ71nMXlCGPwS7uNx-8vA0C_0l3KWEUQfhj-9weSgKW2Q/viewform" target="_blank" rel="noopener noreferrer">無料セッション</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <a class="mobile-cta" href="https://docs.google.com/forms/d/e/1FAIpQLScrqWQ71nMXlCGPwS7uNx-8vA0C_0l3KWEUQfhj-9weSgKW2Q/viewform" target="_blank" rel="noopener noreferrer">無料セッションを予約する</a>
 
-    <header>
-        <div class="header-inner">
-            <a href="#top" class="header-logo">
-                <span class="logo-ja">九十九アドバイザリー</span>
-                <span class="logo-en">99 ADVISORY</span>
-            </a>
-            <nav>
-                <ul>
-                    <li><a href="#roi">経営管理・FP&A伴走</a></li>
-                    <li><a href="#health">財務健康診断</a></li>
-                    <li><a href="#dd">投資判断DD</a></li>
-                    <li><a href="#finance">事業計画・調達</a></li>
-                    <li><a href="#flow">Flow&FAQ</a></li>
-                    <li><a href="#about">About</a></li>
-                </ul>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLScrqWQ71nMXlCGPwS7uNx-8vA0C_0l3KWEUQfhj-9weSgKW2Q/viewform" class="header-cta" target="_blank" rel="noopener noreferrer">無料相談フォーム</a>
-            </nav>
+  <main>
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="hero-mark">中小企業向け CFO型伴走支援</span>
+          <h1 class="hero-title">貴社の数字に、<br>静かに寄り添います。</h1>
+
+          <div class="hero-summary">
+            <p>利益は出ているけれど、<br>手元に残る現金が少ない。</p>
+            <p>会社を守り抜くための資金繰り、返済余力、固定費耐性を、数字から丁寧に整理します。</p>
+          </div>
+
+          <p class="hero-text">九十九アドバイザリーは、中小企業の経営者に向けたCFO型の伴走支援です。表に出すぎず、内容で支援する体制を大切にしながら、財務と経営管理のあいだにある論点を、静かに整えていきます。</p>
+
+          <div class="hero-meta">
+            <span class="pill">オンライン / 初回30分</span>
+            <span class="pill">NDA可</span>
+            <span class="pill">財務からのアプローチ</span>
+          </div>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScrqWQ71nMXlCGPwS7uNx-8vA0C_0l3KWEUQfhj-9weSgKW2Q/viewform" target="_blank" rel="noopener noreferrer">数字の違和感を30分で整理する</a>
+            <a class="btn btn-secondary" href="#samples">サンプル資料を見る</a>
+          </div>
+
+          <p class="hero-note">所要時間は1〜2分ほどです。通常は2営業日以内にご返信いたします。</p>
         </div>
-    </header>
 
-    <main>
-        <section id="top">
-            <div class="container">
-                <div class="lead-wrapper">
-                    <h1 class="lead-h1">九十九アドバイザリー</h1>
-                    <p class="lead-catch">貴社の数字に、静かに寄り添います。</p>
-                </div>
-                
-                <div class="worries-box">
-                    <ul>
-                        <li>「決算書では営業利益が<strong>3,000万円</strong>出ているのに、手元の現預金は<strong>500万円</strong>しか増えていない」といった、利益とキャッシュのズレにモヤモヤしている</li>
-                        <li>顧問税理士から「弥生会計」や「MFクラウド」の試算表が送られてくるが、<strong>1〜2ヶ月遅れ</strong>の上に過去の報告だけで、未来の投資や資金繰りの相談ができない</li>
-                        <li>Google/Meta広告に毎月数十万〜数百万円を投じているが、結局<strong>「LTV（顧客が生涯でもたらす利益）」</strong>に見合っているのか、自社の限界利益で回収できているのか誰も計算していない</li>
-                        <li>財務数値を丸投げできる「右腕（CFO）」が欲しいが、ビズリーチ等で優秀な人材を採用しようとすると<strong>年収1,000万〜1,500万円クラス</strong>になり、固定費として重すぎる</li>
-                        <li><strong>年商3億〜10億円の壁</strong>にぶつかっており、これまでの「社長の頭の中のどんぶり勘定」と「営業の気合い」だけでは、これ以上の成長は難しいと肌で感じている</li>
-                        <li>業績は悪くないはずなのに、いまだに地銀や信金の融資に<strong>「経営者保証（個人連帯保証）」</strong>がガッチリついており、万が一の時の家族への影響が頭をよぎる</li>
-                    </ul>
-                </div>
-
-                <p>これまで数多くの企業様の財務・事業分析に携わってきた知見をもとに申し上げますと、経営という孤独な道のりの中で、誰かと一緒に数字を確認し、立ち止まって考える時間を持つことは極めて重要です。</p>
-                <p>九十九アドバイザリーは、現役公認会計士をはじめとする各分野の専門家が黒衣（くろご）として連携し、貴社の事業に静かに寄り添うパートナー集団です。無理な急成長を煽るのではなく、会社が長く健やかに続くための土台づくりを、丁寧にお手伝いさせていただきます。</p>
-
-                <div class="cta">
-                    <h3>現状を整理してみませんか</h3>
-                    <p>まずはオンラインで30分、現状のモヤモヤを整理するお手伝いをさせていただきます。<br>ご契約を迫るような営業は一切行いませんので、ご安心ください。</p>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScrqWQ71nMXlCGPwS7uNx-8vA0C_0l3KWEUQfhj-9weSgKW2Q/viewform" class="contact-link" target="_blank" rel="noopener noreferrer">数字の違和感を30分で整理する（無料セッション）</a>
-                </div>
+        <div class="hero-visual">
+          <div class="diagram" aria-hidden="true">
+            <div class="orbit">
+              <div class="orbit-line one"></div>
+              <div class="orbit-line two"></div>
+              <div class="orbit-line three"></div>
+              <div class="connector conn-a"></div>
+              <div class="connector conn-b"></div>
+              <div class="connector conn-c"></div>
+              <div class="connector conn-d"></div>
             </div>
-        </section>
-
-        <section id="targets" class="section-sub">
-            <div class="container">
-                <span class="section-label">TARGET & INDUSTRIES</span>
-                <h1 class="section-h1">ご支援の対象</h1>
-                <p class="section-lead">私どもが本当に価値を提供できる領域に絞り、伴走いたします</p>
-
-                <div class="target-box">
-                    <span class="target-box-title">対象となる企業規模・フェーズ</span>
-                    <div class="target-list">
-                        <ul>
-                            <li><strong>年商数千万円〜50億円規模の中小企業オーナー様</strong><br>営業利益は出ているものの、キャッシュフローの改善や次の投資フェーズに向けた財務戦略を必要とされている企業様。</li>
-                            <li><strong>中堅・大企業における事業部門長様</strong><br>全社のCFOは不在・あるいは遠い存在であり、自部門（事業部）単体での収益性改善やマーケティングROIの可視化を求めておられる方。</li>
-                            <li><strong>個人事業主・プロフェッショナルの方</strong><br>法人化（マイクロ法人設立）を見据えた士業、フリーランス、クリエイター、アーティスト等、利益率は高いものの「キャッシュの最大化・防衛」に手が回っていない方。</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="target-box">
-                    <span class="target-box-title">知見が豊富・相性の良い業種（一例）</span>
-                    <div class="target-list">
-                        <ul>
-                            <li><strong>IT・ソフトウェア：</strong> SaaS提供、システム開発（SES）、アプリ・ゲーム開発</li>
-                            <li><strong>専門サービス・BtoB：</strong> 人材紹介・派遣、広告代理・デザイン制作、コンサルティング業</li>
-                            <li><strong>店舗型ビジネス：</strong> 飲食業、美容サロン、小売業（多店舗展開を見据えたフェーズ）</li>
-                            <li><strong>その他手堅い業種：</strong> 建設業、不動産管理・仲介、製造業（メーカー）、医療法人（クリニック）</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="target-note">
-                    ※ 医薬品・製薬メーカー、大規模インフラ・プラント、金融機関（銀行・保険）など、業界特有の特殊な法規制が絡む領域や、巨額の資本投下を前提とするビジネスにつきましては、専門外となるためご支援の対象外とさせていただいております。
-                </div>
-            </div>
-        </section>
-
-        <section id="process">
-            <div class="container">
-                <span class="section-label">OUR PROCESS</span>
-                <h1 class="section-h1">私どもの紐解き方</h1>
-                <p class="section-lead">いきなり解決策を提示するのではなく、順を追って整理します</p>
-
-                <div class="process-steps">
-                    <div class="step-box">
-                        <span class="step-num">Step 01. 過去の整理</span>
-                        <div class="step-title">自社の「真の実力」を可視化する</div>
-                        <p class="step-desc">ご契約後、まずは各種データやツールのアカウント権限などを一時的にお預かりし、一時的な要因を排除した「本来の稼ぐ力」を整理します。「なぜ現金が残らないのか」という疑問の答えは、多くの場合この段階で見えてきます。</p>
-                        
-                        <div class="data-box">
-                            <div class="data-box-title">ご提出いただくとスムーズなデータ群（一例）</div>
-                            <p>※ご提出はあくまで任意です。クライアント様のご事情に合わせて柔軟に対応いたしますが、より深く紐解くため、以下のデータ等をご提供いただけますと分析の精度が格段に上がります。</p>
-                            <ul>
-                                <li><strong>会計・財務：</strong> 勘定奉行、弥生会計、MFクラウド、freee等の推移表・仕訳データ、決算書一式、社内管理用の財務Excel表など</li>
-                                <li><strong>マーケティング：</strong> Google Analytics (GA4)、Google/Meta広告のキャンペーン別レポート、HubSpotやPardot等のMAツールデータなど</li>
-                                <li><strong>営業・顧客管理：</strong> Salesforceやkintone等のパイプライン（案件）データ、Sansan等の顧客データベース、スマレジ等のPOSデータなど</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="step-box">
-                        <span class="step-num">Step 02. 現状の把握</span>
-                        <div class="step-title">現場の動きと数字のズレを特定する</div>
-                        <p class="step-desc">月次ミーティングを通じて、「投資（広告・人件費）」に対する「回収」のバランスを確認します。経営者の肌感覚と、実際の数字の間に生じている小さなズレを共に埋めていきます。</p>
-                    </div>
-                    <div class="step-box">
-                        <span class="step-num">Step 03. 未来の設計</span>
-                        <div class="step-title">銀行にも伝わる、確かな青写真を描く</div>
-                        <p class="step-desc">数字の土台が整った上で、新規事業や資金調達に向けた「事業計画」の策定に入ります。万が一の事態にも備えた、地に足のついたシナリオを経営者様と一緒に練り上げます。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="roi" class="section-sub">
-            <div class="container">
-                <span class="section-label">SERVICE 01</span>
-                <h1 class="section-h1">CFO型 経営管理・FP&A伴走</h1>
-                <p class="section-lead">毎月、数字と現場を一緒に確認しながら、次の一手を考えます</p>
-                
-                <p>組織全体の収益性や、マーケティング施策が本当に利益として返ってきているのか。日々の業務に追われる中で見えにくくなりがちな「投資と回収のバランス」を、私どもが毎月丁寧に整理し、ご報告いたします。</p>
-
-                <h2 class="sub-h2">現場の感覚を、数字の裏付けに</h2>
-                <p><strong>「CAC（顧客獲得単価：1人のお客様を獲得するための広告・販促コスト）」</strong>と<strong>「LTV（顧客生涯価値：そのお客様が取引期間中にもたらす利益）」</strong>。このバランスが崩れていないかを毎月確認してまいります。専門用語はできるだけ使わず、平易な言葉で「自然な問いが生まれる習慣」をご提供します。</p>
-
-                <div class="meta-info">
-                    <ul>
-                        <li><strong>価格目安：</strong> 月額 165,000円（税込）〜</li>
-                        <li><strong>期間：</strong> 原則6ヶ月より</li>
-                    </ul>
-                </div>
-                
-                <div class="pdf-btn-wrapper">
-                    <a href="#" target="_blank" class="sample-link">レポートの完成イメージを見る（PDF）</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="health">
-            <div class="container">
-                <span class="section-label">SERVICE 02</span>
-                <h1 class="section-h1">財務健康診断レポート</h1>
-                <p class="section-lead">会社の今の状況を、丁寧に整理してお伝えします</p>
-                
-                <p>お手元の決算書から、会社の「稼ぐ力」「財務の安全性」「お金の回りの良さ」を読み解き、分かりやすいレポートにまとめてお渡しします。</p>
-
-                <h2 class="sub-h2">経営者保証の解除に向けて</h2>
-                <p>財務状況が良好な場合には、銀行融資における「経営者保証（個人保証）」を外せる可能性についても触れさせていただきます。経営者の皆様が少しでも身軽に事業に向き合えるよう、知見をご提供いたします。</p>
-
-                <div class="meta-info">
-                    <ul>
-                        <li><strong>価格目安：</strong> スポット契約 55,000円（税込）</li>
-                        <li><strong>納期：</strong> 決算書をお預かりしてから、通常1〜2週間程度</li>
-                    </ul>
-                </div>
-
-                <div class="pdf-btn-wrapper">
-                    <a href="#" target="_blank" class="sample-link">診断レポートのサンプルを見る（PDF）</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="dd" class="section-sub">
-            <div class="container">
-                <span class="section-label">SERVICE 03</span>
-                <h1 class="section-h1">投資判断レビュー（DD）</h1>
-                <p class="section-lead">大きな決断の前に、冷静に状況を確認します</p>
-                
-                <p>M&Aによる企業買収や、新規事業への投資。重大な意思決定の前に、外部の冷静な目線で対象の状況をスクリーニングし、見落としている財務リスクがないかを確認いたします。</p>
-
-                <div class="meta-info">
-                    <ul>
-                        <li><strong>価格目安：</strong> スポット契約 220,000円（税込）〜</li>
-                        <li><strong>納期：</strong> 調査範囲に応じて事前にお見積もりいたします</li>
-                    </ul>
-                </div>
-                
-                <div class="pdf-btn-wrapper">
-                    <a href="#" target="_blank" class="sample-link">レビュー報告書のサンプルを見る（PDF）</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="finance">
-            <div class="container">
-                <span class="section-label">SERVICE 04</span>
-                <h1 class="section-h1">事業計画策定・資金調達</h1>
-                <p class="section-lead">貴社が進みたい未来を、銀行にも伝わる形にします</p>
-                
-                <p>経営者の皆様の頭の中にあるビジョンを、銀行や金融機関が理解し、安心して支援できるような「数字を伴った計画」へと翻訳するお手伝いをいたします。</p>
-
-                <div class="meta-info">
-                    <ul>
-                        <li><strong>価格目安：</strong> 着手金 110,000円（税込） ＋ 成功報酬</li>
-                    </ul>
-                </div>
-
-                <div class="pdf-btn-wrapper">
-                    <a href="#" target="_blank" class="sample-link">事業計画書のサンプルを見る（PDF）</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="flow" class="section-sub">
-            <div class="container">
-                <span class="section-label">FLOW & FAQ</span>
-                <h1 class="section-h1">ご相談について</h1>
-                <p class="section-lead">心理的なご負担なく、安心してお声がけいただけるように</p>
-
-                <h2 class="sub-h2">ご相談の流れ（無料）</h2>
-                <p>専用フォームよりお問い合わせをいただきましたら、まずは私どもの<strong>アシスタントスタッフより日程調整のご連絡</strong>を差し上げます。その後、オンライン（Zoom等）で30分ほどお時間を頂戴し、現状のモヤモヤをお聞かせいただきながら整理のお手伝いをいたします。その場で無理なご提案はいたしません。</p>
-
-                <h2 class="sub-h2">よくあるご質問</h2>
-                <div class="faq-item">
-                    <div class="faq-q">財務や顧客データなどの機密情報を渡すのが不安です。</div>
-                    <div class="faq-a">ご相談の初期段階であっても、必要に応じて事前に「秘密保持契約（NDA）」を締結いたします。また、お預かりしたデータはプロジェクトに関与する最小限のメンバーのみで厳格にアクセス制限を行い、目的外利用は一切いたしません。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">初回面談までに、すべてのデータを用意する必要がありますか？</div>
-                    <div class="faq-a">いいえ、初回の段階ですべてのデータをご提出いただく必要はございません。事前に簡単な「ヒアリングアンケート（現状の課題感など）」をお送りしますので、そちらにご回答いただける範囲でご準備いただけますと、当日のご相談の密度が格段に上がります。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">決算書や帳簿が整理できていないのですが、相談しても大丈夫ですか？</div>
-                    <div class="faq-a">全く問題ございません。現状がどのような状態であれ、まずは「これからどう整えていくか」の道筋を一緒に立てるところからお手伝いいたします。</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-q">顧問税理士がいますが、お願いすることは可能ですか？</div>
-                    <div class="faq-a">はい、可能です。税理士の先生は「過去の申告」の専門家であり、私どもは「未来の数字づくり」の伴走者です。役割を分けてご活用いただいている企業様が多くいらっしゃいます。</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about">
-            <div class="container">
-                <span class="section-label">ABOUT US</span>
-                <h1 class="section-h1">九十九アドバイザリーについて</h1>
-                
-                <p>長く大切に使い込まれた道具には「九十九神（つくもがみ）」という魂が宿ると言われます。私どもも、時代を超えて長く続く企業様に寄り添い、共に歩む存在でありたいという願いを込めて、「九十九」という名を掲げました。</p>
-
-                <h2 class="sub-h2">私どもが「匿名」の事務局形式をとる理由</h2>
-                <p>大企業向けに提供されている高品質な財務・ビジネス知見を、組織のしがらみや高額な中間マージンを省き、中小企業様へ直接・誠実にお届けしたい。その思いから、Web上ではあえて個人の名前や顔を出さない「事務局」という形式をとっております。</p>
-                <p>オンラインでの初回面談の際には、当然お顔を合わせて丁寧にご挨拶をさせていただきます。画面越しではございますが、まずは経営者様のお悩みをじっくりとお伺いし、私どもが黒衣としてお役に立てるかをご一緒に考えさせていただければ幸いです。</p>
-
-                <h2 class="sub-h2">チーム体制（プロジェクト編成の例）</h2>
-                <p>「担当者が合わなかったらどうしよう」「作業は誰がやっているの？」といった不安を払拭するため、私どもは役割を明確に分けたチーム体制でご支援にあたります。</p>
-                <div class="team-box">
-                    <ul>
-                        <li><strong>専任ディレクター <span>窓口担当：1〜2名</span></strong>
-                        事業会社でのCFO/CMO経験者や大手ファーム出身者など、事業と数字の両面を深く理解する人間が担当します。経営者様と直接対話を重ね、本質的な課題の抽出とプロジェクトの進行管理を行います。</li>
-                        <li><strong>専門スタッフ <span>課題に応じて都度アサイン</span></strong>
-                        公認会計士をはじめ、FP&A（経営管理）スペシャリスト、BtoB/BtoCマーケティング・ストラテジスト、CRM/MA導入コンサルタント、業務プロセス改善（BPR）コンサルタントなど、各分野の第一線で活躍するプロフェッショナル集団です。ディレクターの指示のもと、高度な分析や戦略立案フェーズを強力に推進します。</li>
-                        <li><strong>アシスタントスタッフ <span>データ処理・リサーチ</span></strong>
-                        専門スタッフが「分析・思考」に集中できるよう、データクレンジング（表記揺れの修正等）、基礎的なリサーチ、資料の体裁整備などの作業を迅速に行います。この明確な分業により、高品質を保ちながらコストパフォーマンスを高めています。</li>
-                    </ul>
-                    <div class="team-note">
-                        <strong>※担当者とのミスマッチについて</strong><br>
-                        万が一、専任ディレクターとの相性に不安を感じた場合は、事務局を通じて速やかに担当の変更が可能です。属人的になりすぎず、組織として継続的にご支援する体制を整えております。
-                    </div>
-                </div>
-
-                <div class="cta">
-                    <h3>数字の違和感を、一緒に紐解きましょう</h3>
-                    <p>オンラインで30分、孤独な決断を数字で整理するお手伝いをさせていただけませんか。<br>私どもでお役に立てることがあるか、一緒にお話しできれば幸いです。</p>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScrqWQ71nMXlCGPwS7uNx-8vA0C_0l3KWEUQfhj-9weSgKW2Q/viewform" class="contact-link" target="_blank" rel="noopener noreferrer">数字の違和感を30分で整理する（無料セッション）</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-inner">
-                <div class="footer-info">
-                    <strong>九十九アドバイザリー 事務局</strong>
-                    <p>〒107-0062 東京都港区青山3丁目1番地36号6階</p>
-                    <p>Mail：info-yh@99advisory.jp</p>
-                </div>
-                <div class="footer-info">
-                    <p>※2026年現在、ご支援の品質を丁寧に保つため、月6社までのお受け入れとしております。</p>
-                </div>
-            </div>
-            <div class="footer-copy">
-                <p>&copy; 2026 九十九アドバイザリー All rights reserved.</p>
-            </div>
+            <div class="node a"><div><strong>資金繰り</strong>現金の流れ</div></div>
+            <div class="node b"><div><strong>返済余力</strong>借入の余白</div></div>
+            <div class="node c"><div><strong>固定費耐性</strong>維持の力</div></div>
+            <div class="node d"><div><strong>営業CF</strong>本業の稼ぎ</div></div>
+            <div class="core">会社を守り抜く<br>数字の土台</div>
+          </div>
         </div>
-    </footer>
+      </div>
+    </section>
 
+    <section class="section-line-top" id="problems">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">COMMON SITUATIONS</span>
+          <h2 class="section-title">こうした違和感から、<br>ご相談が始まることが多くあります。</h2>
+          <p class="section-desc">大きな問題に見えなくても、数字の違和感は小さなズレから始まります。まずは、どの論点が混ざっているのかを整理するところから始めます。</p>
+        </div>
+
+        <div class="problem-table paper">
+          <div class="problem-head">
+            <div class="problem-head-no">No.</div>
+            <div class="problem-head-title">課題</div>
+            <div class="problem-head-desc">背景・状況</div>
+          </div>
+          <div class="problem-list">
+            <div class="problem-item">
+              <div class="problem-no">01</div>
+              <div class="problem-title">利益とキャッシュのズレ</div>
+              <div class="problem-desc">営業利益は出ているのに、手元資金の増え方が鈍い。利益とキャッシュのあいだに、見落としている論点が残っている状態です。</div>
+            </div>
+            <div class="problem-item">
+              <div class="problem-no">02</div>
+              <div class="problem-title">未来の数字の相談相手の不在</div>
+              <div class="problem-desc">試算表は届くけれど、次の投資や資金繰りをどう考えるかまでは話せない。そんな空白が生まれやすい領域です。</div>
+            </div>
+            <div class="problem-item">
+              <div class="problem-no">03</div>
+              <div class="problem-title">投資判断の属人化</div>
+              <div class="problem-desc">Google / Meta広告、採用、外注費。必要な投資だと感じていても、限界利益や回収の見通しが言葉になっていない状態です。</div>
+            </div>
+            <div class="problem-item">
+              <div class="problem-no">04</div>
+              <div class="problem-title">CFO採用の壁</div>
+              <div class="problem-desc">経営者ひとりの頭の中だけで判断するには限界がある。一方で、フルタイム採用はまだ早い。そのあいだを埋めるご相談です。</div>
+            </div>
+            <div class="problem-item">
+              <div class="problem-no">05</div>
+              <div class="problem-title">外部への説明力不足</div>
+              <div class="problem-desc">借入の説明、返済余力の説明、投資の説明。頭の中では分かっていても、共有できる形に整理されていないことがあります。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-soft section-line-top" id="guide">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">GUIDE</span>
+          <h2 class="section-title">いまの悩みに近い入口から、<br>お選びください。</h2>
+          <p class="section-desc">何を頼むべきかが分かりにくいときでも、いまの状態に近い入口から見つけやすくしています。</p>
+        </div>
+
+        <div class="guide-grid">
+          <a class="guide-card" href="#health">
+            <span class="guide-step">ENTRY 01</span>
+            <h3>まず、利益と現金のズレを把握したい方</h3>
+            <p>決算書や試算表はあるものの、利益と現金の間に「なぜズレがあるのか」を明確にしたい場合に向いています。</p>
+            <span class="guide-arrow">財務健康診断へ →</span>
+          </a>
+          <a class="guide-card" href="#roi">
+            <span class="guide-step">ENTRY 02</span>
+            <h3>毎月の数字を見ながら、次の一手を決めたい方</h3>
+            <p>毎月の会議や判断を、感覚だけでなく数字でも支えたい場合に向いています。</p>
+            <span class="guide-arrow">CFO型伴走へ →</span>
+          </a>
+          <a class="guide-card" href="#dd">
+            <span class="guide-step">ENTRY 03</span>
+            <h3>新規事業や既存事業拡大において、論点を洗い出したい方</h3>
+            <p>新店舗の出店、新しい設備投資、人員の増強など、前に進むための投資が資金繰りにどう影響するかを事前に確認したい場合に向いています。</p>
+            <span class="guide-arrow">投資判断レビューへ →</span>
+          </a>
+          <a class="guide-card" href="#finance">
+            <span class="guide-step">ENTRY 04</span>
+            <h3>銀行説明や資金調達に向けて、計画を言葉にしたい方</h3>
+            <p>構想はあるものの、金融機関や社内に伝わる形にまだ落とし込めていない場合に向いています。</p>
+            <span class="guide-arrow">事業計画策定へ →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-line-top" id="fit">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">FIT</span>
+          <h2 class="section-title">ご一緒しやすいご相談と、<br>他の専門サービスをお勧めするケース</h2>
+          <p class="section-desc">お客様の状況によって、最適なサポートの形は異なります。私たちが最もお力になれる領域と、他社様のサービスをお勧めするケースをご案内します。</p>
+        </div>
+
+        <div class="fit-grid">
+          <div class="fit-card">
+            <h3>ご一緒しやすいご相談</h3>
+            <ul>
+              <li>利益は出ているが、現金の増え方に違和感がある。</li>
+              <li>顧問税理士はいるが、未来の数字を相談する相手がいない。</li>
+              <li>社長の頭の中には数字があるが、社内に共有できる形になっていない。</li>
+              <li>広告費、人件費、投資判断の基準を整えたい。</li>
+              <li>専任CFOを採るほどではないが、数字の壁打ち相手がほしい。</li>
+              <li>代行作業ではなく、経営判断の整理に伴走してほしい。</li>
+            </ul>
+          </div>
+          <div class="fit-card alt">
+            <h3>他の専門サービスをお勧めするケース</h3>
+            <ul>
+              <li>記帳代行や入力作業のみを依頼したい。</li>
+              <li>税務申告だけを依頼したい。</li>
+              <li>相談や壁打ちではなく、すべての判断を外部に委ねたい。</li>
+              <li>まだ売上が立つ前で、まずは営業や検証を優先したい。</li>
+              <li>今日明日で資金調達だけを進めたい。</li>
+              <li>業界特有の強い規制論点が中心で、専門特化した助言が必要である。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-soft section-line-top" id="samples">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">SAMPLE MATERIALS</span>
+          <h2 class="section-title">サンプル資料は、<br>課題ごとに見比べられる形にします。</h2>
+          <p class="section-desc">ご支援の中身や成果物の質が具体的に伝わることを大切にしています。公開後は、課題別に4本前後のサンプルを掲載する想定です。</p>
+        </div>
+
+        <div class="sample-grid">
+          <article class="sample-card">
+            <div class="sample-cover">
+              <div class="cover-inner">
+                <div class="cover-label">SAMPLE 01</div>
+                <div class="cover-title">利益と現金のズレを整理する<br>財務健康診断レポート</div>
+                <div class="cover-lines">
+                  <div class="cover-line"></div>
+                  <div class="cover-line mid"></div>
+                  <div class="cover-line short"></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="sample-meta">
+                <span class="tag">課題：現金が残らない</span>
+                <span class="tag">PDF / 8〜12 pages</span>
+                <span class="tag">一部マスク済み</span>
+              </div>
+              <h3>利益と現金のズレを整理したい</h3>
+              <p>この資料では、利益、返済余力、資金効率、改善アクションの優先順位を、経営者に共有しやすい形で整理します。</p>
+              <div class="sample-points">
+                <div>どこで現金が減っているのかが分かる</div>
+                <div>借入と返済余力の見え方が分かる</div>
+                <div>改善の順番をどう考えるかが見える</div>
+              </div>
+              <div class="sample-status">
+                <span class="small">想定：年商3億〜10億円前後 / サービス業・製造業など</span>
+                <a class="sample-link" href="#" target="_blank" rel="noopener noreferrer">サンプルを開く</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="sample-card">
+            <div class="sample-cover">
+              <div class="cover-inner">
+                <div class="cover-label">SAMPLE 02</div>
+                <div class="cover-title">月次で見るべき数字を整える<br>経営管理レポート</div>
+                <div class="cover-lines">
+                  <div class="cover-line"></div>
+                  <div class="cover-line short"></div>
+                  <div class="cover-line mid"></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="sample-meta">
+                <span class="tag">課題：月次で判断したい</span>
+                <span class="tag">PDF / 10〜14 pages</span>
+                <span class="tag">一部マスク済み</span>
+              </div>
+              <h3>毎月の数字を見ながら判断したい</h3>
+              <p>この資料では、予実差異、着地見込み、支出の優先順位などを、毎月の判断につながる形で整理します。</p>
+              <div class="sample-points">
+                <div>月次でどこを見るべきかが見える</div>
+                <div>投資判断が感覚だけにならない</div>
+                <div>社内で共有できる数字の形が見える</div>
+              </div>
+              <div class="sample-status">
+                <span class="small">想定：年商1億〜15億円前後 / BtoBサービス・小売・店舗など</span>
+                <a class="sample-link" href="#" target="_blank" rel="noopener noreferrer">サンプルを開く</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="sample-card">
+            <div class="sample-cover">
+              <div class="cover-inner">
+                <div class="cover-label">SAMPLE 03</div>
+                <div class="cover-title">広告費と利益のつながりを整える<br>採算整理シート</div>
+                <div class="cover-lines">
+                  <div class="cover-line mid"></div>
+                  <div class="cover-line"></div>
+                  <div class="cover-line short"></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="sample-meta">
+                <span class="tag">課題：広告費の採算</span>
+                <span class="tag">PDF / 6〜10 pages</span>
+                <span class="tag">一部マスク済み</span>
+              </div>
+              <h3>広告費が利益につながっているか見たい</h3>
+              <p>この資料では、LTV、限界利益、回収期間の観点から、広告費や販促投資の見え方を整理します。</p>
+              <div class="sample-points">
+                <div>どの投資が効いているかが分かる</div>
+                <div>回収の見通しをどう考えるかが見える</div>
+                <div>マーケティングと財務がつながる</div>
+              </div>
+              <div class="sample-status">
+                <span class="small">想定：広告運用がある会社 / D2C・教育・士業・人材など</span>
+                <a class="sample-link" href="#" target="_blank" rel="noopener noreferrer">サンプルを開く</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="sample-card">
+            <div class="sample-cover">
+              <div class="cover-inner">
+                <div class="cover-label">SAMPLE 04</div>
+                <div class="cover-title">銀行や社内に伝わる形へ整える<br>事業計画サマリー</div>
+                <div class="cover-lines">
+                  <div class="cover-line short"></div>
+                  <div class="cover-line"></div>
+                  <div class="cover-line mid"></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="sample-meta">
+                <span class="tag">課題：計画の言語化</span>
+                <span class="tag">PDF / 8〜12 pages</span>
+                <span class="tag">一部マスク済み</span>
+              </div>
+              <h3>銀行説明や資金調達に備えたい</h3>
+              <p>この資料では、頭の中にある構想を、金融機関や社内に伝わる粒度へ落とし込む見せ方を整理します。</p>
+              <div class="sample-points">
+                <div>計画をどの粒度で作るかが分かる</div>
+                <div>返済や投資の説明がしやすくなる</div>
+                <div>社内共有の軸が整いやすくなる</div>
+              </div>
+              <div class="sample-status">
+                <span class="small">想定：借入、資金調達、次の投資フェーズを考える会社</span>
+                <a class="sample-link" href="#" target="_blank" rel="noopener noreferrer">サンプルを開く</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-line-top service-section" id="services">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">SERVICES</span>
+          <h2 class="section-title">必要なところから、<br>ご支援します。</h2>
+          <p class="section-desc">スポットで整理する支援から、月次で伴走する支援まで、経営者の現在地に合わせて組み立てます。</p>
+        </div>
+
+        <div class="sample-grid">
+          <article class="service-card" id="roi">
+            <div>
+              <span class="service-label">SERVICE 01</span>
+              <h3>CFO型 経営管理・FP&amp;A伴走</h3>
+              <p>毎月、数字と現場を一緒に確認しながら、次の一手を考えます。予実差異、着地見込み、広告費や人件費の投資判断などを、感覚だけにしない形へ整えます。</p>
+              <div class="service-side-note">向いているケース：毎月の数字を見ながら判断したい / 支出の基準を整えたい / 社長の頭の中の数字を共有できる形にしたい</div>
+            </div>
+            <div class="service-detail">
+              <div class="service-block">
+                <h4>主に行うこと</h4>
+                <p>月次ミーティング、予実整理、着地見込みの確認、投資判断の論点整理、必要に応じた資料設計。</p>
+              </div>
+              <div class="service-block">
+                <h4>価格目安</h4>
+                <p class="price-line"><strong>月額 165,000円（税込）〜</strong> / 原則6ヶ月より</p>
+              </div>
+              <div class="service-block">
+                <h4>サンプル資料</h4>
+                <p>月次でどの指標を見て、どこで異変に気づくのかを整理したレポートを公開予定です。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="service-card" id="health">
+            <div>
+              <span class="service-label">SERVICE 02</span>
+              <h3>財務健康診断レポート</h3>
+              <p>決算書や試算表から、会社の稼ぐ力、財務の安全性、お金の回りの良さを読み解き、現状の論点を整理してお渡しします。</p>
+              <div class="service-side-note">向いているケース：まず現状を整理したい / 利益と現金のズレを見たい / 銀行との対話に備えたい</div>
+            </div>
+            <div class="service-detail">
+              <div class="service-block">
+                <h4>主に行うこと</h4>
+                <p>利益、現金、借入、資金効率の分析、改善余地の整理、必要に応じた次の一手のご提案。</p>
+              </div>
+              <div class="service-block">
+                <h4>価格目安</h4>
+                <p class="price-line"><strong>55,000円（税込）〜</strong> / スポット契約</p>
+              </div>
+              <div class="service-block">
+                <h4>サンプル資料</h4>
+                <p>利益・安全性・資金の流れをどの順番で整理するのかが分かるレポートを公開予定です。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="service-card" id="dd">
+            <div>
+              <span class="service-label">SERVICE 03</span>
+              <h3>投資判断レビュー（DD）</h3>
+              <p>M&amp;Aや新規投資の前に、対象の状況や見落としている論点を冷静に確認します。決断の前に、論点を整理する支援です。</p>
+              <div class="service-side-note">向いているケース：大きな投資判断の前に確認したい / 外部の冷静な視点がほしい</div>
+            </div>
+            <div class="service-detail">
+              <div class="service-block">
+                <h4>主に行うこと</h4>
+                <p>論点の洗い出し、リスクの確認、対象データの整理、意思決定前のディスカッション材料づくり。</p>
+              </div>
+              <div class="service-block">
+                <h4>価格目安</h4>
+                <p class="price-line"><strong>220,000円（税込）〜</strong> / 調査範囲に応じてお見積もり</p>
+              </div>
+              <div class="service-block">
+                <h4>サンプル資料</h4>
+                <p>投資判断の前に何を先に確認するか、その全体像が分かるサンプルを公開予定です。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="service-card" id="finance">
+            <div>
+              <span class="service-label">SERVICE 04</span>
+              <h3>事業計画策定・資金調達</h3>
+              <p>経営者の頭の中にある構想を、金融機関や社内に伝わる計画へ翻訳します。数字だけでなく、説明の筋道も整えます。</p>
+              <div class="service-side-note">向いているケース：銀行説明や借入相談に備えたい / 次の投資フェーズに向けて計画を整えたい</div>
+            </div>
+            <div class="service-detail">
+              <div class="service-block">
+                <h4>主に行うこと</h4>
+                <p>事業計画の骨子整理、資金繰りの見通し設計、金融機関への説明論点の整理、必要資料の構成整理。</p>
+              </div>
+              <div class="service-block">
+                <h4>価格目安</h4>
+                <p class="price-line"><strong>着手金 110,000円（税込）〜</strong> + 成功報酬</p>
+              </div>
+              <div class="service-block">
+                <h4>サンプル資料</h4>
+                <p>金融機関や社内に伝わる計画を、どの粒度で組み立てるのかが分かるサンプルを公開予定です。</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-soft section-line-top" id="outcomes">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">WHAT BECOMES CLEARER</span>
+          <h2 class="section-title">ご支援のあとに、<br>整っていきやすいこと</h2>
+          <p class="section-desc">劇的に変えるというより、判断の前提を整えていく支援です。最初に見えやすくなることと、少し時間をかけて育っていくことがあります。</p>
+        </div>
+
+        <div class="outcome-wrap">
+          <div class="outcome-card">
+            <h3>初期に整いやすいこと</h3>
+            <ul>
+              <li>利益と現金のズレが見えやすくなる</li>
+              <li>いま何を先に確認すべきかが整理される</li>
+              <li>月次で見る数字が揃いはじめる</li>
+              <li>投資や支出の判断が感覚だけにならなくなる</li>
+              <li>銀行や社内に説明しやすい論点が見えてくる</li>
+            </ul>
+          </div>
+          <div class="outcome-card">
+            <h3>少し時間をかけて整っていくこと</h3>
+            <ul>
+              <li>社長の頭の中にある数字が、社内で共有しやすくなる</li>
+              <li>広告、人件費、投資の判断基準が社内に残る</li>
+              <li>その場しのぎではない、月次の意思決定習慣が育っていく</li>
+              <li>銀行や金融機関との対話がしやすくなる</li>
+              <li>次の投資や採用の議論に、見通しを持ち込みやすくなる</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-line-top" id="process">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">PROCESS</span>
+          <h2 class="section-title">いきなり答えを出すのではなく、<br>順に整理します。</h2>
+          <p class="section-desc">過去の整理、現状の把握、未来の設計。この順番を守ると、意思決定に無理が出にくくなります。</p>
+        </div>
+
+        <div class="process-grid">
+          <article class="process-card">
+            <span class="process-no">STEP 01</span>
+            <h3>過去の整理</h3>
+            <p>試算表、推移表、借入一覧、既存レポートなどから、いま見えている数字の土台を整えます。</p>
+          </article>
+          <article class="process-card">
+            <span class="process-no">STEP 02</span>
+            <h3>現状の把握</h3>
+            <p>月次の動き、支出の癖、広告や営業のデータなどを横断し、数字と現場のズレを見ます。</p>
+          </article>
+          <article class="process-card">
+            <span class="process-no">STEP 03</span>
+            <h3>未来の設計</h3>
+            <p>何を止めるか。何に投資するか。銀行や社内にどう伝えるか。次の一手を数字から整理します。</p>
+          </article>
+        </div>
+
+        <div class="data-box">
+          <h3>ご提出いただくとスムーズなデータ群（一例）</h3>
+          <p class="small">ご提出はあくまで任意です。すべてが揃っている必要はありません。必要に応じて、何を確認するとよいかを初回でお伝えします。</p>
+          <div class="data-grid">
+            <div class="data-item">
+              <h4>会計・財務</h4>
+              <p>弥生会計、MFクラウド、freee等の推移表・仕訳データ、決算書一式、管理用Excelなど。</p>
+            </div>
+            <div class="data-item">
+              <h4>マーケティング</h4>
+              <p>GA4、Google / Meta広告レポート、HubSpot等のMAツールデータなど。</p>
+            </div>
+            <div class="data-item">
+              <h4>営業・顧客管理</h4>
+              <p>Salesforce、kintone、Sansan、POSデータなど、売上や商談の流れが分かるもの。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-soft section-line-top" id="flow">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">FLOW & FAQ</span>
+          <h2 class="section-title">安心してご相談いただくために、<br>先にお伝えしていること</h2>
+          <p class="section-desc">依頼内容がまだ固まっていなくても問題ありません。まずは、何が論点なのかを整理するところから始めます。</p>
+        </div>
+
+        <div class="flow-wrap">
+          <div>
+            <div class="flow-steps">
+              <div class="flow-step">
+                <div class="flow-step-no">01</div>
+                <div>
+                  <h3>フォーム送信</h3>
+                  <p>所要時間は1〜2分ほどです。現時点で分かる範囲の内容だけで大丈夫です。</p>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-step-no">02</div>
+                <div>
+                  <h3>日程調整</h3>
+                  <p>通常は2営業日以内にご返信し、オンライン面談の日程候補をご案内します。</p>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-step-no">03</div>
+                <div>
+                  <h3>30分の無料セッション</h3>
+                  <p>現状の違和感を整理し、何を先に見るべきかを一緒に確認します。無理なご提案はいたしません。</p>
+                </div>
+              </div>
+            </div>
+            <div class="faq-note small">
+              ご契約を前提とした場ではありません。ご相談のみで終えていただいても問題ありません。必要に応じて、事前の秘密保持契約（NDA）にも対応いたします。
+            </div>
+          </div>
+
+          <div>
+            <div class="faq-stack">
+              <details class="faq" open>
+                <summary>依頼内容がまだ固まっていません。それでも相談できますか。</summary>
+                <div class="faq-body">はい、問題ありません。むしろ、何が論点なのかがまだ混ざっている段階でご相談いただくことが多くあります。初回では、課題の定義から一緒に整理します。</div>
+              </details>
+              <details class="faq" open>
+                <summary>月額支援とスポット支援は、どう選べばよいですか。</summary>
+                <div class="faq-body">まず現状を整理したい場合は、スポットの財務健康診断が入口になりやすいです。毎月の判断や投資基準まで整えたい場合は、月額の伴走支援が向いています。</div>
+              </details>
+              <details class="faq" open>
+                <summary>資料が散らかっていても大丈夫ですか。</summary>
+                <div class="faq-body">大丈夫です。初回の段階ですべて揃っている必要はありません。現時点でどこまで見えているかを確認し、必要な資料があれば後から整理してお伝えします。</div>
+              </details>
+              <details class="faq" open>
+                <summary>社内に経理担当や顧問税理士がいても相談できますか。</summary>
+                <div class="faq-body">はい、可能です。税理士の先生や社内経理と役割が重ならないように、未来の数字づくりや意思決定の整理に重点を置いて伴走します。</div>
+              </details>
+              <details class="faq">
+                <summary>マーケティングや広告の数字も見てもらえますか。</summary>
+                <div class="faq-body">はい。広告費、LTV、限界利益、回収期間など、財務とつながる形で整理するご相談にも対応しています。</div>
+              </details>
+              <details class="faq">
+                <summary>どのくらいの年商規模から相談が多いですか。</summary>
+                <div class="faq-body">年商数千万円から10億円前後までの中小企業オーナー様、中堅企業の事業責任者様からのご相談が中心です。</div>
+              </details>
+              <details class="faq">
+                <summary>税務申告や入力作業だけをお願いすることはできますか。</summary>
+                <div class="faq-body">私どもは、財務の整理や経営判断の伴走を中心に行っています。税務申告や代行作業のみをご希望の場合は、別の進め方が合うことがあります。</div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-line-top" id="about">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">ABOUT</span>
+          <h2 class="section-title">表に出すぎず、<br>内容で支援する体制です。</h2>
+          <p class="section-desc">大企業向けに提供されている知見を、組織のしがらみや過剰なマージンを減らしながら、中小企業へ直接届けたい。その考えから、Web上では事務局形式をとっています。</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-copy">
+            <p>普段は大企業向けに専門サービスを提供している第一線のプロフェッショナルが、中小企業のビジネスをさらに高めたいという情熱のもとに集まりました。</p>
+            <p>公認会計士をはじめ、各分野で活躍するフリーランスや企業内スペシャリストがチームを組み、表に出すぎず、裏側から力強く内容で支援する体制を構築しています。組織のしがらみや過剰なマージンを排し、本質的な価値だけを直接お届けします。</p>
+            <p>財務と経営管理の両面から多角的な視点を持ち寄り、経営者の孤独な判断が少しでも整理しやすくなるよう伴走します。</p>
+          </div>
+          <div class="about-panel">
+            <h3>ご相談の進め方</h3>
+            <div class="about-panel-grid">
+              <div class="about-mini">
+                <h4>ご相談窓口</h4>
+                <p>初回のご相談から進行まで、窓口はできるだけシンプルに保ちます。話す相手が毎回変わるような進め方にはいたしません。</p>
+              </div>
+              <div class="about-mini">
+                <h4>必要な視点</h4>
+                <p>財務、経営管理、マーケティングの視点も交えながら、ご相談内容に応じて整理します。</p>
+              </div>
+              <div class="about-mini">
+                <h4>最初の一歩</h4>
+                <p>まずは30分、現状の違和感を整理する場から始めます。必要な数字や次の整理の仕方が見えてきた段階で、ご提案が必要かを一緒に考えます。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-soft section-line-top" id="contact">
+      <div class="narrow">
+        <div class="final-cta">
+          <div class="final-push">まだ依頼内容が固まっていなくても問題ありません。まずは、何が論点なのかを整理するところから始めます。</div>
+          <h2>数字の違和感を、<br>一度整理してみませんか。</h2>
+          <p>経営の孤独を、なくすことはできません。けれど、数字の見方を少し整えるだけで、判断の負担は和らぎます。まずはオンラインで30分、お話を伺います。</p>
+          <div class="cta-actions">
+            <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScrqWQ71nMXlCGPwS7uNx-8vA0C_0l3KWEUQfhj-9weSgKW2Q/viewform" target="_blank" rel="noopener noreferrer">数字の違和感を30分で整理する</a>
+            <a class="btn btn-secondary" href="#samples">サンプル資料を見る</a>
+          </div>
+          <div class="cta-sub">通常は2営業日以内にご返信します。ご相談のみでも差し支えありません。</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <h3>九十九アドバイザリー</h3>
+          <div class="footer-info">
+            <p>貴社の数字に、静かに寄り添います。</p>
+            <p>〒107-0062 東京都港区青山3丁目1番地36号6階</p>
+            <p>Mail：info-yh@99advisory.jp</p>
+          </div>
+        </div>
+        <div class="footer-info">
+          <p>初回のご相談では、現状の整理を中心にお話を伺います。</p>
+        </div>
+      </div>
+      <div class="footer-copy">© 2026 九十九アドバイザリー All rights reserved.</div>
+    </div>
+  </footer>
 </body>
 </html>
