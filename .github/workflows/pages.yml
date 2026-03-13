@@ -32,12 +32,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: diagnosis/kgi/package-lock.json
 
       - name: Install diagnosis app dependencies
         working-directory: diagnosis/kgi
-        run: npm ci
+        run: npm install
 
       - name: Build diagnosis app
         working-directory: diagnosis/kgi
