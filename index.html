@@ -378,6 +378,66 @@
     .cta-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
     .cta-sub { margin-top: 14px; font-size: 0.86rem; color: var(--ink-soft); }
 
+    .kgi-diagnosis {
+      padding: 92px 0;
+    }
+
+    .kgi-diagnosis-card {
+      padding: 42px 38px;
+      border: 1px solid rgba(24,35,50,0.08);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(245,243,238,0.9));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kgi-diagnosis-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -60px -80px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(183,132,96,0.16), transparent 68%);
+      pointer-events: none;
+    }
+
+    .kgi-diagnosis-label {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .kgi-diagnosis-title {
+      font-size: clamp(1.7rem, 3.6vw, 2.3rem);
+      margin-bottom: 14px;
+    }
+
+    .kgi-diagnosis-text {
+      max-width: 760px;
+      font-size: 1rem;
+      color: var(--ink-soft);
+      margin-bottom: 12px;
+    }
+
+    .kgi-diagnosis-sub {
+      max-width: 720px;
+      font-size: 0.93rem;
+      color: var(--ink-soft);
+      margin-bottom: 0;
+    }
+
+    .kgi-diagnosis-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
     footer { padding: 42px 0 54px; border-top: 1px solid rgba(24,35,50,0.08); background: rgba(252,251,249,0.92); }
     .footer-inner { display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
     .footer-brand h3 { font-size: 1.1rem; margin-bottom: 10px; }
@@ -424,11 +484,14 @@
       .service-card,
       .about-copy,
       .about-panel,
-      .final-cta { padding: 24px; }
+      .final-cta,
+      .kgi-diagnosis-card { padding: 24px; }
       .flow-step { grid-template-columns: 56px 1fr; }
       .hero-actions,
-      .cta-actions { flex-direction: column; }
+      .cta-actions,
+      .kgi-diagnosis-actions { flex-direction: column; }
       .btn { width: 100%; }
+      .kgi-diagnosis { padding: 78px 0; }
     }
   </style>
 </head>
@@ -441,6 +504,7 @@
       </a>
       <nav>
         <ul>
+          <li><a href="/diagnosis/kgi/">経営KGI診断</a></li>
           <li><a href="#guide">ご支援の入口</a></li>
           <li><a href="#samples">サンプル資料</a></li>
           <li><a href="#services">ご支援内容</a></li>
@@ -543,6 +607,28 @@
               <div class="problem-title">外部への説明力不足</div>
               <div class="problem-desc">借入の説明、返済余力の説明、投資の説明。頭の中では分かっていても、共有できる形に整理されていないことがあります。</div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-line-top kgi-diagnosis" id="diagnosis">
+      <div class="container">
+        <div class="kgi-diagnosis-card">
+          <span class="kgi-diagnosis-label">DIAGNOSIS</span>
+          <h2 class="kgi-diagnosis-title">あなたの会社は、何をKGIにすべきか。</h2>
+          <p class="kgi-diagnosis-text">
+            利益が出ていても、追うべき数字は一つではありません。
+            8つの質問から、いま何をKGIとして置くべきかを整理する、
+            オーナー経営者向けの簡易診断です。
+          </p>
+          <p class="kgi-diagnosis-sub">
+            資金繰り、成長、承継、企業価値。
+            どこに重心を置くべきかを、5つの型から静かに整理します。
+          </p>
+          <div class="kgi-diagnosis-actions">
+            <a class="btn btn-primary" href="/diagnosis/kgi/">経営KGI診断を受ける</a>
+            <a class="btn btn-secondary" href="#services">ご支援内容を見る</a>
           </div>
         </div>
       </div>
