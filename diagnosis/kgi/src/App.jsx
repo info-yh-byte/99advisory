@@ -444,7 +444,7 @@ export default function OwnerKgiDiagnosisApp() {
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <a
-                    href="https://line.me/R/ti/p/@YOUR_LINE_ID"
+                    href="https://lin.ee/Ty65rRH"
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
