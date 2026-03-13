@@ -21,15 +21,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install diagnosis app dependencies
         working-directory: diagnosis/kgi
@@ -41,22 +41,27 @@ jobs:
 
       - name: Prepare publish directory
         run: |
-          mkdir public
-          rsync -av --exclude='.git' --exclude='.github' --exclude='diagnosis' ./ public/
+          mkdir -p public
+          shopt -s dotglob
+          for item in *; do
+            if [ "$item" != "diagnosis" ] && [ "$item" != ".git" ] && [ "$item" != ".github" ] && [ "$item" != "public" ]; then
+              cp -R "$item" public/
+            fi
+          done
           mkdir -p public/diagnosis/kgi
-          rsync -av diagnosis/kgi/dist/ public/diagnosis/kgi/
+          cp -R diagnosis/kgi/dist/* public/diagnosis/kgi/
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: public
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
 
     steps:
       - name: Deploy to GitHub Pages
