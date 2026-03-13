@@ -26,6 +26,8 @@ export default function OwnerKgiDiagnosisApp() {
       next:
         "月次試算表に加えて、資金繰り表と固定費一覧を整えるところから始めると、意思決定の精度が上がります。",
       recommendation: "『現金が残る経営』の整理シートとの相性が良いタイプです。",
+      ctaLabel: "現金が残る経営の整理ポイントをLINEで受け取る",
+      ctaNote: "資金繰り、固定費耐性、返済余力の見方を整理したい方向けです。",
     },
     income: {
       id: "income",
@@ -39,6 +41,8 @@ export default function OwnerKgiDiagnosisApp() {
       next:
         "会社に残すお金と個人に移すお金を、税後ベースで整理してみると、経営の解像度が一段上がります。",
       recommendation: "役員報酬・利益・内部留保の配分設計を先に見ると、かなり効きます。",
+      ctaLabel: "会社と個人のお金の配分整理をLINEで受け取る",
+      ctaNote: "税後キャッシュ、報酬、内部留保のバランスを整理したい方向けです。",
     },
     growth: {
       id: "growth",
@@ -52,6 +56,8 @@ export default function OwnerKgiDiagnosisApp() {
       next:
         "チャネル別粗利、顧客獲得効率、採用充足率をセットで追うと、成長の質が見えやすくなります。",
       recommendation: "マーケ投資と回収の因果を数字でつなぐ設計が向いています。",
+      ctaLabel: "成長投資の優先順位をLINEで受け取る",
+      ctaNote: "売上ではなく、粗利と回収を伴う成長にしたい方向けです。",
     },
     succession: {
       id: "succession",
@@ -65,6 +71,8 @@ export default function OwnerKgiDiagnosisApp() {
       next:
         "社長が関与しなくても回る業務を一つずつ増やし、幹部育成の進捗を数字で追うのが有効です。",
       recommendation: "後継者育成より先に、社長依存の棚卸しを始めると整理しやすくなります。",
+      ctaLabel: "社長依存を減らす論点整理をLINEで受け取る",
+      ctaNote: "承継や長期継続に向けて、組織の再現性を高めたい方向けです。",
     },
     exit: {
       id: "exit",
@@ -78,6 +86,8 @@ export default function OwnerKgiDiagnosisApp() {
       next:
         "正常収益力を説明できる状態と、デューデリに耐える管理体制づくりを先に進めるのが王道です。",
       recommendation: "“社長を買う案件”ではなく“仕組みを買う案件”に近づける意識が重要です。",
+      ctaLabel: "企業価値を高める論点整理をLINEで受け取る",
+      ctaNote: "収益力だけでなく、再現性や管理体制も整えたい方向けです。",
     },
   };
 
@@ -420,6 +430,10 @@ export default function OwnerKgiDiagnosisApp() {
                   そこで九十九アドバイザリーでは、診断結果をたたき台にしながら、
                   タイプ別に整理したポイントをLINEでお届けしています。
                 </p>
+                <div className="mt-4 rounded-2xl border border-stone-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-stone-900">今回の結果に合わせたご案内</p>
+                  <p className="mt-2 text-sm leading-6 text-stone-600">{result.top.ctaNote}</p>
+                </div>
 
                 <div className="mt-5 grid gap-4 sm:grid-cols-3">
                   <div className="rounded-2xl border border-stone-200 bg-white p-4">
@@ -444,12 +458,12 @@ export default function OwnerKgiDiagnosisApp() {
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <a
-                    href="https://lin.ee/Ty65rRH"
+                    href="https://line.me/R/ti/p/@YOUR_LINE_ID"
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center justify-center rounded-2xl bg-stone-900 px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
                   >
-                    LINEで整理ポイントを受け取る
+                    {result.top.ctaLabel}
                   </a>
                   <a
                     href="https://99advisory.jp/#contact"
