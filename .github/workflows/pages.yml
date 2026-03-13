@@ -18,6 +18,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout
@@ -30,10 +32,12 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: diagnosis/kgi/package-lock.json
 
       - name: Install diagnosis app dependencies
         working-directory: diagnosis/kgi
-        run: npm install
+        run: npm ci
 
       - name: Build diagnosis app
         working-directory: diagnosis/kgi
@@ -51,7 +55,7 @@ jobs:
           mkdir -p public/diagnosis/kgi
           cp -R diagnosis/kgi/dist/* public/diagnosis/kgi/
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: public
@@ -59,6 +63,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
