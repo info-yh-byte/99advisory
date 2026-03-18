@@ -1,0 +1,16 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "framework": "create-react-app",
+  "rewrites": [
+    {
+      "source": "/cashflow",
+      "destination": "/cashflow/index.html"
+    },
+    {
+      "source": "/diagnosis/kgi",
+      "destination": "/diagnosis/kgi/index.html"
+    }
+  ],
+  "trailingSlash": true
+}
