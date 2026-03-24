@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>経営数字 活用診断 | 製造・建設・受託業の経営者へ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:    #1B2E4B;
+  --navy-dk: #111e30;
+  --navy-md: #243d60;
+  --gold:    #B8963E;
+  --gold-lt: #d4b060;
+  --cream:   #FAF8F4;
+  --stone:   #F0EDE7;
+  --text:    #1C1917;
+  --mid:     #57534E;
+  --light:   #A8A29E;
+  --border:  #E7E5E4;
+  --white:   #FFFFFF;
+  --green:   #27AE60;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--cream);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(17,30,48,.97);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(184,150,62,.2);
+  padding:0 40px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-brand{font-family:'DM Serif Display',serif;font-size:14px;color:var(--gold);letter-spacing:.1em;}
+.nav-brand small{display:block;font-family:'Noto Sans JP',sans-serif;font-size:10px;color:rgba(255,255,255,.35);font-weight:300;letter-spacing:.12em;margin-top:1px;}
+.nav-btn{
+  background:var(--gold);color:var(--navy-dk);
+  font-size:12px;font-weight:700;padding:9px 18px;
+  border:none;cursor:pointer;letter-spacing:.05em;text-decoration:none;
+  white-space:nowrap;transition:background .2s;
+}
+.nav-btn:hover{background:var(--gold-lt);}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;background:var(--navy-dk);
+  display:flex;align-items:center;
+  position:relative;padding-top:56px;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(184,150,62,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(184,150,62,.04) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+.hero-glow{
+  position:absolute;width:640px;height:640px;
+  right:-80px;top:50%;transform:translateY(-50%);
+  background:radial-gradient(circle,rgba(184,150,62,.07) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-in{position:relative;max-width:1000px;margin:0 auto;padding:88px 40px;}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-bottom:32px;
+  opacity:0;animation:up .6s ease forwards .1s;
+}
+.eyebrow-line{width:24px;height:1px;background:var(--gold);}
+.eyebrow-txt{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.22em;text-transform:uppercase;}
+
+h1{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(30px,4.6vw,54px);
+  font-weight:700;color:var(--white);line-height:1.5;
+  margin-bottom:24px;
+  opacity:0;animation:up .6s ease forwards .25s;
+}
+h1 em{font-style:normal;color:var(--gold);}
+
+.hero-body{
+  font-size:clamp(14px,1.6vw,16px);
+  color:rgba(255,255,255,.5);font-weight:300;line-height:2;
+  max-width:500px;margin-bottom:44px;
+  opacity:0;animation:up .6s ease forwards .4s;
+}
+
+.hero-cta-wrap{opacity:0;animation:up .6s ease forwards .52s;}
+.btn{
+  display:inline-block;
+  background:var(--gold);color:var(--navy-dk);
+  font-size:15px;font-weight:700;padding:18px 40px;
+  border:none;cursor:pointer;letter-spacing:.06em;text-decoration:none;
+  transition:all .22s;
+}
+.btn:hover{background:var(--gold-lt);transform:translateY(-1px);box-shadow:0 8px 28px rgba(184,150,62,.4);}
+.btn-note{display:block;margin-top:10px;font-size:11px;color:rgba(255,255,255,.28);letter-spacing:.04em;}
+
+.hero-price{
+  margin-top:52px;padding-top:36px;
+  border-top:1px solid rgba(255,255,255,.07);
+  font-size:13px;color:rgba(255,255,255,.38);
+  opacity:0;animation:up .6s ease forwards .65s;
+}
+.hero-price strong{color:rgba(255,255,255,.65);}
+
+/* ── SHARED ── */
+section{position:relative;}
+.wrap{max-width:1000px;margin:0 auto;padding:80px 40px;}
+
+.sec-label{display:flex;align-items:center;gap:9px;margin-bottom:16px;}
+.sec-label-line{width:20px;height:1px;background:var(--gold);}
+.sec-label-txt{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.24em;text-transform:uppercase;}
+
+h2{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(22px,3vw,34px);font-weight:700;
+  color:var(--navy);line-height:1.5;margin-bottom:12px;
+}
+.sub{font-size:14px;color:var(--mid);line-height:1.9;max-width:580px;}
+
+/* ── SYMPTOMS ── */
+.sym-sec{background:var(--cream);border-top:1px solid var(--border);}
+.sym-list{margin-top:36px;display:flex;flex-direction:column;gap:3px;}
+.sym-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:18px 22px;background:var(--white);
+  border-left:3px solid transparent;
+  transition:border-color .25s;cursor:default;
+}
+.sym-item:hover{border-color:var(--gold);}
+.sym-dot{width:7px;height:7px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:7px;}
+.sym-text{font-size:14px;color:var(--text);line-height:1.75;}
+.sym-text strong{display:block;font-size:15px;color:var(--navy);margin-bottom:3px;}
+
+/* ── WHAT YOU GET ── */
+.get-sec{background:var(--white);border-top:1px solid var(--border);}
+.get-grid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.get-card{
+  background:var(--stone);padding:28px 24px;
+  position:relative;overflow:hidden;
+}
+.get-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;
+  transition:transform .3s ease;
+}
+.get-card:hover::after{transform:scaleX(1);}
+.get-n{
+  font-family:'DM Serif Display',serif;
+  font-size:40px;color:var(--border);line-height:1;margin-bottom:12px;
+}
+.get-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.5;}
+.get-body{font-size:12px;color:var(--mid);line-height:1.85;}
+
+.get-footer{
+  margin-top:28px;padding:22px 28px;
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+}
+.get-footer-left{color:rgba(255,255,255,.65);font-size:13px;line-height:1.7;}
+.get-footer-price{
+  font-family:'DM Serif Display',serif;font-size:36px;color:var(--white);line-height:1;
+}
+.get-footer-price span{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:rgba(255,255,255,.4);}
+
+/* ── FIT ── */
+.fit-sec{background:var(--stone);border-top:1px solid var(--border);}
+.fit-grid{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.fit-col{padding:28px 26px;}
+.fit-col.yes{background:var(--white);}
+.fit-col.no{background:var(--cream);opacity:.8;}
+.fit-head{font-size:11px;font-weight:700;letter-spacing:.15em;margin-bottom:14px;}
+.fit-col.yes .fit-head{color:var(--green);}
+.fit-col.no .fit-head{color:var(--light);}
+.fit-item{display:flex;gap:9px;font-size:13px;color:var(--text);line-height:1.7;margin-bottom:8px;}
+.fit-icon{flex-shrink:0;margin-top:1px;}
+
+/* ── TEAM ── */
+.team-sec{background:var(--navy);border-top:1px solid rgba(255,255,255,.05);}
+.team-sec h2{color:var(--white);}
+.team-sec .sub{color:rgba(255,255,255,.45);}
+.team-list{margin-top:40px;display:flex;flex-direction:column;gap:2px;}
+.team-item{
+  display:grid;grid-template-columns:200px 1fr;gap:0;
+  background:rgba(255,255,255,.04);border:1px solid rgba(184,150,62,.1);
+}
+.team-item-left{
+  padding:28px 24px;border-right:1px solid rgba(255,255,255,.06);
+}
+.team-item-role{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px;}
+.team-item-title{font-family:'Noto Serif JP',serif;font-size:14px;font-weight:700;color:var(--white);line-height:1.5;}
+.team-item-right{padding:28px 28px;}
+.team-item-body{font-size:13px;color:rgba(255,255,255,.55);line-height:1.9;}
+
+.team-note{
+  margin-top:28px;padding:22px 26px;
+  border-left:3px solid var(--gold);
+  background:rgba(184,150,62,.05);
+  font-size:14px;color:rgba(255,255,255,.65);
+  line-height:1.9;font-style:italic;
+}
+
+/* ── FORM ── */
+.form-sec{background:var(--navy-dk);border-top:1px solid rgba(184,150,62,.15);position:relative;overflow:hidden;}
+.form-sec::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(184,150,62,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(184,150,62,.03) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+.form-sec h2{color:var(--white);}
+.form-sec .sub{color:rgba(255,255,255,.45);}
+
+.form-what{
+  margin-top:28px;margin-bottom:36px;
+  display:flex;flex-direction:column;gap:6px;
+}
+.form-what-item{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:rgba(255,255,255,.65);
+}
+.form-what-item::before{content:'✓';color:var(--gold);font-size:12px;font-weight:700;}
+
+.form-box{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(184,150,62,.15);
+  padding:40px;
+}
+.form-caption{
+  margin-bottom:24px;font-size:12px;color:rgba(255,255,255,.35);
+  line-height:1.8;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06);
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-grp{display:flex;flex-direction:column;gap:6px;}
+.form-grp.full{grid-column:1/-1;}
+.form-lbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.1em;}
+.form-lbl .req{color:#ef9a9a;margin-left:2px;}
+.form-ctrl{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  color:var(--white);font-family:'Noto Sans JP',sans-serif;font-size:14px;
+  padding:13px 14px;outline:none;width:100%;transition:border-color .2s;
+}
+.form-ctrl:focus{border-color:var(--gold);}
+.form-ctrl option{background:var(--navy-dk);}
+.form-ctrl::placeholder{color:rgba(255,255,255,.2);}
+
+.btn-sub-cta{
+  margin-top:24px;width:100%;
+  background:var(--gold);color:var(--navy-dk);
+  font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:700;
+  padding:18px;border:none;cursor:pointer;letter-spacing:.07em;
+  transition:all .22s;
+}
+.btn-sub-cta:hover{background:var(--gold-lt);transform:translateY(-1px);box-shadow:0 8px 28px rgba(184,150,62,.4);}
+
+.form-meta{margin-top:12px;font-size:11px;color:rgba(255,255,255,.22);text-align:center;line-height:1.9;}
+
+.form-ok{display:none;text-align:center;padding:48px 20px;}
+.form-ok-icon{width:52px;height:52px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:20px;color:var(--navy-dk);}
+.form-ok-title{font-family:'Noto Serif JP',serif;font-size:18px;color:var(--white);margin-bottom:10px;}
+.form-ok-body{font-size:13px;color:rgba(255,255,255,.4);line-height:1.95;}
+
+/* ── FAQ ── */
+.faq-sec{background:var(--white);border-top:1px solid var(--border);}
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;gap:16px;}
+.faq-q-txt{font-size:14px;font-weight:500;color:var(--navy);line-height:1.6;flex:1;}
+.faq-icon{width:26px;height:26px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--gold);flex-shrink:0;transition:transform .3s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.faq-a-in{padding:0 0 20px;font-size:13px;color:var(--mid);line-height:1.9;max-width:700px;}
+
+/* ── FOOTER ── */
+.site-footer{
+  background:var(--navy-dk);padding:28px 40px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  border-top:1px solid rgba(184,150,62,.12);
+}
+.footer-logo{font-family:'DM Serif Display',serif;font-size:13px;color:var(--gold);}
+.footer-links{display:flex;flex-wrap:wrap;gap:16px;}
+.footer-link{font-size:11px;color:rgba(255,255,255,.3);text-decoration:none;}
+.footer-link:hover{color:rgba(255,255,255,.6);}
+.footer-copy{font-size:10px;color:rgba(255,255,255,.18);width:100%;letter-spacing:.06em;}
+
+/* ── ANIM ── */
+@keyframes up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.on{opacity:1;transform:translateY(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:0 18px;}
+  .wrap{padding:60px 18px;}
+  .hero-in{padding:64px 18px;}
+  h1{font-size:clamp(26px,7.5vw,38px);}
+  .get-grid{grid-template-columns:1fr;}
+  .fit-grid{grid-template-columns:1fr;}
+  .team-item{grid-template-columns:1fr;}
+  .team-item-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);}
+  .form-box{padding:24px 18px;}
+  .form-row{grid-template-columns:1fr;}
+  .site-footer{padding:24px 18px;flex-direction:column;align-items:flex-start;}
+  .get-footer{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-brand">
+    CPA Advisory
+    <small>管理会計・経営判断伴走</small>
+  </div>
+  <a href="#form" class="nav-btn">サンプルレポートと診断概要を受け取る</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-in">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <div class="eyebrow-txt">製造業・建設業・受託加工業の経営者へ</div>
+    </div>
+
+    <h1>
+      現場は動いている。<br>
+      なのに、<em>利益が残らない。</em>
+    </h1>
+
+    <p class="hero-body">
+      その原因は、数字が悪いからではなく、<br>
+      数字が経営判断に使える形で整理されていないからかもしれません。<br>
+      60分のヒアリングで、御社の構造を整理します。
+    </p>
+
+    <div class="hero-cta-wrap">
+      <a href="#form" class="btn">サンプルレポートと診断概要を受け取る</a>
+      <span class="btn-note">メールアドレスにサンプルと診断の詳細をお送りします</span>
+    </div>
+
+    <div class="hero-price">
+      診断料金：<strong>98,800円（税別）</strong>　／　詳細は資料でご確認いただけます
+    </div>
+  </div>
+</section>
+
+<!-- ── SYMPTOMS ── -->
+<section class="sym-sec">
+  <div class="wrap">
+    <div class="sec-label reveal">
+      <div class="sec-label-line"></div>
+      <div class="sec-label-txt">こんな違和感ありませんか</div>
+    </div>
+    <h2 class="reveal">当てはまるなら、<br>対象の会社です</h2>
+
+    <div class="sym-list reveal">
+      <div class="sym-item">
+        <div class="sym-dot"></div>
+        <div class="sym-text">
+          <strong>忙しいのに、お金が増えている実感がない</strong>
+          受注は悪くない。現場も動いている。でも決算を見たら利益が減っていた。
+        </div>
+      </div>
+      <div class="sym-item">
+        <div class="sym-dot"></div>
+        <div class="sym-text">
+          <strong>案件ごとに、どこで粗利が削られているか見えない</strong>
+          現場の報告書は出る。でも、その案件でいくら残ったかは誰も計算していない。
+        </div>
+      </div>
+      <div class="sym-item">
+        <div class="sym-dot"></div>
+        <div class="sym-text">
+          <strong>試算表は届くが、次の打ち手が決まらない</strong>
+          月末に数字を確認する。「そうか」で終わる。何を変えればいいか分からない。
+        </div>
+      </div>
+      <div class="sym-item">
+        <div class="sym-dot"></div>
+        <div class="sym-text">
+          <strong>月末の資金繰りが、社長の勘に依存している</strong>
+          支払いと入金のタイミングがずれる。足りなければ社長が補填する。これを繰り返している。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT YOU GET ── -->
+<section class="get-sec">
+  <div class="wrap">
+    <div class="sec-label reveal">
+      <div class="sec-label-line"></div>
+      <div class="sec-label-txt">診断で受け取るもの</div>
+    </div>
+    <h2 class="reveal">60分ヒアリング後、<br>9ページのレポートを5営業日前後で納品</h2>
+    <p class="sub reveal">一般論は書きません。ヒアリングで確認した御社の事実をもとに、御社について書いたレポートです。</p>
+
+    <div class="get-grid">
+      <div class="get-card reveal">
+        <div class="get-n">01</div>
+        <div class="get-title">社長向け1ページ要約</div>
+        <div class="get-body">最重要課題と今すぐやること1つ。忙しい経営者が最初に読むページ。</div>
+      </div>
+      <div class="get-card reveal">
+        <div class="get-n">02</div>
+        <div class="get-title">4軸スコアカード＋課題の構造</div>
+        <div class="get-body">数字の整備・読み方・意思決定接続・資金繰りを5段階採点。なぜそうなっているかの構造まで示す。</div>
+      </div>
+      <div class="get-card reveal">
+        <div class="get-n">03</div>
+        <div class="get-title">30日以内の初動アクション3つ</div>
+        <div class="get-body">「誰が・何を・どの単位で」着手するかまで書く。「強化する」「検討する」は書かない。</div>
+      </div>
+    </div>
+
+    <div class="get-footer reveal">
+      <div class="get-footer-left">
+        ヒアリング60分　＋　9ページレポート　＋　納品後の確認面談（60分）<br>
+        <span style="font-size:11px;color:rgba(255,255,255,.35);">お申し込み後にご請求書をお送りします</span>
+      </div>
+      <div>
+        <div class="get-footer-price">98,800<span>円（税別）</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FIT CHECK ── -->
+<section class="fit-sec">
+  <div class="wrap">
+    <div class="sec-label reveal">
+      <div class="sec-label-line"></div>
+      <div class="sec-label-txt">対象について</div>
+    </div>
+    <h2 class="reveal">向いている会社・<br>向いていない会社</h2>
+
+    <div class="fit-grid reveal">
+      <div class="fit-col yes">
+        <div class="fit-head">✓ 向いている会社</div>
+        <div class="fit-item"><span class="fit-icon" style="color:var(--green);">✓</span>製造・建設・設備工事・受託加工業、年商1.5億〜10億円前後</div>
+        <div class="fit-item"><span class="fit-icon" style="color:var(--green);">✓</span>案件ごとの採算を誰も把握できていない</div>
+        <div class="fit-item"><span class="fit-icon" style="color:var(--green);">✓</span>試算表はあるが、経営判断につながっていない</div>
+        <div class="fit-item"><span class="fit-icon" style="color:var(--green);">✓</span>税理士は申告のみで、経営の相談先がいない</div>
+        <div class="fit-item"><span class="fit-icon" style="color:var(--green);">✓</span>数字がまだ整っていなくても大丈夫です</div>
+      </div>
+      <div class="fit-col no">
+        <div class="fit-head">× 向いていない会社</div>
+        <div class="fit-item"><span class="fit-icon" style="color:var(--light);">×</span>税務申告や節税相談だけを求めている</div>
+        <div class="fit-item"><span class="fit-icon" style="color:var(--light);">×</span>案件別採算管理がすでに回っている</div>
+        <div class="fit-item"><span class="fit-icon" style="color:var(--light);">×</span>料金だけ知りたい、無料でアドバイスが欲しい</div>
+        <div class="fit-item"><span class="fit-icon" style="color:var(--light);">×</span>現状を変えることへの意欲がない</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ── -->
+<section class="team-sec">
+  <div class="wrap">
+    <div class="sec-label reveal">
+      <div class="sec-label-line"></div>
+      <div class="sec-label-txt">診断チームについて</div>
+    </div>
+    <h2 class="reveal">3つの役割で、<br>チームが診断します</h2>
+    <p class="sub reveal">一人の担当者が全部見るのではなく、財務・業種・分析の専門性を持つメンバーが分担して診断します。</p>
+
+    <div class="team-list">
+      <div class="team-item reveal">
+        <div class="team-item-left">
+          <div class="team-item-role">診断設計責任者</div>
+          <div class="team-item-title">公認会計士<br>論文式試験合格者</div>
+        </div>
+        <div class="team-item-right">
+          <div class="team-item-body">ITコンサルティングに7年、マーケティングコンサルティングに3年従事。その後、財務面から複数社の支援に関与し、数字を経営判断につなげるための整理・分析・改善提案を行っている。本診断では、全体の論点設計とレポート統括を担当。</div>
+        </div>
+      </div>
+      <div class="team-item reveal">
+        <div class="team-item-left">
+          <div class="team-item-role">財務分析担当</div>
+          <div class="team-item-title">財務分析・<br>管理会計専門</div>
+        </div>
+        <div class="team-item-right">
+          <div class="team-item-body">管理会計・財務分析に強みを持つメンバーが、ヒアリング内容と数値情報をもとに課題構造と優先順位を整理します。スコアカードの採点と機会損失の試算を担当。</div>
+        </div>
+      </div>
+      <div class="team-item reveal">
+        <div class="team-item-left">
+          <div class="team-item-role">業種別アドバイザー</div>
+          <div class="team-item-title">製造・建設業<br>コンサル経験者</div>
+        </div>
+        <div class="team-item-right">
+          <div class="team-item-body">製造業・建設業での実務およびコンサルティング経験を持つメンバーが、案件別採算・外注費管理・工程管理など業種固有の論点を診断に反映します。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-note reveal">
+      申告のために数字を作る会社は多いですが、経営判断のために数字を使えている会社は多くありません。
+      私たちはそのズレを埋めることに特化しています。税理士を変える必要はありません。
+    </div>
+  </div>
+</section>
+
+<!-- ── FORM ── -->
+<section class="form-sec" id="form">
+  <div class="wrap">
+    <div class="sec-label reveal">
+      <div class="sec-label-line"></div>
+      <div class="sec-label-txt">資料を受け取る</div>
+    </div>
+    <h2 class="reveal">サンプルレポートと<br>診断概要を受け取る</h2>
+    <p class="sub reveal">メールアドレスをご登録ください。診断の詳細・サンプルレポート・料金・よくある質問をまとめた資料をお送りします。</p>
+
+    <div class="form-what reveal">
+      <div class="form-what-item">診断の全体の流れ（事前フォーム→ヒアリング→レポート→確認面談）</div>
+      <div class="form-what-item">9ページレポートのサンプル（匿名事例）</div>
+      <div class="form-what-item">料金・キャンセルポリシー・よくある質問</div>
+    </div>
+
+    <div class="form-box reveal">
+      <div class="form-caption">
+        業種と売上規模をもとに、御社に合わせた内容でお送りします。所要1分程度です。
+      </div>
+      <form id="mainForm">
+        <div class="form-row">
+          <div class="form-grp">
+            <label class="form-lbl">会社名 <span class="req">*</span></label>
+            <input class="form-ctrl" type="text" name="company" placeholder="株式会社〇〇" required>
+          </div>
+          <div class="form-grp">
+            <label class="form-lbl">業種 <span class="req">*</span></label>
+            <select class="form-ctrl" name="industry" required>
+              <option value="" disabled selected>選択してください</option>
+              <option>建設・設備工事業</option>
+              <option>製造業（受託加工）</option>
+              <option>製造業（自社製品）</option>
+              <option>設備・プラント工事業</option>
+              <option>その他受託業</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-grp">
+            <label class="form-lbl">売上規模 <span class="req">*</span></label>
+            <select class="form-ctrl" name="revenue" required>
+              <option value="" disabled selected>選択してください</option>
+              <option>1.5億〜3億円</option>
+              <option>3億〜5億円</option>
+              <option>5億〜10億円</option>
+              <option>10億円以上</option>
+            </select>
+          </div>
+          <div class="form-grp">
+            <label class="form-lbl">メールアドレス <span class="req">*</span></label>
+            <input class="form-ctrl" type="email" name="email" placeholder="info@example.com" required>
+          </div>
+        </div>
+        <!-- lp_type: api/contact.js側でどのLPからの送信か判別するために使用 -->
+        <input type="hidden" name="lp_type" value="construction">
+        <button type="submit" class="btn-sub-cta">サンプルレポートと診断概要を受け取る</button>
+        <div class="form-meta">
+          受付後、自動でメールをお送りします。届かない場合は迷惑メールフォルダもご確認ください。<br>
+          <a href="#" style="color:rgba(255,255,255,.3);font-size:10px;">プライバシーポリシー</a>に同意のうえご送信ください。
+        </div>
+      </form>
+
+      <div class="form-ok" id="formOk">
+        <div class="form-ok-icon">✓</div>
+        <div class="form-ok-title">ご登録ありがとうございます</div>
+        <div class="form-ok-body">
+          ご登録のメールアドレスに資料をお送りします。<br>
+          届かない場合は迷惑メールフォルダもご確認ください。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="faq-sec">
+  <div class="wrap">
+    <div class="sec-label reveal">
+      <div class="sec-label-line"></div>
+      <div class="sec-label-txt">よくある質問</div>
+    </div>
+    <h2 class="reveal">FAQ</h2>
+    <div style="margin-top:36px;" class="reveal">
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-txt">資料だけ受け取って、診断を申し込まなくても問題ありませんか？</div>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a"><div class="faq-a-in">
+          問題ありません。資料をご覧いただいて、「自社に合わない」と判断されても構いません。
+          診断の申し込みはご自身のタイミングで、任意でお選びください。
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-txt">数字がまだ整っていなくても診断を受けられますか？</div>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a"><div class="faq-a-in">
+          受けられます。「数字が整っていない状態」そのものが診断の対象です。
+          試算表がない、案件別の管理をしていない、という状態でも進められます。
+          事前に特別な準備は不要です。
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-txt">税理士がいます。診断を受ける意味はありますか？</div>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a"><div class="faq-a-in">
+          あります。税理士は申告の専門家であり、管理会計の構築や経営判断の伴走は業務範囲外であることがほとんどです。
+          本診断は「試算表を経営判断に使える状態にすること」が目的で、既存の税理士との役割は重複しません。
+          税理士を変える必要もありません。
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-logo">CPA Advisory</div>
+  <div class="footer-links">
+    <a href="#" class="footer-link">特定商取引法に基づく表記</a>
+    <a href="#" class="footer-link">プライバシーポリシー</a>
+    <a href="#" class="footer-link">運営者情報</a>
+    <a href="#" class="footer-link">お問い合わせ</a>
+  </div>
+  <div class="footer-copy">© 2026 CPA Advisory</div>
+</footer>
+
+<script>
+// ── REVEAL ──
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('on'), i * 60);
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -28px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ── FAQ ──
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const a = item.querySelector('.faq-a');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-a').style.maxHeight = '0';
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
+
+// ── FORM → /api/contact (Vercel + Resend) ──
+const form = document.getElementById('mainForm');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = form.querySelector('.btn-sub-cta');
+  const originalText = btn.textContent;
+  btn.textContent = '送信中…';
+  btn.disabled = true;
+
+  // FormDataをJSONに変換してapi/contact.jsへ送信
+  const data = Object.fromEntries(new FormData(form).entries());
+
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (res.ok) {
+      // 成功：フォームを隠してサンクスメッセージを表示
+      form.style.display = 'none';
+      document.getElementById('formOk').style.display = 'block';
+    } else {
+      // サーバーエラー（4xx/5xx）
+      const err = await res.json().catch(() => ({}));
+      console.error('送信エラー:', err);
+      btn.textContent = '送信できませんでした。しばらく経ってから再度お試しください';
+      btn.disabled = false;
+    }
+  } catch (networkErr) {
+    // ネットワークエラー
+    console.error('通信エラー:', networkErr);
+    btn.textContent = '通信エラーが発生しました。再度お試しください';
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
