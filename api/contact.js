@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
 
   try {
     await resend.emails.send({
-      from: 'CPA Advisory <onboarding@resend.dev>',
+      from: '99 Advisory <info@99advisory.jp>',
       to: ADMIN_EMAIL,
       subject: `【資料請求】${company}（${industry}・${revenue}）`,
       html: `
@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
     });
 
     await resend.emails.send({
-      from: 'CPA Advisory <onboarding@resend.dev>',
+      from: '99 Advisory <info@99advisory.jp>',
       to: email,
       subject: '【資料お届け】経営数字 活用診断の詳細資料',
       html: `
