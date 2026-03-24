@@ -10,8 +10,8 @@
     {
       "source": "/diagnosis/kgi",
       "destination": "/diagnosis/kgi/index.html"
-    }
-     {
+    },
+    {
       "source": "/seizo",
       "destination": "/seizo/index.html"
     }
