@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "googleapis": "^171.4.0",
     "gray-matter": "^4.0.3",
     "next": "^15.3.0",
     "react": "^18.3.1",

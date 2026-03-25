@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import formConfig from '../../../lib/form-config';
 import { defaultAdminNotice, seizoDownloadReply } from '../../../lib/mail-templates';
+import { appendLeadRow } from '../../../lib/sheets';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -53,15 +54,15 @@ export async function POST(request) {
       );
     }
 
-    const adminTemplate = templateMap[config.adminTemplate](filteredData);
-    const userTemplate = templateMap[config.userTemplate](filteredData);
-
     if (!process.env.RESEND_API_KEY) {
       return NextResponse.json(
         { ok: false, error: 'RESEND_API_KEY is missing' },
         { status: 500 }
       );
     }
+
+    const adminTemplate = templateMap[config.adminTemplate](filteredData);
+    const userTemplate = templateMap[config.userTemplate](filteredData);
 
     const adminResult = await resend.emails.send({
       from: `99advisory <${config.fromEmail}>`,
@@ -77,6 +78,19 @@ export async function POST(request) {
       subject: userTemplate.subject,
       html: userTemplate.html
     });
+
+    await appendLeadRow([
+      new Date().toISOString(),
+      config.serviceSlug,
+      config.formType,
+      filteredData.company || '',
+      filteredData.email || '',
+      filteredData.industry || '',
+      filteredData.revenue || '',
+      adminResult?.data?.id ?? '',
+      userResult?.data?.id ?? '',
+      JSON.stringify(filteredData)
+    ]);
 
     return NextResponse.json({
       ok: true,
