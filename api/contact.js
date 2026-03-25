@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
 
   try {
     await resend.emails.send({
-      from: '99 Advisory <info@99advisory.jp>',
+      from: '九十九アドバイザリー <info@99advisory.jp>',
       to: ADMIN_EMAIL,
       subject: `【資料請求】${company}（${industry}・${revenue}）`,
       html: `
@@ -31,9 +31,9 @@ module.exports = async (req, res) => {
     });
 
     await resend.emails.send({
-      from: '99 Advisory <info@99advisory.jp>',
+      from: '九十九アドバイザリー <info@99advisory.jp>',
       to: email,
-      subject: '【資料お届け】経営数字 活用診断の詳細資料',
+      subject: '【確認】資料請求ありがとうございます｜九十九アドバイザリー',
       html: `
         <div style="font-family:'Helvetica Neue',Arial,sans-serif;max-width:560px;margin:0 auto;color:#1C1917;">
           <div style="background:#1B2E4B;padding:28px 32px;">
@@ -43,8 +43,8 @@ module.exports = async (req, res) => {
           <div style="padding:32px;">
             <p style="font-size:14px;line-height:1.9;margin:0 0 24px;">
               ${company} ご担当者様<br><br>
-              資料請求いただきありがとうございます。<br>
-              診断の詳細をご確認ください。
+              このたびは、99 Advisoryの資料をご請求いただきありがとうございます。フォーム送信を受け付けました。
+              <br>診断の詳細をご確認ください。
             </p>
             <div style="background:#FAF8F4;border-left:3px solid #B8963E;padding:20px 24px;margin:0 0 28px;">
               <p style="font-size:12px;font-weight:bold;color:#B8963E;letter-spacing:.1em;margin:0 0 12px;">診断でわかること</p>
@@ -70,9 +70,10 @@ module.exports = async (req, res) => {
             <div style="border-top:1px solid #E7E5E4;padding-top:24px;margin-top:8px;">
               <p style="font-size:13px;line-height:1.9;color:#57534E;margin:0 0 16px;">
                 ご質問・お申し込みはこのメールへの返信でご連絡ください。
+                 このメールは、資料請求フォーム送信後の確認メールです。<br>お心当たりがない場合は、このまま破棄してください。
               </p>
               <p style="font-size:12px;color:#A8A29E;margin:0;">
-                柏 CPA Advisory<br>
+                九十九アドバイザリー<br>
                 ${ADMIN_EMAIL}
               </p>
             </div>
