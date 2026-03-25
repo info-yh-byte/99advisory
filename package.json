@@ -2,29 +2,18 @@
   "name": "99advisory",
   "version": "1.0.0",
   "private": true,
-  "description": "99advisory - CFO advisory service website for SMEs",
-  "dependencies": {
-    "resend": "^3.2.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
-  },
+  "description": "99advisory - Next.js migration",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "next": "^15.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "resend": "^3.2.0"
   }
 }
