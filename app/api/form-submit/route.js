@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
+import { Resend } from 'resend';
 import formConfig from '../../../lib/form-config';
 import { defaultAdminNotice, seizoDownloadReply } from '../../../lib/mail-templates';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const templateMap = {
   defaultAdminNotice,
@@ -16,8 +19,7 @@ function pickAllowedFields(body, allowedFields) {
 }
 
 function validateRequiredFields(data, requiredFields) {
-  const missing = requiredFields.filter((field) => !data[field]);
-  return missing;
+  return requiredFields.filter((field) => !data[field]);
 }
 
 export async function POST(request) {
@@ -54,21 +56,39 @@ export async function POST(request) {
     const adminTemplate = templateMap[config.adminTemplate](filteredData);
     const userTemplate = templateMap[config.userTemplate](filteredData);
 
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json(
+        { ok: false, error: 'RESEND_API_KEY is missing' },
+        { status: 500 }
+      );
+    }
+
+    const adminResult = await resend.emails.send({
+      from: `99advisory <${config.fromEmail}>`,
+      to: config.adminEmail,
+      replyTo: filteredData.email,
+      subject: adminTemplate.subject,
+      html: adminTemplate.html
+    });
+
+    const userResult = await resend.emails.send({
+      from: `99advisory <${config.fromEmail}>`,
+      to: filteredData.email,
+      subject: userTemplate.subject,
+      html: userTemplate.html
+    });
+
     return NextResponse.json({
       ok: true,
       message: config.successMessage,
-      debug: {
-        config,
-        filteredData,
-        adminTemplate,
-        userTemplate
-      }
+      adminEmailId: adminResult?.data?.id ?? null,
+      userEmailId: userResult?.data?.id ?? null
     });
   } catch (error) {
     return NextResponse.json(
       {
         ok: false,
-        error: 'Invalid request',
+        error: 'Failed to process form submission',
         detail: error.message
       },
       { status: 500 }
