@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import formConfig from '../../../lib/form-config';
-import { defaultAdminNotice, seizoDownloadReply } from '../../../lib/mail-templates';
+import { defaultAdminNotice, seizoDownloadReply, cashflowDownloadReply } from '../../../lib/mail-templates';
 import { appendLeadRow } from '../../../lib/sheets';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const templateMap = {
   defaultAdminNotice,
-  seizoDownloadReply
+  seizoDownloadReply,
+  cashflowDownloadReply
 };
 
 function pickAllowedFields(body, allowedFields) {
@@ -85,7 +86,7 @@ export async function POST(request) {
       config.formType,
       filteredData.company || '',
       filteredData.email || '',
-      filteredData.industry || '',
+      filteredData.industry || filteredData.issue || '',
       filteredData.revenue || '',
       adminResult?.data?.id ?? '',
       userResult?.data?.id ?? '',
