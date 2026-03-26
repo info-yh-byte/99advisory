@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import formConfig from '../../../lib/form-config';
-import { defaultAdminNotice, seizoDownloadReply, cashflowDownloadReply } from '../../../lib/mail-templates';
+import {
+  defaultAdminNotice,
+  seizoDownloadReply,
+  cashflowDownloadReply,
+  bankplanDownloadReply
+} from '../../../lib/mail-templates';
 import { appendLeadRow } from '../../../lib/sheets';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -9,7 +14,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const templateMap = {
   defaultAdminNotice,
   seizoDownloadReply,
-  cashflowDownloadReply
+  cashflowDownloadReply,
+  bankplanDownloadReply
 };
 
 function pickAllowedFields(body, allowedFields) {
@@ -62,8 +68,25 @@ export async function POST(request) {
       );
     }
 
-    const adminTemplate = templateMap[config.adminTemplate](filteredData);
-    const userTemplate = templateMap[config.userTemplate](filteredData);
+    const adminTemplateFn = templateMap[config.adminTemplate];
+    const userTemplateFn = templateMap[config.userTemplate];
+
+    if (typeof adminTemplateFn !== 'function') {
+      return NextResponse.json(
+        { ok: false, error: `Unknown admin template: ${config.adminTemplate}` },
+        { status: 500 }
+      );
+    }
+
+    if (typeof userTemplateFn !== 'function') {
+      return NextResponse.json(
+        { ok: false, error: `Unknown user template: ${config.userTemplate}` },
+        { status: 500 }
+      );
+    }
+
+    const adminTemplate = adminTemplateFn(filteredData);
+    const userTemplate = userTemplateFn(filteredData);
 
     const adminResult = await resend.emails.send({
       from: `99advisory <${config.fromEmail}>`,
@@ -86,7 +109,7 @@ export async function POST(request) {
       config.formType,
       filteredData.company || '',
       filteredData.email || '',
-      filteredData.industry || filteredData.issue || '',
+      filteredData.industry || filteredData.issue || filteredData.purpose || '',
       filteredData.revenue || '',
       adminResult?.data?.id ?? '',
       userResult?.data?.id ?? '',
