@@ -5,7 +5,9 @@ import {
   defaultAdminNotice,
   seizoDownloadReply,
   cashflowDownloadReply,
-  bankplanDownloadReply
+  bankplanDownloadReply,
+  contactInquiryAdmin,
+  contactInquiryReply
 } from '../../../lib/mail-templates';
 import { appendLeadRow } from '../../../lib/sheets';
 
@@ -15,7 +17,9 @@ const templateMap = {
   defaultAdminNotice,
   seizoDownloadReply,
   cashflowDownloadReply,
-  bankplanDownloadReply
+  bankplanDownloadReply,
+  contactInquiryAdmin,
+  contactInquiryReply
 };
 
 function pickAllowedFields(body, allowedFields) {

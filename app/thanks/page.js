@@ -51,6 +51,32 @@ const SERVICE_MAP = {
       }
     ]
   },
+  contact: {
+    title: 'お問い合わせを受け付けました',
+    description:
+      'ご入力いただいたメールアドレス宛に、受付確認メールをお送りしています。内容を確認次第、通常2営業日以内にご返信いたします。',
+    resources: [
+      {
+        href: '/services/',
+        label: 'サービス一覧',
+        title: 'サービスの概要を見る',
+        body: '各支援メニューの内容と進め方を確認できます。'
+      },
+      {
+        href: '/articles/',
+        label: '記事一覧',
+        title: '先に記事を読む',
+        body: '資金繰り・経営判断に関する記事一覧はこちら。'
+      },
+      {
+        href: '/',
+        label: 'トップページ',
+        title: 'ホームへ戻る',
+        body: '99advisoryのトップページに戻ります。'
+      }
+    ]
+  },
+
   'bank-plan': {
     title: '融資準備資料の請求を受け付けました',
     description:
