@@ -135,46 +135,48 @@ function ThanksContent() {
   const content = getThanksContent(service);
 
   return (
-    <div className="thanks-page">
-      <div className="thanks-wrap">
-        <div className="thanks-shell">
-          <div className="thanks-badge">THANK YOU</div>
-          <h1 className="thanks-title">{content.title}</h1>
-          <p className="thanks-description">{content.description}</p>
+    <>
+      <div className="thanks-shell">
+        <div className="thanks-badge">THANK YOU</div>
+        <h1 className="thanks-title">{content.title}</h1>
+        <p className="thanks-description">{content.description}</p>
 
-          <div className="thanks-note">
-            メールが見当たらない場合は、迷惑メールフォルダ・プロモーションタブもご確認ください。
-          </div>
-
-          <div className="thanks-actions">
-            <Link href="/contact/" className="thanks-primary">
-              相談内容を送る
-            </Link>
-            <Link href="/" className="thanks-secondary">
-              ホームへ戻る
-            </Link>
-          </div>
+        <div className="thanks-note">
+          メールが見当たらない場合は、迷惑メールフォルダ・プロモーションタブもご確認ください。
         </div>
 
-        <div className="thanks-resource-grid">
-          {content.resources.map((item) => (
-            <Link key={item.href + item.title} href={item.href} className="thanks-resource-card">
-              <div className="thanks-resource-label">{item.label}</div>
-              <div className="thanks-resource-title">{item.title}</div>
-              <div className="thanks-resource-body">{item.body}</div>
-              <div className="thanks-resource-link">見る →</div>
-            </Link>
-          ))}
+        <div className="thanks-actions">
+          <Link href="/contact/" className="thanks-primary">
+            相談内容を送る
+          </Link>
+          <Link href="/" className="thanks-secondary">
+            ホームへ戻る
+          </Link>
         </div>
       </div>
-    </div>
+
+      <div className="thanks-resource-grid">
+        {content.resources.map((item) => (
+          <Link key={item.href + item.title} href={item.href} className="thanks-resource-card">
+            <div className="thanks-resource-label">{item.label}</div>
+            <div className="thanks-resource-title">{item.title}</div>
+            <div className="thanks-resource-body">{item.body}</div>
+            <div className="thanks-resource-link">見る →</div>
+          </Link>
+        ))}
+      </div>
+    </>
   );
 }
 
 export default function ThanksPage() {
   return (
-    <Suspense>
-      <ThanksContent />
-    </Suspense>
+    <div className="thanks-page">
+      <div className="thanks-wrap">
+        <Suspense>
+          <ThanksContent />
+        </Suspense>
+      </div>
+    </div>
   );
 }
