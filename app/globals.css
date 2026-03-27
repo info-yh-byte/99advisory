@@ -6,6 +6,8 @@
   --navy: #1b2e4b;
   --gold: #b8963e;
   --white: #ffffff;
+  --font-sans: "Hiragino Sans", "Yu Gothic", "Yu Gothic UI", sans-serif;
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", serif;
 }
 
 * {

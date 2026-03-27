@@ -1,344 +1,453 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export const metadata = {
-  title: 'サービス一覧 | 99advisory',
+  title: "サービス一覧 | 九十九アドバイザリー",
   description:
-    '99advisoryのサービス一覧。製造・建設向け診断、資金繰り改善、銀行融資支援など、中小企業の経営判断を支える支援内容を整理しています。',
+    "九十九アドバイザリーのサービスページ。診断、月次整理、伴走の3段階で、中小企業の経営判断を進めやすくする支援内容を整理しています。",
 };
 
-const SERVICES = [
+const supportStages = [
   {
-    href: '/seizo/',
-    title: '製造・建設向け 経営数字診断',
-    subtitle: '忙しいのに利益が残らない会社へ',
-    description:
-      '案件別採算、試算表の読み方、月末の資金繰りなど、現場は動いているのに数字が経営判断につながっていない状態を整理します。',
-    bullets: [
-      '案件ごとの採算が見えていない',
-      '試算表は来るが、次の打ち手が決まらない',
-      '利益が残らない原因を構造で整理したい',
+    id: "stage-1",
+    stage: "01",
+    title: "まず現状を整理する診断支援",
+    subtitle: "何が問題なのか、どこから手をつけるべきかを明確にしたい会社へ。",
+    targets: [
+      "利益は出ているのに現金が残らない",
+      "何から手をつければよいかわからない",
+      "まずは今の数字を整理したい",
     ],
-    cta: '製造・建設向け診断を見る',
+    deliverable:
+      "現状の数字を整理し、気をつけるべき点や、次に見るべき論点をまとめた資料をお返しします。全体像をつかみ、最初の一歩を決めたい会社に向いています。",
+    services: [
+      { label: "財務健康診断", href: "/seizo/" },
+      { label: "資金繰り診断", href: "/cashflow/" },
+    ],
+    cta: { label: "診断サービスを見る", href: "/seizo/" },
   },
   {
-    href: '/cashflow/',
-    title: '資金繰り改善支援',
-    subtitle: '黒字なのに現金が残らない会社へ',
-    description:
-      '利益と現金のズレを整理し、何から確認すべきか、どこに手を打つべきかを優先順位つきで見える化します。',
-    bullets: [
-      '利益は出ているのに資金が苦しい',
-      '売掛・在庫・借入のどこが重いか分からない',
-      '資金繰りを勘ではなく数字で見たい',
+    id: "stage-2",
+    stage: "02",
+    title: "月次の数字を、判断しやすい形へ整える支援",
+    subtitle: "毎月の数字や資料を、見るためのものではなく、使うためのものへ。",
+    targets: [
+      "毎月の数字が経営判断に活かせていない",
+      "銀行や社内への説明資料が弱い",
+      "資料づくりに時間がかかっている",
     ],
-    cta: '資金繰り改善支援を見る',
+    deliverable:
+      "資金の流れや月次の数字を、社内で見返しやすく、必要に応じて銀行説明にも使いやすい形へ整理した資料をお返しします。数字を集めるところまではできているが、その先の使い方まで整えたい会社に向いています。",
+    services: [
+      { label: "資金繰り整理", href: "/cashflow/" },
+      { label: "銀行向け事業計画", href: "/bank-plan/" },
+      { label: "月次経営レポート", href: "/contact/" },
+    ],
+    cta: { label: "月次整理支援を見る", href: "/contact/" },
   },
   {
-    href: '/bank-plan/',
-    title: '銀行融資・事業計画整理支援',
-    subtitle: '融資前に、数字と説明を整えたい会社へ',
-    description:
-      '銀行が気にする論点に沿って、事業計画の骨格、説明材料、返済余力の見せ方を整理します。',
-    bullets: [
-      '融資・借換え・リスケ前に準備したい',
-      '銀行に何をどう説明すべきか分からない',
-      '事業計画の根拠整理をしたい',
+    id: "stage-3",
+    stage: "03",
+    title: "重要な経営判断に伴走する支援",
+    subtitle: "単発の整理だけで終わらせず、数字を見ながら次の一手まで考えたい会社へ。",
+    targets: [
+      "数字を見ながら次の一手を整理したい",
+      "会議や月次レポートを経営判断につなげたい",
+      "継続的に伴走してほしい",
     ],
-    cta: '銀行融資支援を見る',
+    deliverable:
+      "月次の論点整理にとどまらず、継続して見るべき指標、会議で確認すべきテーマ、次に動くべき論点まで含めて支援します。社内だけでは判断整理が進みにくく、外部の視点も入れながら進めたい会社に向いています。",
+    services: [
+      { label: "予実管理の伴走", href: "/contact/" },
+      { label: "経営会議の設計・運営", href: "/contact/" },
+      { label: "継続的な判断支援", href: "/contact/" },
+    ],
+    cta: { label: "伴走支援について問い合わせる", href: "/contact/" },
   },
 ];
 
-const SELECT_GUIDE = [
+const flowSteps = [
   {
-    title: 'まず現状を整理したい',
-    text: '案件別採算や試算表の使い方など、経営数字の土台から見直したい場合は「製造・建設向け 経営数字診断」が近いです。',
-    href: '/seizo/',
-    label: '製造・建設向け診断へ',
+    title: "まずは診断で現状を整理する",
+    text: "課題の全体像と、最初に見るべき論点を見える形にします。",
   },
   {
-    title: 'お金の回り方を見直したい',
-    text: '黒字でも口座残高が不安、資金繰りが勘に依存している、という場合は「資金繰り改善支援」が近いです。',
-    href: '/cashflow/',
-    label: '資金繰り改善支援へ',
+    title: "次に、毎月の数字や資料を使いやすい形へ整える",
+    text: "社内でも見返しやすく、説明にも使いやすい資料へ整えます。",
   },
   {
-    title: '銀行提出前に整えたい',
-    text: '追加融資、借換え、リスケ前に、数字と説明材料を先に整理したい場合は「銀行融資・事業計画整理支援」が近いです。',
-    href: '/bank-plan/',
-    label: '銀行融資支援へ',
+    title: "必要に応じて、継続的な伴走支援へ進む",
+    text: "重要な判断を進める場面で、数字と論点を継続的に整理します。",
   },
 ];
+
+const primaryButtonStyle = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: 46,
+  padding: "0 22px",
+  borderRadius: 999,
+  background: "var(--navy)",
+  color: "#ffffff",
+  fontSize: 14,
+  fontWeight: 700,
+  textDecoration: "none",
+};
+
+const secondaryButtonStyle = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: 42,
+  padding: "0 16px",
+  borderRadius: 999,
+  background: "#ffffff",
+  color: "var(--navy)",
+  border: "1px solid var(--line)",
+  fontSize: 13,
+  fontWeight: 700,
+  textDecoration: "none",
+};
 
 const cardStyle = {
-  background: '#ffffff',
-  border: '1px solid var(--line)',
-  padding: '28px',
-  borderRadius: '16px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '16px',
-};
-
-const buttonStyle = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '12px 18px',
-  borderRadius: '999px',
-  background: 'var(--navy)',
-  color: '#ffffff',
-  fontSize: '14px',
-  fontWeight: 700,
-  width: 'fit-content',
-};
-
-const subButtonStyle = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '12px 18px',
-  borderRadius: '999px',
-  background: '#ffffff',
-  color: 'var(--navy)',
-  border: '1px solid var(--line)',
-  fontSize: '14px',
-  fontWeight: 700,
-  width: 'fit-content',
+  background: "#ffffff",
+  border: "1px solid var(--line)",
+  borderRadius: 18,
+  padding: 28,
 };
 
 export default function ServicesPage() {
   return (
     <>
-      <section className="page-section">
+      <section className="page-section" style={{ paddingTop: 0, background: "#fff" }}>
         <div className="container">
-          <div className="hero-box" style={{ paddingTop: 56, paddingBottom: 24 }}>
+          <div className="hero-box" style={{ paddingBottom: 40 }}>
             <div className="hero-label">SERVICES</div>
-            <h1 className="hero-title">
-              状況ごとに、
-              <br />
-              必要な支援を選べます。
+            <h1 className="hero-title" style={{ maxWidth: 760, marginBottom: 18 }}>
+              状況に応じて選べる、3つの支援
             </h1>
-            <p className="hero-text">
-              99advisory では、中小企業の経営判断に関わる支援を、
-              「数字の整理」「資金繰り」「銀行説明」の3つの入口から提供しています。
-              まずは今の悩みに近いものをお選びください。
-            </p>
+            <div className="hero-text" style={{ maxWidth: 780 }}>
+              <p style={{ marginTop: 0, marginBottom: 14 }}>
+                まず現状を整理したいとき。毎月の数字を判断に使いやすい形へ整えたいとき。重要な経営判断に、
+                継続して伴走してほしいとき。
+              </p>
+              <p style={{ margin: 0 }}>
+                九十九アドバイザリーでは、そうした段階に応じて、支援を3つに分けています。
+              </p>
+            </div>
 
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 24 }}>
-              <Link href="/contact/" style={buttonStyle}>
-                まず相談したい
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 28 }}>
+              <Link href="/contact/" style={primaryButtonStyle}>
+                お問い合わせフォームへ
               </Link>
-              <Link href="/articles/" style={subButtonStyle}>
-                先に記事を読む
+              <Link href="#stages" style={secondaryButtonStyle}>
+                3つの支援を見る
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="page-section" style={{ paddingTop: 12 }}>
+      <section className="page-section" style={{ background: "var(--bg)", paddingTop: 48 }}>
         <div className="container">
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '20px',
+              ...cardStyle,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: 24,
             }}
           >
-            {SERVICES.map((service) => (
-              <article key={service.href} style={cardStyle}>
-                <div>
-                  <div
-                    style={{
-                      fontSize: '12px',
-                      fontWeight: 700,
-                      letterSpacing: '0.08em',
-                      color: 'var(--gold)',
-                      marginBottom: 10,
-                    }}
-                  >
-                    SERVICE
-                  </div>
-                  <h2
-                    style={{
-                      fontSize: '24px',
-                      lineHeight: 1.5,
-                      color: 'var(--navy)',
-                      margin: '0 0 8px',
-                    }}
-                  >
-                    {service.title}
-                  </h2>
-                  <p
-                    style={{
-                      margin: 0,
-                      color: 'var(--text)',
-                      fontWeight: 700,
-                      fontSize: '15px',
-                      lineHeight: 1.8,
-                    }}
-                  >
-                    {service.subtitle}
-                  </p>
+            <div>
+              <div className="hero-label">GUIDE</div>
+              <h2 className="page-title" style={{ marginBottom: 0 }}>
+                まず整理する。毎月整える。必要に応じて伴走する。
+              </h2>
+            </div>
+            <div className="page-lead" style={{ maxWidth: "none" }}>
+              <p style={{ marginTop: 0, marginBottom: 16 }}>
+                最初から大きな支援を前提にする必要はありません。いま必要なところから始められるように、
+                支援を3つに整理しています。
+              </p>
+              <p style={{ margin: 0 }}>
+                まずは現状把握から入り、その後に月次整理や継続支援へ進める構成です。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="stages" className="page-section" style={{ background: "#fff" }}>
+        <div className="container">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: 18,
+            }}
+          >
+            {supportStages.map((stage) => (
+              <article key={stage.id} id={stage.id} style={cardStyle}>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    minHeight: 28,
+                    padding: "0 10px",
+                    borderRadius: 999,
+                    background: "#f5f1e7",
+                    color: "var(--gold)",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    marginBottom: 14,
+                  }}
+                >
+                  STAGE {stage.stage}
                 </div>
+
+                <h2
+                  style={{
+                    margin: "0 0 10px",
+                    color: "var(--navy)",
+                    fontSize: 24,
+                    lineHeight: 1.55,
+                  }}
+                >
+                  {stage.title}
+                </h2>
 
                 <p
                   style={{
-                    margin: 0,
-                    color: 'var(--muted)',
-                    fontSize: '14px',
-                    lineHeight: 1.9,
+                    margin: "0 0 18px",
+                    color: "var(--text)",
+                    fontWeight: 700,
+                    fontSize: 15,
+                    lineHeight: 1.8,
                   }}
                 >
-                  {service.description}
+                  {stage.subtitle}
                 </p>
 
-                <div>
+                <div style={{ marginBottom: 18 }}>
                   <div
                     style={{
-                      fontSize: '13px',
+                      fontSize: 13,
                       fontWeight: 700,
-                      color: 'var(--navy)',
+                      color: "var(--navy)",
                       marginBottom: 10,
                     }}
                   >
-                    こんな状況に
+                    対象
                   </div>
                   <ul
                     style={{
                       margin: 0,
                       paddingLeft: 18,
-                      color: 'var(--muted)',
-                      fontSize: '14px',
+                      color: "var(--muted)",
+                      fontSize: 14,
                       lineHeight: 1.9,
                     }}
                   >
-                    {service.bullets.map((item) => (
+                    {stage.targets.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
                 </div>
 
-                <div style={{ marginTop: 'auto' }}>
-                  <Link href={service.href} style={buttonStyle}>
-                    {service.cta}
-                  </Link>
+                <div style={{ marginBottom: 18 }}>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "var(--navy)",
+                      marginBottom: 10,
+                    }}
+                  >
+                    何が届くか
+                  </div>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: "var(--muted)",
+                      fontSize: 14,
+                      lineHeight: 1.9,
+                    }}
+                  >
+                    {stage.deliverable}
+                  </p>
                 </div>
+
+                <div style={{ marginBottom: 22 }}>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "var(--navy)",
+                      marginBottom: 10,
+                    }}
+                  >
+                    {stage.stage === "03" ? "想定支援" : "対応サービス"}
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                    {stage.services.map((service) => (
+                      <Link key={service.label} href={service.href} style={secondaryButtonStyle}>
+                        {service.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                <Link href={stage.cta.href} style={primaryButtonStyle}>
+                  {stage.cta.label}
+                </Link>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="page-section">
+      <section className="page-section" style={{ background: "var(--bg)" }}>
         <div className="container">
           <div
             style={{
-              background: '#ffffff',
-              border: '1px solid var(--line)',
-              borderRadius: '20px',
-              padding: '32px',
+              ...cardStyle,
+              background: "#fbfaf7",
             }}
           >
-            <h2 className="page-title" style={{ marginBottom: 8 }}>
-              どれを選ぶか迷う場合
-            </h2>
-            <p className="page-lead" style={{ marginTop: 0 }}>
-              いま一番困っていることを基準に選ぶと、入口を決めやすくなります。
-            </p>
+            <div style={{ maxWidth: 760, marginBottom: 28 }}>
+              <div className="hero-label">FLOW</div>
+              <h2 className="page-title" style={{ marginBottom: 12 }}>
+                支援は、必要に応じて段階的に深められます
+              </h2>
+              <div className="page-lead" style={{ maxWidth: 760 }}>
+                <p style={{ marginTop: 0, marginBottom: 16 }}>
+                  まずは診断で現状を整理する。次に、毎月の数字や資料を使いやすい形へ整える。
+                  必要に応じて、継続的な伴走支援へ進む。
+                </p>
+                <p style={{ margin: 0 }}>
+                  九十九アドバイザリーでは、この流れを前提に、いまの状況に合うところからご相談いただけるようにしています。
+                </p>
+              </div>
+            </div>
 
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                gap: '16px',
-                marginTop: '24px',
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                gap: 16,
               }}
             >
-              {SELECT_GUIDE.map((item) => (
-                <div
-                  key={item.href}
+              {flowSteps.map((step, index) => (
+                <article
+                  key={step.title}
                   style={{
-                    border: '1px solid var(--line)',
-                    borderRadius: '16px',
-                    padding: '20px',
-                    background: 'var(--bg)',
+                    background: "#ffffff",
+                    border: "1px solid var(--line)",
+                    borderRadius: 16,
+                    padding: 24,
                   }}
                 >
-                  <h3
+                  <div
                     style={{
-                      margin: '0 0 10px',
-                      color: 'var(--navy)',
-                      fontSize: '18px',
-                      lineHeight: 1.6,
+                      fontSize: 12,
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
+                      color: "var(--gold)",
+                      marginBottom: 10,
                     }}
                   >
-                    {item.title}
+                    STEP {index + 1}
+                  </div>
+                  <h3
+                    style={{
+                      margin: "0 0 10px",
+                      fontSize: 18,
+                      lineHeight: 1.6,
+                      color: "var(--navy)",
+                    }}
+                  >
+                    {step.title}
                   </h3>
                   <p
                     style={{
-                      margin: '0 0 16px',
-                      color: 'var(--muted)',
-                      fontSize: '14px',
+                      margin: 0,
+                      fontSize: 14,
                       lineHeight: 1.9,
+                      color: "var(--muted)",
                     }}
                   >
-                    {item.text}
+                    {step.text}
                   </p>
-                  <Link href={item.href} style={subButtonStyle}>
-                    {item.label}
-                  </Link>
-                </div>
+                </article>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="page-section" style={{ paddingTop: 0 }}>
+      <section className="page-section" style={{ background: "var(--navy)", paddingBottom: 80 }}>
         <div className="container">
           <div
             style={{
-              background: 'var(--navy)',
-              color: '#ffffff',
-              borderRadius: '20px',
-              padding: '36px 32px',
+              maxWidth: 760,
+              margin: "0 auto",
+              textAlign: "center",
+              color: "#ffffff",
             }}
           >
             <div
               style={{
-                fontSize: '12px',
+                color: "#d9c58a",
+                fontSize: 12,
                 fontWeight: 700,
-                letterSpacing: '0.08em',
-                color: '#d9c58a',
-                marginBottom: 12,
+                letterSpacing: "0.12em",
+                marginBottom: 16,
               }}
             >
               CONTACT
             </div>
-            <h2 style={{ margin: '0 0 12px', fontSize: '28px', lineHeight: 1.5 }}>
-              自社にどれが合うか迷う場合は、
-              <br />
-              まず相談内容だけお送りください。
+            <h2
+              style={{
+                fontSize: "clamp(28px, 4vw, 36px)",
+                lineHeight: 1.6,
+                margin: "0 0 16px",
+              }}
+            >
+              どれが自社に合うかわからない場合も、そのままフォームからお送りください
             </h2>
-            <p style={{ margin: '0 0 20px', fontSize: '15px', lineHeight: 1.9, opacity: 0.92 }}>
-              無理にその場で決める必要はありません。状況を見ながら、どの入口が近いか整理します。
-            </p>
+            <div
+              style={{
+                fontSize: 15,
+                lineHeight: 1.95,
+                color: "rgba(255,255,255,0.84)",
+                marginBottom: 28,
+              }}
+            >
+              <p style={{ marginTop: 0, marginBottom: 14 }}>
+                ご相談内容を確認し、資料請求・ご案内・日程調整のいずれが適切かを返信します。
+              </p>
+              <p style={{ margin: 0 }}>
+                まだ課題が整理しきれていない段階でも問題ありません。
+              </p>
+            </div>
+
             <Link
               href="/contact/"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '12px 18px',
-                borderRadius: '999px',
-                background: '#ffffff',
-                color: 'var(--navy)',
-                fontSize: '14px',
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: 46,
+                padding: "0 22px",
+                borderRadius: 999,
+                background: "#ffffff",
+                color: "var(--navy)",
+                fontSize: 14,
                 fontWeight: 700,
+                textDecoration: "none",
               }}
             >
-              お問い合わせへ
+              お問い合わせフォームへ
             </Link>
           </div>
         </div>
