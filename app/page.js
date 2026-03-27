@@ -23,7 +23,7 @@ export const metadata = {
 
 export default function HomePage() {
   return (
-    <div style={{ fontFamily: "'Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif", color: "#222", overflowX: "hidden" }}>
+    <div style={{ color: "#222", overflowX: "hidden" }}>
       <Hero />
       <TrustBadges />
       <ProblemGrid />
