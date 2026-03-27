@@ -6,6 +6,9 @@ import LPSection from '@/components/lp/LPSection';
 import { LPFitGrid, LPInfoGrid, LPStackList } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
 import LPLeadForm from '@/components/lp/LPLeadForm';
+import LPBottomBar from '@/components/lp/LPBottomBar';
+import LPTrustNote from '@/components/lp/LPTrustNote';
+import LPInlineLinks from '@/components/lp/LPInlineLinks';
 
 const SYMPTOMS = [
   {
@@ -167,13 +170,19 @@ export default function CashflowPage() {
         eyebrow="利益は出ているのに現金が残らない会社へ"
         title={<>利益は出ているのに、<br />現金が残らない。</>}
         lead="資金繰りの苦しさは、数字が悪いからではなく、利益と現金のズレが整理されていないことから起きる場合があります。まずは、どこで現金が減っているのかを構造で整理します。"
-        ctaLabel="資料を受け取る"
+        ctaLabel="資金繰りチェック資料を受け取る"
         ctaHref="#form"
         note="メールアドレスに支援内容と進め方をお送りします"
       />
 
       <LPSection tone="cream" kicker="こんな状態になっていませんか？" title="当てはまるなら、一度整理する価値があります">
         <LPStackList items={SYMPTOMS} />
+        <LPInlineLinks
+          articleHref="/articles/"
+          articleLabel="先に記事を読む"
+          contactHref="/contact/"
+          contactLabel="まず相談する"
+        />
       </LPSection>
 
       <LPSection tone="white" kicker="構造の整理" title="「利益≠現金」になる3つの構造的な原因">
@@ -205,6 +214,14 @@ export default function CashflowPage() {
         narrow
         id="form"
       >
+        <LPTrustNote
+          items={[
+            'まだ数字が完全に整理されていなくても相談できます',
+            '資料請求だけでも問題ありません',
+            '無理な営業前提ではなく、まず状況整理から進めます'
+          ]}
+        />
+
         <LPLeadForm
           serviceSlug="cashflow"
           formType="cashflow_download"
@@ -215,7 +232,7 @@ export default function CashflowPage() {
           isSubmitting={isSubmitting}
           message={message}
           isSuccess={isSuccess}
-          submitLabel="資料を受け取る"
+          submitLabel="資金繰りチェック資料を受け取る"
           helpText={
             <>
               受付後、自動でメールをお送りします。届かない場合は迷惑メールフォルダもご確認ください。<br />
@@ -250,6 +267,13 @@ export default function CashflowPage() {
       <LPSection tone="white" kicker="FAQ" title="よくあるご質問">
         <LPFaq items={FAQS} openIndex={openFaqIndex} onToggle={toggleFaq} />
       </LPSection>
+
+      <LPBottomBar
+        primaryLabel="資料を受け取る"
+        primaryHref="#form"
+        secondaryLabel="相談する"
+        secondaryHref="/contact/"
+      />
     </>
   );
 }

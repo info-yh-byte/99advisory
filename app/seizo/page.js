@@ -6,6 +6,9 @@ import LPSection from '@/components/lp/LPSection';
 import { LPFitGrid, LPInfoGrid, LPStackList } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
 import LPLeadForm from '@/components/lp/LPLeadForm';
+import LPBottomBar from '@/components/lp/LPBottomBar';
+import LPTrustNote from '@/components/lp/LPTrustNote';
+import LPInlineLinks from '@/components/lp/LPInlineLinks';
 
 const SYMPTOMS = [
   {
@@ -160,13 +163,19 @@ export default function SeizoPage() {
         eyebrow="製造・建設・受託業の経営者へ"
         title={<>案件と数字がつながると、<br />経営判断は変わる。</>}
         lead="売上はあるのに利益が残らない。試算表はあるのに、次の一手が決めにくい。そんな状態に対して、案件別採算、粗利、固定費、回収条件などを整理し、数字を経営判断につなげます。"
-        ctaLabel="資料を受け取る"
+        ctaLabel="経営数字診断の資料を受け取る"
         ctaHref="#form"
         note="メールアドレスに支援概要と進め方をお送りします"
       />
 
       <LPSection tone="cream" kicker="こんな状態になっていませんか？" title="現場は動いているのに、数字が判断につながっていない会社へ">
         <LPStackList items={SYMPTOMS} />
+        <LPInlineLinks
+          articleHref="/articles/"
+          articleLabel="先に記事を読む"
+          contactHref="/contact/"
+          contactLabel="まず相談する"
+        />
       </LPSection>
 
       <LPSection tone="white" kicker="よくある論点" title="製造・建設・受託業で起きやすい3つの見えにくさ">
@@ -198,6 +207,14 @@ export default function SeizoPage() {
         narrow
         id="form"
       >
+        <LPTrustNote
+          items={[
+            '案件別の数字が揃っていなくても相談できます',
+            'まずは試算表や現場情報から整理可能です',
+            '資料請求だけでも問題ありません'
+          ]}
+        />
+
         <LPLeadForm
           serviceSlug="seizo"
           formType="seizo_download"
@@ -208,7 +225,7 @@ export default function SeizoPage() {
           isSubmitting={isSubmitting}
           message={message}
           isSuccess={isSuccess}
-          submitLabel="資料を受け取る"
+          submitLabel="経営数字診断の資料を受け取る"
           helpText={
             <>
               受付後、自動でメールをお送りします。届かない場合は迷惑メールフォルダもご確認ください。<br />
@@ -248,6 +265,13 @@ export default function SeizoPage() {
       <LPSection tone="white" kicker="FAQ" title="よくあるご質問">
         <LPFaq items={FAQS} openIndex={openFaqIndex} onToggle={toggleFaq} />
       </LPSection>
+
+      <LPBottomBar
+        primaryLabel="資料を受け取る"
+        primaryHref="#form"
+        secondaryLabel="相談する"
+        secondaryHref="/contact/"
+      />
     </>
   );
 }
