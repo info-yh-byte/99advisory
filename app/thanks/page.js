@@ -55,6 +55,32 @@ const SERVICE_MAP = {
       }
     ]
   },
+  'monthly-review': {
+    title: '初回ヒアリングのご予約を受け付けました',
+    description:
+      'ご入力いただいたメールアドレス宛に、受付確認メールをお送りしています。内容を確認のうえ、2営業日以内にご連絡いたします。',
+    resources: [
+      {
+        href: '/monthly-review/',
+        label: 'サービスページ',
+        title: '月次経営レビューのページに戻る',
+        body: '進め方や料金をあらためて確認したい場合はこちら。'
+      },
+      {
+        href: '/articles/',
+        label: '記事一覧',
+        title: '先に記事を読む',
+        body: '経営判断や数字の見方に関する記事を読めます。'
+      },
+      {
+        href: '/services/',
+        label: 'サービス一覧',
+        title: 'その他のサービスを見る',
+        body: '資金繰り改善・融資準備など、他の支援メニューはこちら。'
+      }
+    ]
+  },
+
   contact: {
     title: 'お問い合わせを受け付けました',
     description:

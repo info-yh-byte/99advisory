@@ -10,6 +10,7 @@ import {
   contactInquiryReply,
   generalReply,
   generalAdminNotice,
+  monthlyReviewReply,
 } from '../../../lib/mail-templates';
 import { appendLeadRow } from '../../../lib/sheets';
 
@@ -24,6 +25,7 @@ const templateMap = {
   contactInquiryReply,
   generalReply,
   generalAdminNotice,
+  monthlyReviewReply,
 };
 
 function pickAllowedFields(body, allowedFields) {
