@@ -7,7 +7,9 @@ import {
   cashflowDownloadReply,
   bankplanDownloadReply,
   contactInquiryAdmin,
-  contactInquiryReply
+  contactInquiryReply,
+  generalReply,
+  generalAdminNotice,
 } from '../../../lib/mail-templates';
 import { appendLeadRow } from '../../../lib/sheets';
 
@@ -19,7 +21,9 @@ const templateMap = {
   cashflowDownloadReply,
   bankplanDownloadReply,
   contactInquiryAdmin,
-  contactInquiryReply
+  contactInquiryReply,
+  generalReply,
+  generalAdminNotice,
 };
 
 function pickAllowedFields(body, allowedFields) {
@@ -89,7 +93,9 @@ export async function POST(request) {
       );
     }
 
-    const adminTemplate = adminTemplateFn(filteredData);
+    const sourcePath = body.sourcePath || '';
+    const adminTemplateData = { ...filteredData, sourcePath };
+    const adminTemplate = adminTemplateFn(adminTemplateData);
     const userTemplate = userTemplateFn(filteredData);
 
     const adminResult = await resend.emails.send({
@@ -97,27 +103,32 @@ export async function POST(request) {
       to: config.adminEmail,
       replyTo: filteredData.email,
       subject: adminTemplate.subject,
-      html: adminTemplate.html
+      ...(adminTemplate.text ? { text: adminTemplate.text } : {}),
+      ...(adminTemplate.html ? { html: adminTemplate.html } : {}),
     });
 
     const userResult = await resend.emails.send({
       from: `99advisory <${config.fromEmail}>`,
       to: filteredData.email,
       subject: userTemplate.subject,
-      html: userTemplate.html
+      ...(userTemplate.text ? { text: userTemplate.text } : {}),
+      ...(userTemplate.html ? { html: userTemplate.html } : {}),
     });
 
     await appendLeadRow([
-      new Date().toISOString(),
-      config.serviceSlug,
-      config.formType,
-      filteredData.company || '',
-      filteredData.email || '',
-      filteredData.industry || filteredData.issue || filteredData.purpose || '',
-      filteredData.revenue || '',
-      adminResult?.data?.id ?? '',
-      userResult?.data?.id ?? '',
-      JSON.stringify(filteredData)
+      new Date().toISOString(),                                                      // 1. received_at
+      config.serviceSlug,                                                            // 2. service_slug
+      config.formType,                                                               // 3. form_type
+      filteredData.company || '',                                                    // 4. company
+      filteredData.name || '',                                                       // 5. name
+      filteredData.email || '',                                                      // 6. email
+      filteredData.industry || '',                                                   // 7. industry
+      filteredData.revenue || '',                                                    // 8. revenue
+      filteredData.message || filteredData.issue || filteredData.purpose || '',     // 9. message
+      adminResult?.data?.id ?? '',                                                   // 10. admin_email_id
+      userResult?.data?.id ?? '',                                                    // 11. user_email_id
+      sourcePath,                                                                    // 12. source_path
+      JSON.stringify(filteredData),                                                  // 13. raw_json
     ]);
 
     return NextResponse.json({
