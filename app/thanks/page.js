@@ -1,4 +1,8 @@
+'use client';
+
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 const SERVICE_MAP = {
   seizo: {
@@ -76,7 +80,6 @@ const SERVICE_MAP = {
       }
     ]
   },
-
   'bank-plan': {
     title: '融資準備資料の請求を受け付けました',
     description:
@@ -106,7 +109,7 @@ const SERVICE_MAP = {
 
 function getThanksContent(service) {
   return SERVICE_MAP[service] || {
-    title: '資料請求を受け付けました',
+    title: '送信を受け付けました',
     description:
       'ご入力いただいたメールアドレス宛に、自動返信メールをお送りしています。まずはメールをご確認ください。',
     resources: [
@@ -126,14 +129,9 @@ function getThanksContent(service) {
   };
 }
 
-export const metadata = {
-  title: '送信完了 | 九十九アドバイザリー',
-  description: '資料請求・お問い合わせの送信完了ページです。'
-};
-
-export default async function ThanksPage({ searchParams }) {
-  const params = await searchParams;
-  const service = params?.service || '';
+function ThanksContent() {
+  const searchParams = useSearchParams();
+  const service = searchParams.get('service') || '';
   const content = getThanksContent(service);
 
   return (
@@ -170,5 +168,13 @@ export default async function ThanksPage({ searchParams }) {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ThanksPage() {
+  return (
+    <Suspense>
+      <ThanksContent />
+    </Suspense>
   );
 }
