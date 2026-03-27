@@ -1,4 +1,4 @@
-import { COLORS, FORM_URL, DIAG_URL } from "@/lib/site-constants";
+import { COLORS, DIAG_URL } from "@/lib/site-constants";
 
 export default function FinalCTA() {
   return (
@@ -12,9 +12,7 @@ export default function FinalCTA() {
       </p>
       <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
         <a
-          href={FORM_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/contact/"
           style={{ background: COLORS.orange, color: "#fff", padding: "16px 36px", borderRadius: 50, fontWeight: 800, fontSize: 15, textDecoration: "none", boxShadow: "0 4px 16px rgba(232,115,74,.35)" }}
         >
           まずは30分、無料で相談する

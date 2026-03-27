@@ -1,5 +1,5 @@
 'use client';
-import { COLORS, FORM_URL, DIAG_URL } from "@/lib/site-constants";
+import { COLORS, DIAG_URL } from "@/lib/site-constants";
 
 export default function Hero() {
   return (
@@ -35,9 +35,7 @@ export default function Hero() {
 
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 36 }}>
           <a
-            href={FORM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/contact/"
             style={{ background: COLORS.orange, color: "#fff", padding: "16px 34px", borderRadius: 50, fontWeight: 800, fontSize: 15, textDecoration: "none", boxShadow: "0 4px 16px rgba(232,115,74,.3)", transition: "transform .2s" }}
             onMouseEnter={e => e.currentTarget.style.transform = "scale(1.03)"}
             onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}

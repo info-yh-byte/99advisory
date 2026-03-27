@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from "react";
-import { COLORS, FORM_URL, DIAG_URL } from "@/lib/site-constants";
+import { COLORS, DIAG_URL } from "@/lib/site-constants";
 
 export default function BottomBar() {
   const [show, setShow] = useState(false);
@@ -34,9 +34,7 @@ export default function BottomBar() {
       }}
     >
       <a
-        href={FORM_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+        href="/contact/"
         style={{ background: COLORS.orange, color: "#fff", padding: "12px 28px", borderRadius: 50, fontWeight: 700, fontSize: 13, textDecoration: "none" }}
       >
         まずは30分、無料で相談する
