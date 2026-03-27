@@ -2,6 +2,141 @@
 
 import { useMemo, useState } from 'react';
 
+const SYMPTOMS = [
+  {
+    title: '銀行に何を説明すべきか分からない',
+    body: '数字はあるが、どの順番で何を伝えるべきか整理できていない状態です。'
+  },
+  {
+    title: '事業計画書が形になっていない',
+    body: '売上見込みや返済計画の根拠が弱く、説明できる資料に落ちていません。'
+  },
+  {
+    title: '銀行面談で突っ込まれそうで不安',
+    body: '利益、借入、返済余力、資金使途など、どこを聞かれるかを整理したい状態です。'
+  },
+  {
+    title: '借換え・追加融資・リスケ前に準備したい',
+    body: '現状の数字をどう見せるか、どこを先に整えるかを明確にしたい会社向けです。'
+  }
+];
+
+const REASONS = [
+  {
+    title: '数字はあるのに、読み手の順番で整理されていない',
+    body: '銀行は「現状」「使途」「返済可能性」の順で見ます。そこに沿っていない資料は読まれにくくなります。'
+  },
+  {
+    title: '売上計画の根拠が弱く、再現性が見えない',
+    body: '数字だけを置いても、なぜ達成できるのかが見えなければ納得されません。'
+  },
+  {
+    title: '現状説明と将来計画がつながっていない',
+    body: '直近の実績、現在の課題、今後の打ち手がつながっていないと、計画書は説得力を失います。'
+  }
+];
+
+const POINTS = [
+  {
+    label: '01',
+    title: '現状の数字を、銀行が読める形で並べる',
+    body: '決算書・試算表・借入状況を、説明順に整理します。'
+  },
+  {
+    label: '02',
+    title: '計画の根拠を言葉と数字でつなぐ',
+    body: '売上、粗利、固定費、返済原資がどう積み上がるかを示します。'
+  },
+  {
+    label: '03',
+    title: '「何に使い、どう返すか」を明確にする',
+    body: '資金使途と返済可能性を、面談で説明できる状態に整えます。'
+  }
+];
+
+const CASES = [
+  {
+    title: '追加融資前の整理',
+    body: '利益は出ていたが、資金使途と返済計画の説明が弱かった会社。借入一覧と月次推移を整理し、説明順を組み直した。'
+  },
+  {
+    title: '借換え前の整理',
+    body: '借入本数が多く、経営者自身も全体像を把握しきれていなかった会社。借入条件、返済負担、改善余地を一覧化して面談準備を進めた。'
+  },
+  {
+    title: 'リスケ前の説明整理',
+    body: 'いきなり「厳しい」と伝えるのではなく、現状、原因、改善方針の順で説明できるように資料を組み直した。'
+  }
+];
+
+const PATTERNS = [
+  '数字は並んでいるが、どこが重要か分からない計画書',
+  '売上計画が強気だが、根拠の説明が薄い計画書',
+  '資金使途は書いてあるが、返済原資の説明が弱い計画書',
+  '経営者の頭の中にはあるが、資料として整理されていない状態'
+];
+
+const PLAN_FIT = [
+  {
+    title: 'まず整理したい会社',
+    body: '資料がバラバラ、何が足りないか分からない、銀行に出す前に論点整理から始めたい会社向けです。'
+  },
+  {
+    title: '計画と説明まで整えたい会社',
+    body: 'すでに一部資料はあるが、面談で説明できる粒度まで詰めたい会社向けです。'
+  }
+];
+
+const SUPPORT_PLANS = [
+  {
+    title: '整理プラン',
+    body: '現状の数字、借入状況、資金使途、銀行が見やすい順番を整理します。まず全体像を掴みたい会社向けです。'
+  },
+  {
+    title: '整理＋面談準備プラン',
+    body: '整理に加えて、面談でどう説明するか、何を聞かれやすいか、どこを補足すべきかまで整えます。'
+  }
+];
+
+const FREE_SESSION = [
+  '今ある資料で何が足りないか',
+  '銀行が気にしやすい論点は何か',
+  '先に整理すべき数字はどれか'
+];
+
+const LENSES = [
+  '返済可能性',
+  '資金使途の明確さ',
+  '直近実績と今後計画のつながり',
+  '経営者が数字を理解しているか'
+];
+
+const FIT_YES = [
+  '融資前に数字と説明を整えたい会社',
+  '借換え・追加融資・リスケ前に準備したい会社',
+  '銀行との対話を、勘ではなく資料で進めたい会社'
+];
+
+const FIT_NO = [
+  'とにかく急ぎで体裁だけの計画書が欲しい会社',
+  '税務申告だけを求めている会社',
+  '経営状況の整理を一切せずに、申請だけを進めたい会社'
+];
+
+const FLOW = [
+  '初回相談：現状と目的を確認',
+  '必要資料の確認：今あるもの、足りないものを整理',
+  '論点整理：銀行が見る順番に並べ替え',
+  '必要に応じて面談準備：説明順と補足論点を詰める'
+];
+
+const BEFORE_CONTACT = [
+  '決算書または試算表',
+  '借入一覧（残高・返済額・金利が分かるもの）',
+  '今回の資金使途のメモ',
+  '現在気になっている論点'
+];
+
 const FAQS = [
   {
     q: 'まだ資料が揃っていなくても相談できますか？',
@@ -78,246 +213,256 @@ export default function BankPlanPage() {
   }
 
   return (
-    <div className="bank-plan-page">
-      <section className="hero">
-        <div className="hero-grid" />
-        <div className="hero-glow" />
-
-        <div className="hero-inner">
-          <div className="eyebrow">
-            <span className="eyebrow-line" />
-            <span className="eyebrow-text">銀行提出前・借入相談前の経営者へ</span>
-          </div>
-
-          <h1 className="hero-title">
-            銀行に出す前に、<br />
-            <em>数字と説明を整える。</em>
+    <div className="lp">
+      <section className="hero dark">
+        <div className="wrap narrow">
+          <div className="eyebrow">銀行提出前・借入相談前の経営者へ</div>
+          <h1>
+            計画書を、銀行が読める資料へ整理する。
           </h1>
-
-          <p className="hero-body">
+          <p className="lead">
             融資の可否は、数字の良し悪しだけでなく、
-            <br />
             何をどう説明できるかでも変わります。
-            <br />
             銀行が気にする論点に沿って、事業計画と説明材料を整理します。
           </p>
-
           <div className="hero-actions">
-            <a href="#form" className="hero-button">
-              資料を受け取る
-            </a>
-            <span className="hero-note">
-              メールアドレスに支援概要と進め方をお送りします
-            </span>
+            <a href="#form" className="primary-btn">資料を受け取る</a>
+            <div className="hero-note">メールアドレスに支援概要と進め方をお送りします</div>
           </div>
         </div>
       </section>
 
-      <section className="section section-cream">
+      <section className="section cream">
         <div className="wrap">
-          <div className="section-label">
-            <span className="section-line" />
-            <span className="section-text">こんな状況なら対象です</span>
-          </div>
-          <h2 className="section-title">
-            申請の前に、
-            <br />
-            一度整理する価値があります
-          </h2>
-
-          <div className="symptom-list">
-            <div className="symptom-item">
-              <span className="symptom-dot" />
-              <div className="symptom-text">
-                <strong>銀行に何を説明すべきか分からない</strong>
-                数字はあるが、どの順番で何を伝えるべきか整理できていない。
+          <div className="section-kicker">こんな悩み、心当たりはありますか？</div>
+          <h2>申請の前に、一度整理する価値があります</h2>
+          <div className="stack">
+            {SYMPTOMS.map((item) => (
+              <div className="list-card" key={item.title}>
+                <div className="dot" />
+                <div>
+                  <div className="list-title">{item.title}</div>
+                  <div className="list-body">{item.body}</div>
+                </div>
               </div>
-            </div>
-
-            <div className="symptom-item">
-              <span className="symptom-dot" />
-              <div className="symptom-text">
-                <strong>事業計画書が形になっていない</strong>
-                売上見込みや返済計画の根拠が弱く、説得力ある説明に落ちていない。
-              </div>
-            </div>
-
-            <div className="symptom-item">
-              <span className="symptom-dot" />
-              <div className="symptom-text">
-                <strong>銀行面談で突っ込まれそうで不安</strong>
-                利益、借入、返済余力、資金使途など、どこを聞かれるかを整理したい。
-              </div>
-            </div>
-
-            <div className="symptom-item">
-              <span className="symptom-dot" />
-              <div className="symptom-text">
-                <strong>借換え・追加融資・リスケ前に準備したい</strong>
-                現状の数字をどう見せるか、どこを先に整えるかを明確にしたい。
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="section section-white">
+      <section className="section white">
         <div className="wrap">
-          <div className="section-label">
-            <span className="section-line" />
-            <span className="section-text">受け取れるもの</span>
-          </div>
-          <h2 className="section-title">
-            銀行向けに必要な整理を、
-            <br />
-            先に見える化します
-          </h2>
-          <p className="section-sub">
-            事業計画そのものをいきなり作る前に、銀行が見る視点と、説明の骨格を整えるための資料をお送りします。
-          </p>
-
-          <div className="card-grid">
-            <div className="card">
-              <div className="card-no">01</div>
-              <div className="card-title">銀行が確認する主要論点</div>
-              <div className="card-body">
-                資金使途、返済余力、月次推移、借入状況など、確認されやすい項目を整理します。
+          <div className="section-kicker">読まれない理由</div>
+          <h2>計画書が「読まれない」本当の理由</h2>
+          <div className="three-grid">
+            {REASONS.map((item) => (
+              <div className="info-card" key={item.title}>
+                <div className="card-title">{item.title}</div>
+                <div className="card-body">{item.body}</div>
               </div>
-            </div>
-
-            <div className="card">
-              <div className="card-no">02</div>
-              <div className="card-title">事業計画の整え方</div>
-              <div className="card-body">
-                どこまで数字の根拠を示すべきか、どの粒度で資料を作るべきかの考え方を整理します。
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="card-no">03</div>
-              <div className="card-title">初回相談の進め方</div>
-              <div className="card-body">
-                何の資料を見ながら、どの論点から整えていくかの流れをお送りします。
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="section section-stone">
+      <section className="section stone">
         <div className="wrap">
-          <div className="section-label">
-            <span className="section-line" />
-            <span className="section-text">向いている会社</span>
+          <div className="section-kicker">整理ポイント</div>
+          <h2>事業の現状と計画が伝わる3つの整理ポイント</h2>
+          <div className="three-grid">
+            {POINTS.map((item) => (
+              <div className="metric-card" key={item.label}>
+                <div className="metric-no">{item.label}</div>
+                <div className="card-title">{item.title}</div>
+                <div className="card-body">{item.body}</div>
+              </div>
+            ))}
           </div>
-          <h2 className="section-title">
-            こんな会社に
-            <br />
-            向いています
-          </h2>
+        </div>
+      </section>
 
+      <section className="section white">
+        <div className="wrap">
+          <div className="section-kicker">相談事例（匿名）</div>
+          <h2>よくある相談の整理パターン</h2>
+          <div className="three-grid">
+            {CASES.map((item) => (
+              <div className="info-card" key={item.title}>
+                <div className="card-title">{item.title}</div>
+                <div className="card-body">{item.body}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section cream">
+        <div className="wrap">
+          <div className="section-kicker">よくあるつまずき</div>
+          <h2>銀行に指摘されやすい4つの計画書パターン</h2>
+          <div className="stack">
+            {PATTERNS.map((item) => (
+              <div className="simple-row" key={item}>• {item}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section white">
+        <div className="wrap">
+          <div className="section-kicker">どちらが向いているか</div>
+          <h2>あなたはどちらのプランが向いていますか？</h2>
+          <div className="two-grid">
+            {PLAN_FIT.map((item) => (
+              <div className="info-card" key={item.title}>
+                <div className="card-title">{item.title}</div>
+                <div className="card-body">{item.body}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section stone">
+        <div className="wrap">
+          <div className="section-kicker">支援プラン</div>
+          <h2>99advisoryの2つの支援プラン</h2>
+          <div className="two-grid">
+            {SUPPORT_PLANS.map((item) => (
+              <div className="info-card" key={item.title}>
+                <div className="card-title">{item.title}</div>
+                <div className="card-body">{item.body}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section white">
+        <div className="wrap">
+          <div className="section-kicker">初回30分でわかること</div>
+          <h2>初回30分の無料相談でわかること</h2>
+          <div className="stack">
+            {FREE_SESSION.map((item) => (
+              <div className="simple-row" key={item}>• {item}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section cream">
+        <div className="wrap">
+          <div className="section-kicker">整理の視点</div>
+          <h2>どんな視点で整理するのか</h2>
+          <div className="stack">
+            {LENSES.map((item) => (
+              <div className="simple-row" key={item}>• {item}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section white">
+        <div className="wrap">
+          <div className="section-kicker">向き・不向き</div>
+          <h2>このサービスが向いている会社・向いていない会社</h2>
           <div className="fit-grid">
-            <div className="fit-col fit-yes">
-              <div className="fit-head">✓ 向いている会社</div>
-              <div className="fit-item">✓ 融資・借換え・リスケ前に整理したい</div>
-              <div className="fit-item">✓ 銀行説明に不安がある</div>
-              <div className="fit-item">✓ 事業計画の根拠整理をしたい</div>
-              <div className="fit-item">✓ 数字を説明材料として整えたい</div>
+            <div className="fit-col yes">
+              <div className="fit-head">向いている会社</div>
+              {FIT_YES.map((item) => (
+                <div className="fit-item" key={item}>✓ {item}</div>
+              ))}
             </div>
-
-            <div className="fit-col fit-no">
-              <div className="fit-head">× 向いていない会社</div>
-              <div className="fit-item">× 記帳代行だけを求めている</div>
-              <div className="fit-item">× 申告だけしてほしい</div>
-              <div className="fit-item">× 無料で個別アドバイスだけ欲しい</div>
-              <div className="fit-item">× 銀行向け資料を整える意思がない</div>
+            <div className="fit-col no">
+              <div className="fit-head">向いていない会社</div>
+              {FIT_NO.map((item) => (
+                <div className="fit-item" key={item}>− {item}</div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section section-form" id="form">
+      <section className="section stone">
         <div className="wrap">
-          <div className="section-label">
-            <span className="section-line" />
-            <span className="section-text">資料を受け取る</span>
+          <div className="section-kicker">ご相談の流れ</div>
+          <h2>ご相談の流れ</h2>
+          <div className="stack">
+            {FLOW.map((item) => (
+              <div className="simple-row" key={item}>• {item}</div>
+            ))}
           </div>
-          <h2 className="section-title white">
-            銀行向け整理支援の
-            <br />
-            概要資料を受け取る
-          </h2>
+        </div>
+      </section>
+
+      <section className="section white">
+        <div className="wrap">
+          <div className="section-kicker">相談前に確認できること</div>
+          <h2>相談する前に確認できること</h2>
+          <div className="stack">
+            {BEFORE_CONTACT.map((item) => (
+              <div className="simple-row" key={item}>• {item}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="form" className="section dark">
+        <div className="wrap narrow">
+          <div className="section-kicker gold">資料請求</div>
+          <h2 className="white-text">今の資料で何が足りないかを、30分で整理しませんか。</h2>
           <p className="section-sub white-sub">
-            会社名と相談目的をご入力ください。支援概要と進め方をメールでお送りします。
+            概要資料では、銀行が確認する論点、計画整理の進め方、初回相談で確認する内容をまとめています。
           </p>
 
-          <div className="form-box">
-            <div className="form-caption">
-              所要1分程度です。今回の相談目的を簡単にご記入ください。
+          <form className="form-box" onSubmit={handleSubmit}>
+            <input type="hidden" name="serviceSlug" value="bank-plan" />
+            <input type="hidden" name="formType" value="bankplan_download" />
+
+            <div className="form-group">
+              <label>会社名<span className="req">*</span></label>
+              <input
+                className="form-control"
+                name="company"
+                value={form.company}
+                onChange={handleChange}
+                placeholder="株式会社○○"
+                required
+              />
             </div>
 
-            <form onSubmit={handleSubmit}>
-              <input type="hidden" name="serviceSlug" value="bank-plan" />
-              <input type="hidden" name="formType" value="bankplan_download" />
+            <div className="form-group">
+              <label>今回の相談目的<span className="req">*</span></label>
+              <textarea
+                className="form-control textarea"
+                name="purpose"
+                value={form.purpose}
+                onChange={handleChange}
+                placeholder="例：追加融資の相談前に、銀行へどう説明するか整理したい"
+                required
+              />
+            </div>
 
-              <div className="form-row one-col">
-                <div className="form-group">
-                  <label className="form-label">
-                    会社名 <span className="req">*</span>
-                  </label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="company"
-                    placeholder="株式会社〇〇"
-                    value={form.company}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </div>
+            <div className="form-group">
+              <label>メールアドレス<span className="req">*</span></label>
+              <input
+                className="form-control"
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="info@example.com"
+                required
+              />
+            </div>
 
-              <div className="form-row one-col">
-                <div className="form-group">
-                  <label className="form-label">
-                    今回の相談目的 <span className="req">*</span>
-                  </label>
-                  <textarea
-                    className="form-control textarea"
-                    name="purpose"
-                    placeholder="例：追加融資の相談前に、銀行へどう説明するか整理したい"
-                    value={form.purpose}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="form-row one-col">
-                <div className="form-group">
-                  <label className="form-label">
-                    メールアドレス <span className="req">*</span>
-                  </label>
-                  <input
-                    className="form-control"
-                    type="email"
-                    name="email"
-                    placeholder="info@example.com"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </div>
-
-              <button className="submit-button" type="submit" disabled={!canSubmit}>
-                {isSubmitting ? '送信中…' : '資料を受け取る'}
-              </button>
-            </form>
+            <button className="primary-btn full" type="submit" disabled={!canSubmit}>
+              {isSubmitting ? '送信中…' : '資料を受け取る'}
+            </button>
 
             <div className="form-meta">
               受付後、自動でメールをお送りします。届かない場合は迷惑メールフォルダもご確認ください。<br />
-              <a href="/privacy/" className="meta-link">プライバシーポリシー</a> に同意のうえご送信ください。
+              <a href="/privacy/">プライバシーポリシー</a> に同意のうえご送信ください。
             </div>
 
             {message ? (
@@ -325,37 +470,24 @@ export default function BankPlanPage() {
                 {message}
               </div>
             ) : null}
-          </div>
+          </form>
         </div>
       </section>
 
-      <section className="section section-white">
+      <section className="section white">
         <div className="wrap">
-          <div className="section-label">
-            <span className="section-line" />
-            <span className="section-text">よくある質問</span>
-          </div>
-          <h2 className="section-title">FAQ</h2>
-
+          <div className="section-kicker">FAQ</div>
+          <h2>よくあるご質問</h2>
           <div className="faq-list">
             {FAQS.map((item, index) => {
               const open = openFaqIndex === index;
               return (
-                <div className={`faq-item ${open ? 'open' : ''}`} key={item.q}>
-                  <button
-                    type="button"
-                    className="faq-question"
-                    onClick={() => toggleFaq(index)}
-                  >
+                <div className="faq-item" key={item.q}>
+                  <button type="button" className="faq-q" onClick={() => toggleFaq(index)}>
                     <span>{item.q}</span>
-                    <span className="faq-icon">{open ? '−' : '+'}</span>
+                    <span>{open ? '−' : '+'}</span>
                   </button>
-
-                  {open ? (
-                    <div className="faq-answer">
-                      <div className="faq-answer-inner">{item.a}</div>
-                    </div>
-                  ) : null}
+                  {open ? <div className="faq-a">{item.a}</div> : null}
                 </div>
               );
             })}
@@ -364,516 +496,73 @@ export default function BankPlanPage() {
       </section>
 
       <style jsx>{`
-        .bank-plan-page {
-          background: #faf8f4;
-          color: #1c1917;
+        .lp { background: #faf8f4; color: #1c1917; }
+        .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+        .wrap.narrow { max-width: 820px; }
+        .section { padding: 80px 0; }
+        .hero { padding: 110px 0 90px; }
+        .dark { background: #111e30; color: #fff; }
+        .cream { background: #faf8f4; }
+        .white { background: #fff; }
+        .stone { background: #f0ede7; }
+        .eyebrow, .section-kicker { font-size: 12px; letter-spacing: .14em; font-weight: 700; color: #b8963e; margin-bottom: 14px; }
+        .gold { color: #d4b060; }
+        h1 { font-size: clamp(32px, 5vw, 54px); line-height: 1.45; margin: 0 0 18px; color: #fff; }
+        h2 { font-size: clamp(24px, 3.5vw, 38px); line-height: 1.5; margin: 0 0 16px; color: #1b2e4b; }
+        .white-text { color: #fff; }
+        .lead, .section-sub { font-size: 15px; line-height: 1.95; max-width: 760px; color: #57534e; }
+        .white-sub, .dark .lead { color: rgba(255,255,255,.72); }
+        .hero-actions { margin-top: 28px; }
+        .hero-note { margin-top: 12px; font-size: 12px; color: rgba(255,255,255,.58); }
+        .primary-btn {
+          display: inline-flex; align-items: center; justify-content: center;
+          min-height: 52px; padding: 0 24px; border: 0; border-radius: 999px;
+          background: #b8963e; color: #111e30; font-weight: 700; cursor: pointer;
         }
-
-        .hero {
-          min-height: 88vh;
-          background: #111e30;
-          display: flex;
-          align-items: center;
-          position: relative;
-          padding-top: 56px;
-          overflow: hidden;
+        .primary-btn.full { width: 100%; margin-top: 8px; }
+        .stack { display: grid; gap: 12px; margin-top: 28px; }
+        .list-card, .simple-row {
+          display: flex; gap: 14px; padding: 18px 20px; background: #fff; border: 1px solid #e7e5e4;
+          font-size: 14px; line-height: 1.85; color: #57534e;
         }
-
-        .hero-grid {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          background-image:
-            linear-gradient(rgba(184, 150, 62, 0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(184, 150, 62, 0.04) 1px, transparent 1px);
-          background-size: 52px 52px;
-        }
-
-        .hero-glow {
-          position: absolute;
-          width: 640px;
-          height: 640px;
-          right: -80px;
-          top: 50%;
-          transform: translateY(-50%);
-          background: radial-gradient(circle, rgba(184, 150, 62, 0.07) 0%, transparent 65%);
-          pointer-events: none;
-        }
-
-        .hero-inner,
-        .wrap {
-          position: relative;
-          width: 100%;
-          max-width: 1000px;
-          margin: 0 auto;
-          padding: 0 40px;
-        }
-
-        .hero-inner {
-          padding-top: 88px;
-          padding-bottom: 88px;
-        }
-
-        .eyebrow {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 32px;
-        }
-
-        .eyebrow-line,
-        .section-line {
-          width: 24px;
-          height: 1px;
-          background: #b8963e;
-          flex-shrink: 0;
-        }
-
-        .eyebrow-text,
-        .section-text {
-          font-size: 11px;
-          font-weight: 700;
-          color: #b8963e;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-        }
-
-        .hero-title {
-          font-family: serif;
-          font-size: clamp(30px, 4.6vw, 54px);
-          font-weight: 700;
-          color: #ffffff;
-          line-height: 1.5;
-          margin: 0 0 24px;
-        }
-
-        .hero-title em {
-          font-style: normal;
-          color: #b8963e;
-        }
-
-        .hero-body {
-          font-size: clamp(14px, 1.6vw, 16px);
-          color: rgba(255, 255, 255, 0.58);
-          font-weight: 300;
-          line-height: 2;
-          max-width: 560px;
-          margin: 0 0 44px;
-        }
-
-        .hero-actions {
-          margin-bottom: 20px;
-        }
-
-        .hero-button {
-          display: inline-block;
-          background: #b8963e;
-          color: #111e30;
-          font-size: 15px;
-          font-weight: 700;
-          padding: 18px 40px;
-          border: none;
-          cursor: pointer;
-          letter-spacing: 0.06em;
-          text-decoration: none;
-          transition: all 0.22s;
-        }
-
-        .hero-button:hover {
-          background: #d4b060;
-          transform: translateY(-1px);
-          box-shadow: 0 8px 28px rgba(184, 150, 62, 0.4);
-        }
-
-        .hero-note {
-          display: block;
-          margin-top: 10px;
-          font-size: 11px;
-          color: rgba(255, 255, 255, 0.3);
-          letter-spacing: 0.04em;
-        }
-
-        .section {
-          position: relative;
-        }
-
-        .section-cream {
-          background: #faf8f4;
-          border-top: 1px solid #e7e5e4;
-        }
-
-        .section-white {
-          background: #ffffff;
-          border-top: 1px solid #e7e5e4;
-        }
-
-        .section-stone {
-          background: #f0ede7;
-          border-top: 1px solid #e7e5e4;
-        }
-
-        .section-form {
-          background: #111e30;
-          border-top: 1px solid rgba(184, 150, 62, 0.15);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .section-form::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          background-image:
-            linear-gradient(rgba(184, 150, 62, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(184, 150, 62, 0.03) 1px, transparent 1px);
-          background-size: 52px 52px;
-        }
-
-        .wrap {
-          padding-top: 80px;
-          padding-bottom: 80px;
-        }
-
-        .section-label {
-          display: flex;
-          align-items: center;
-          gap: 9px;
-          margin-bottom: 16px;
-        }
-
-        .section-title {
-          font-family: serif;
-          font-size: clamp(22px, 3vw, 34px);
-          font-weight: 700;
-          color: #1b2e4b;
-          line-height: 1.5;
-          margin: 0 0 12px;
-        }
-
-        .section-title.white {
-          color: #ffffff;
-        }
-
-        .section-sub {
-          font-size: 14px;
-          color: #57534e;
-          line-height: 1.9;
-          max-width: 620px;
-          margin: 0;
-        }
-
-        .white-sub {
-          color: rgba(255, 255, 255, 0.45);
-        }
-
-        .symptom-list {
-          margin-top: 36px;
-          display: flex;
-          flex-direction: column;
-          gap: 3px;
-        }
-
-        .symptom-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 14px;
-          padding: 18px 22px;
-          background: #ffffff;
-          border-left: 3px solid transparent;
-          transition: border-color 0.25s;
-        }
-
-        .symptom-item:hover {
-          border-left-color: #b8963e;
-        }
-
-        .symptom-dot {
-          width: 7px;
-          height: 7px;
-          background: #b8963e;
-          border-radius: 50%;
-          flex-shrink: 0;
-          margin-top: 7px;
-        }
-
-        .symptom-text {
-          font-size: 14px;
-          color: #1c1917;
-          line-height: 1.75;
-        }
-
-        .symptom-text strong {
-          display: block;
-          font-size: 15px;
-          color: #1b2e4b;
-          margin-bottom: 3px;
-        }
-
-        .card-grid {
-          margin-top: 40px;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 2px;
-        }
-
-        .card {
-          background: #f0ede7;
-          padding: 28px 24px;
-        }
-
-        .card-no {
-          font-family: serif;
-          font-size: 40px;
-          color: #d6d3d1;
-          line-height: 1;
-          margin-bottom: 12px;
-        }
-
-        .card-title {
-          font-size: 14px;
-          font-weight: 700;
-          color: #1b2e4b;
-          margin-bottom: 6px;
-          line-height: 1.5;
-        }
-
-        .card-body {
-          font-size: 12px;
-          color: #57534e;
-          line-height: 1.85;
-        }
-
-        .fit-grid {
-          margin-top: 36px;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 2px;
-        }
-
-        .fit-col {
-          padding: 28px 26px;
-        }
-
-        .fit-yes {
-          background: #ffffff;
-        }
-
-        .fit-no {
-          background: #faf8f4;
-          opacity: 0.9;
-        }
-
-        .fit-head {
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-          margin-bottom: 14px;
-        }
-
-        .fit-yes .fit-head {
-          color: #27ae60;
-        }
-
-        .fit-no .fit-head {
-          color: #a8a29e;
-        }
-
-        .fit-item {
-          font-size: 13px;
-          color: #1c1917;
-          line-height: 1.7;
-          margin-bottom: 8px;
-        }
-
-        .form-box {
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(184, 150, 62, 0.15);
-          padding: 40px;
-        }
-
-        .form-caption {
-          margin-bottom: 24px;
-          font-size: 12px;
-          color: rgba(255, 255, 255, 0.35);
-          line-height: 1.8;
-          padding-bottom: 20px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .form-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 16px;
-          margin-bottom: 16px;
-        }
-
-        .form-row.one-col {
-          grid-template-columns: 1fr;
-        }
-
-        .form-group {
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-        }
-
-        .form-label {
-          font-size: 11px;
-          font-weight: 700;
-          color: rgba(255, 255, 255, 0.5);
-          letter-spacing: 0.1em;
-        }
-
-        .req {
-          color: #ef9a9a;
-          margin-left: 2px;
-        }
-
+        .dot { width: 8px; height: 8px; border-radius: 999px; background: #b8963e; margin-top: 9px; flex: 0 0 auto; }
+        .list-title, .card-title { font-size: 16px; line-height: 1.7; font-weight: 700; color: #1b2e4b; margin-bottom: 6px; }
+        .list-body, .card-body { font-size: 14px; line-height: 1.85; color: #57534e; }
+        .three-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+        .two-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
+        .info-card, .metric-card { background: #fff; border: 1px solid #e7e5e4; padding: 24px; }
+        .metric-no { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: #b8963e; margin-bottom: 10px; }
+        .fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+        .fit-col { padding: 24px; border: 1px solid #e7e5e4; background: #fff; }
+        .fit-head { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #1b2e4b; }
+        .fit-item { font-size: 14px; line-height: 1.85; color: #57534e; margin-bottom: 8px; }
+        .form-box { margin-top: 28px; padding: 28px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+        .form-group label { font-size: 13px; color: rgba(255,255,255,.82); font-weight: 700; }
+        .req { color: #f5b6b6; margin-left: 4px; }
         .form-control {
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: #ffffff;
-          font-size: 14px;
-          padding: 13px 14px;
-          outline: none;
-          width: 100%;
+          width: 100%; min-height: 48px; padding: 12px 14px;
+          border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.08);
+          color: #fff; border-radius: 8px; font-size: 14px;
         }
-
-        .form-control:focus {
-          border-color: #b8963e;
+        .textarea { min-height: 120px; resize: vertical; }
+        .form-meta { margin-top: 14px; font-size: 12px; line-height: 1.8; color: rgba(255,255,255,.62); }
+        .form-meta a { color: #d4b060; }
+        .submit-message { margin-top: 16px; padding: 14px 16px; border-radius: 10px; font-size: 14px; line-height: 1.8; }
+        .submit-message.success { background: rgba(39,174,96,.16); color: #d5ffe6; }
+        .submit-message.error { background: rgba(220,76,100,.16); color: #ffd8df; }
+        .faq-list { display: grid; gap: 12px; margin-top: 28px; }
+        .faq-item { border: 1px solid #e7e5e4; background: #fff; }
+        .faq-q {
+          width: 100%; display: flex; justify-content: space-between; gap: 16px;
+          text-align: left; padding: 18px 20px; background: transparent; border: 0; cursor: pointer;
+          font-size: 15px; font-weight: 700; color: #1b2e4b;
         }
-
-        .textarea {
-          min-height: 120px;
-          resize: vertical;
-        }
-
-        .submit-button {
-          margin-top: 24px;
-          width: 100%;
-          background: #b8963e;
-          color: #111e30;
-          font-size: 15px;
-          font-weight: 700;
-          padding: 18px;
-          border: none;
-          cursor: pointer;
-          letter-spacing: 0.07em;
-          transition: all 0.22s;
-        }
-
-        .submit-button:hover:enabled {
-          background: #d4b060;
-          transform: translateY(-1px);
-          box-shadow: 0 8px 28px rgba(184, 150, 62, 0.4);
-        }
-
-        .submit-button:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        .form-meta {
-          margin-top: 12px;
-          font-size: 11px;
-          color: rgba(255, 255, 255, 0.22);
-          text-align: center;
-          line-height: 1.9;
-        }
-
-        .meta-link {
-          color: rgba(255, 255, 255, 0.45);
-          text-decoration: underline;
-        }
-
-        .submit-message {
-          margin-top: 18px;
-          padding: 14px 16px;
-          font-size: 13px;
-          line-height: 1.8;
-          border: 1px solid transparent;
-        }
-
-        .submit-message.success {
-          background: rgba(34, 197, 94, 0.12);
-          border-color: rgba(34, 197, 94, 0.3);
-          color: #d1fae5;
-        }
-
-        .submit-message.error {
-          background: rgba(239, 68, 68, 0.12);
-          border-color: rgba(239, 68, 68, 0.28);
-          color: #fecaca;
-        }
-
-        .faq-list {
-          margin-top: 36px;
-        }
-
-        .faq-item {
-          border-bottom: 1px solid #e7e5e4;
-        }
-
-        .faq-question {
-          width: 100%;
-          background: transparent;
-          border: none;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 20px 0;
-          cursor: pointer;
-          gap: 16px;
-          color: #1b2e4b;
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.6;
-          text-align: left;
-        }
-
-        .faq-icon {
-          width: 26px;
-          height: 26px;
-          border: 1px solid #e7e5e4;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          color: #b8963e;
-          flex-shrink: 0;
-        }
-
-        .faq-answer {
-          padding-bottom: 20px;
-        }
-
-        .faq-answer-inner {
-          font-size: 13px;
-          color: #57534e;
-          line-height: 1.9;
-          max-width: 700px;
-        }
-
-        @media (max-width: 768px) {
-          .hero-inner,
-          .wrap {
-            padding-left: 18px;
-            padding-right: 18px;
-          }
-
-          .hero-title {
-            font-size: clamp(26px, 7.5vw, 38px);
-          }
-
-          .card-grid,
-          .fit-grid,
-          .form-row {
-            grid-template-columns: 1fr;
-          }
-
-          .form-box {
-            padding: 24px 18px;
-          }
+        .faq-a { padding: 0 20px 18px; font-size: 14px; line-height: 1.9; color: #57534e; }
+        @media (max-width: 800px) {
+          .three-grid, .two-grid, .fit-grid { grid-template-columns: 1fr; }
+          .section, .hero { padding: 64px 0; }
+          .form-box { padding: 20px; }
         }
       `}</style>
     </div>
