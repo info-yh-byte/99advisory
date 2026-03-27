@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import LPHero from '@/components/lp/LPHero';
 import LPSection from '@/components/lp/LPSection';
 import { LPFitGrid, LPInfoGrid, LPStackList } from '@/components/lp/LPCardGrid';
@@ -8,7 +9,7 @@ import LPFaq from '@/components/lp/LPFaq';
 import LPLeadForm from '@/components/lp/LPLeadForm';
 import LPBottomBar from '@/components/lp/LPBottomBar';
 import LPTrustNote from '@/components/lp/LPTrustNote';
-import LPInlineLinks from '@/components/lp/LPInlineLinks';
+import LPResourceCards from '@/components/lp/LPResourceCards';
 
 const SYMPTOMS = [
   {
@@ -104,6 +105,7 @@ const INITIAL_FORM = {
 };
 
 export default function SeizoPage() {
+  const router = useRouter();
   const [form, setForm] = useState(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
@@ -143,8 +145,8 @@ export default function SeizoPage() {
       }
 
       setIsSuccess(true);
-      setMessage('送信が完了しました。メールをご確認ください。');
       setForm(INITIAL_FORM);
+      router.push('/thanks?service=seizo');
     } catch (error) {
       setIsSuccess(false);
       setMessage(error.message || '送信に失敗しました。時間を置いて再度お試しください。');
@@ -170,11 +172,28 @@ export default function SeizoPage() {
 
       <LPSection tone="cream" kicker="こんな状態になっていませんか？" title="現場は動いているのに、数字が判断につながっていない会社へ">
         <LPStackList items={SYMPTOMS} />
-        <LPInlineLinks
-          articleHref="/articles/"
-          articleLabel="先に記事を読む"
-          contactHref="/contact/"
-          contactLabel="まず相談する"
+        <LPResourceCards
+          title="先に整理したい方向けの読み物"
+          items={[
+            {
+              href: '/articles/',
+              label: '記事一覧',
+              title: '経営判断に関する記事一覧を見る',
+              body: '数字、資金繰り、融資などに関する記事をまとめて見られます。'
+            },
+            {
+              href: '/seizo/',
+              label: 'サービスページ',
+              title: '経営数字診断の内容を見直す',
+              body: '支援内容や対象企業をあらためて確認したい方向けです。'
+            },
+            {
+              href: '/contact/',
+              label: 'お問い合わせ',
+              title: '先に相談したい',
+              body: '現状の悩みが具体的なら、そのまま相談内容を送れます。'
+            }
+          ]}
         />
       </LPSection>
 

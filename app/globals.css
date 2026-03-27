@@ -1427,3 +1427,223 @@ main {
     margin-bottom: 86px;
   }
 }
+
+/* ===== LP related resources ===== */
+
+.lp-resource-block {
+  margin-top: 26px;
+}
+
+.lp-resource-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1b2e4b;
+  margin-bottom: 14px;
+}
+
+.lp-resource-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.lp-resource-card {
+  display: block;
+  text-decoration: none;
+  padding: 20px 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.9);
+  border: 1px solid rgba(24,35,50,.08);
+  box-shadow: 0 8px 24px rgba(17,30,48,.04);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.lp-resource-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(17,30,48,.08);
+  border-color: rgba(184,150,62,.28);
+}
+
+.lp-resource-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #b8963e;
+  margin-bottom: 8px;
+}
+
+.lp-resource-card-title {
+  font-size: 16px;
+  line-height: 1.65;
+  font-weight: 700;
+  color: #1b2e4b;
+  margin-bottom: 8px;
+}
+
+.lp-resource-card-body {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #57534e;
+}
+
+.lp-resource-link {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1b2e4b;
+}
+
+/* ===== Thanks page ===== */
+
+.thanks-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(184,150,62,.10), transparent 28%),
+    linear-gradient(180deg, #faf8f4 0%, #f4f1eb 100%);
+  padding: 80px 24px;
+}
+
+.thanks-wrap {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.thanks-shell {
+  background: #fff;
+  border: 1px solid rgba(24,35,50,.08);
+  border-radius: 24px;
+  padding: 36px;
+  box-shadow: 0 18px 50px rgba(17,30,48,.06);
+}
+
+.thanks-badge {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: #b8963e;
+  margin-bottom: 14px;
+}
+
+.thanks-title {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: #1b2e4b;
+  margin: 0 0 14px;
+}
+
+.thanks-description {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #57534e;
+  max-width: 760px;
+  margin: 0;
+}
+
+.thanks-note {
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #78716c;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #faf8f4;
+  border: 1px solid rgba(24,35,50,.06);
+}
+
+.thanks-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.thanks-primary,
+.thanks-secondary {
+  min-height: 50px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.thanks-primary {
+  background: linear-gradient(180deg, #c9a953 0%, #b8963e 100%);
+  color: #111e30;
+  box-shadow: 0 10px 28px rgba(184,150,62,.18);
+}
+
+.thanks-secondary {
+  background: #fff;
+  color: #1b2e4b;
+  border: 1px solid rgba(24,35,50,.08);
+}
+
+.thanks-resource-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.thanks-resource-card {
+  display: block;
+  text-decoration: none;
+  padding: 22px 20px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(24,35,50,.08);
+  box-shadow: 0 10px 28px rgba(17,30,48,.04);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.thanks-resource-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(17,30,48,.08);
+  border-color: rgba(184,150,62,.28);
+}
+
+.thanks-resource-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #b8963e;
+  margin-bottom: 8px;
+}
+
+.thanks-resource-title {
+  font-size: 17px;
+  line-height: 1.65;
+  font-weight: 700;
+  color: #1b2e4b;
+  margin-bottom: 8px;
+}
+
+.thanks-resource-body {
+  font-size: 13px;
+  line-height: 1.85;
+  color: #57534e;
+}
+
+.thanks-resource-link {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1b2e4b;
+}
+
+@media (max-width: 800px) {
+  .lp-resource-grid,
+  .thanks-resource-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .thanks-shell {
+    padding: 24px;
+    border-radius: 20px;
+  }
+}

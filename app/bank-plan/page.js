@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import LPHero from '@/components/lp/LPHero';
 import LPSection from '@/components/lp/LPSection';
 import { LPFitGrid, LPInfoGrid, LPStackList } from '@/components/lp/LPCardGrid';
@@ -8,7 +9,7 @@ import LPFaq from '@/components/lp/LPFaq';
 import LPLeadForm from '@/components/lp/LPLeadForm';
 import LPBottomBar from '@/components/lp/LPBottomBar';
 import LPTrustNote from '@/components/lp/LPTrustNote';
-import LPInlineLinks from '@/components/lp/LPInlineLinks';
+import LPResourceCards from '@/components/lp/LPResourceCards';
 
 const SYMPTOMS = [
   {
@@ -167,6 +168,7 @@ const INITIAL_FORM = {
 };
 
 export default function BankPlanPage() {
+  const router = useRouter();
   const [form, setForm] = useState(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
@@ -206,8 +208,8 @@ export default function BankPlanPage() {
       }
 
       setIsSuccess(true);
-      setMessage('送信が完了しました。メールをご確認ください。');
       setForm(INITIAL_FORM);
+      router.push('/thanks?service=bank-plan');
     } catch (error) {
       setIsSuccess(false);
       setMessage(error.message || '送信に失敗しました。時間を置いて再度お試しください。');
@@ -233,11 +235,28 @@ export default function BankPlanPage() {
 
       <LPSection tone="cream" kicker="こんな悩み、心当たりはありますか？" title="申請の前に、一度整理する価値があります">
         <LPStackList items={SYMPTOMS} />
-        <LPInlineLinks
-          articleHref="/articles/"
-          articleLabel="先に記事を読む"
-          contactHref="/contact/"
-          contactLabel="まず相談する"
+        <LPResourceCards
+          title="先に整理したい方向けの読み物"
+          items={[
+            {
+              href: '/articles/bank-loan-checkpoints/',
+              label: '関連記事',
+              title: '銀行融資を受ける前に確認しておくべき5つのポイント',
+              body: '銀行が見ている論点を先に整理したい方向けです。'
+            },
+            {
+              href: '/articles/',
+              label: '記事一覧',
+              title: '他の記事も見る',
+              body: '融資・経営判断に関する記事一覧はこちら。'
+            },
+            {
+              href: '/contact/',
+              label: 'お問い合わせ',
+              title: '先に相談したい',
+              body: '融資前の状況が具体的なら、そのまま相談内容を送れます。'
+            }
+          ]}
         />
       </LPSection>
 
