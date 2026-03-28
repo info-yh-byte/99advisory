@@ -26,3 +26,8 @@ node_modules
 .env
 .env.local
 /out
+
+# local backup files
+app/* 2.js
+app/* 2.css
+app/*.bak
