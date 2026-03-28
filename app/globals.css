@@ -1,11 +1,22 @@
 :root {
-  --bg: #faf8f4;
-  --text: #1c1917;
-  --muted: #57534e;
-  --line: #e7e5e4;
-  --navy: #1b2e4b;
-  --gold: #b8963e;
-  --white: #ffffff;
+  /* ===== New enterprise-clean palette ===== */
+  --navy:       #0f1f3d;
+  --blue:       #2563eb;
+  --blue-dark:  #1d4ed8;
+  --blue-light: #eff6ff;
+  --text:       #0f172a;
+  --muted:      #475569;
+  --ink-faint:  #94a3b8;
+  --bg:         #ffffff;
+  --surface:    #f8fafc;
+  --border:     #e2e8f0;
+  --white:      #ffffff;
+  --line:       #e2e8f0;
+  --gold:       #2563eb;
+  /* backward-compat aliases for existing inline styles */
+  --accent:     #2563eb;
+  --cream:      #f8fafc;
+  --line-soft:  #e2e8f0;
 }
 
 * {
@@ -20,8 +31,9 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic",
-    "Yu Gothic UI", sans-serif;
+  font-family: var(--font-inter), var(--font-noto),
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -76,8 +88,8 @@ main {
 }
 
 .site-header {
-  border-bottom: 1px solid var(--line);
-  background: rgba(250, 248, 244, 0.95);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.95);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -122,8 +134,7 @@ main {
 }
 
 .site-footer {
-  border-top: 1px solid var(--line);
-  background: var(--white);
+  background: var(--navy);
   margin-top: 72px;
 }
 
@@ -140,7 +151,7 @@ main {
 .footer-title {
   font-size: 14px;
   font-weight: 700;
-  color: var(--navy);
+  color: #ffffff;
   margin-bottom: 12px;
 }
 
@@ -152,15 +163,15 @@ main {
 
 .footer-links a {
   font-size: 14px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .footer-copy {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   margin-top: 24px;
   padding-top: 16px;
   font-size: 12px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .hero-box {
@@ -168,7 +179,7 @@ main {
 }
 
 .hero-label {
-  color: var(--gold);
+  color: var(--blue);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -306,7 +317,7 @@ main {
 .article-body blockquote {
   margin: 24px 0;
   padding: 12px 16px;
-  border-left: 4px solid var(--gold);
+  border-left: 4px solid var(--blue);
   background: #fffaf0;
   color: var(--muted);
 }
@@ -374,7 +385,7 @@ main {
   font-size: 12px;
   letter-spacing: 0.14em;
   font-weight: 700;
-  color: #b8963e;
+  color: #2563eb;
   margin-bottom: 14px;
 }
 
@@ -431,7 +442,7 @@ main {
   padding: 0 24px;
   border: 0;
   border-radius: 999px;
-  background: #b8963e;
+  background: #2563eb;
   color: #111e30;
   font-weight: 700;
   cursor: pointer;
@@ -467,7 +478,7 @@ main {
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: #b8963e;
+  background: #2563eb;
   margin-top: 9px;
   flex: 0 0 auto;
 }
@@ -510,7 +521,7 @@ main {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .12em;
-  color: #b8963e;
+  color: #2563eb;
   margin-bottom: 10px;
 }
 
@@ -701,7 +712,7 @@ main {
   font-size: 12px;
   letter-spacing: 0.14em;
   font-weight: 700;
-  color: #b8963e;
+  color: #2563eb;
   margin-bottom: 14px;
 }
 
@@ -758,7 +769,7 @@ main {
   padding: 0 24px;
   border: 0;
   border-radius: 999px;
-  background: #b8963e;
+  background: #2563eb;
   color: #111e30;
   font-weight: 700;
   cursor: pointer;
@@ -794,7 +805,7 @@ main {
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: #b8963e;
+  background: #2563eb;
   margin-top: 9px;
   flex: 0 0 auto;
 }
@@ -837,7 +848,7 @@ main {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .12em;
-  color: #b8963e;
+  color: #2563eb;
   margin-bottom: 10px;
 }
 
@@ -992,7 +1003,7 @@ main {
 
 .lp-dark {
   background:
-    radial-gradient(circle at top left, rgba(184, 150, 62, 0.14), transparent 32%),
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 32%),
     radial-gradient(circle at top right, rgba(255, 255, 255, 0.05), transparent 28%),
     linear-gradient(180deg, #162338 0%, #111e30 100%);
   color: #fff;
@@ -1094,10 +1105,10 @@ main {
   min-height: 54px;
   padding: 0 26px;
   border-radius: 999px;
-  background: linear-gradient(180deg, #c9a953 0%, #b8963e 100%);
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
   color: #111e30;
   box-shadow:
-    0 10px 30px rgba(184, 150, 62, 0.18),
+    0 10px 30px rgba(37, 99, 235, 0.18),
     inset 0 1px 0 rgba(255,255,255,.35);
   transition:
     transform .18s ease,
@@ -1108,7 +1119,7 @@ main {
 .lp-primary-btn:hover {
   transform: translateY(-1px);
   box-shadow:
-    0 14px 34px rgba(184, 150, 62, 0.24),
+    0 14px 34px rgba(37, 99, 235, 0.24),
     inset 0 1px 0 rgba(255,255,255,.35);
 }
 
@@ -1144,12 +1155,12 @@ main {
 .lp-faq-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 16px 34px rgba(17, 30, 48, 0.08);
-  border-color: rgba(184, 150, 62, 0.28);
+  border-color: rgba(37, 99, 235, 0.28);
 }
 
 .lp-dot {
   margin-top: 10px;
-  box-shadow: 0 0 0 6px rgba(184, 150, 62, 0.10);
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.10);
 }
 
 .lp-grid {
@@ -1347,7 +1358,7 @@ main {
 }
 
 .lp-bottom-primary {
-  background: linear-gradient(180deg, #c9a953 0%, #b8963e 100%);
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
   color: #111e30;
 }
 
@@ -1461,14 +1472,14 @@ main {
 .lp-resource-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 16px 34px rgba(17,30,48,.08);
-  border-color: rgba(184,150,62,.28);
+  border-color: rgba(37,99,235,.28);
 }
 
 .lp-resource-label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .08em;
-  color: #b8963e;
+  color: #2563eb;
   margin-bottom: 8px;
 }
 
@@ -1498,7 +1509,7 @@ main {
 .thanks-page {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(184,150,62,.10), transparent 28%),
+    radial-gradient(circle at top left, rgba(37,99,235,.10), transparent 28%),
     linear-gradient(180deg, #faf8f4 0%, #f4f1eb 100%);
   padding: 80px 24px;
 }
@@ -1520,7 +1531,7 @@ main {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .14em;
-  color: #b8963e;
+  color: #2563eb;
   margin-bottom: 14px;
 }
 
@@ -1572,9 +1583,9 @@ main {
 }
 
 .thanks-primary {
-  background: linear-gradient(180deg, #c9a953 0%, #b8963e 100%);
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
   color: #111e30;
-  box-shadow: 0 10px 28px rgba(184,150,62,.18);
+  box-shadow: 0 10px 28px rgba(37,99,235,.18);
 }
 
 .thanks-secondary {
@@ -1604,14 +1615,14 @@ main {
 .thanks-resource-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 16px 34px rgba(17,30,48,.08);
-  border-color: rgba(184,150,62,.28);
+  border-color: rgba(37,99,235,.28);
 }
 
 .thanks-resource-label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .08em;
-  color: #b8963e;
+  color: #2563eb;
   margin-bottom: 8px;
 }
 
@@ -1650,42 +1661,13 @@ main {
 
 /* ===== Brand layer: typography / tone / spacing ===== */
 
-:root {
-  --paper: #f6f1e8;
-  --paper-2: #fbf8f2;
-  --ink: #182332;
-  --ink-soft: #415061;
-  --ink-faint: #6b7683;
-  --line-soft: rgba(24, 35, 50, 0.10);
-  --line-strong: rgba(24, 35, 50, 0.16);
-  --accent: #b78460;
-  --accent-deep: #9f6d4a;
-  --sage: #3f5d55;
-
-  --bg: var(--paper-2);
-  --text: var(--ink);
-  --muted: var(--ink-soft);
-  --line: #e8e0d2;
-  --navy: var(--ink);
-  --gold: var(--accent);
-  --white: #ffffff;
-}
+/* Variables consolidated in first :root block */
 
 html {
   scroll-behavior: smooth;
 }
 
-body {
-  margin: 0;
-  background:
-    radial-gradient(circle at top left, rgba(183, 132, 96, 0.05), transparent 24%),
-    linear-gradient(180deg, #fbf8f2 0%, #f6f1e8 100%);
-  color: var(--text);
-  font-family: var(--font-sans), "Hiragino Sans", "Yu Gothic", sans-serif;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  letter-spacing: 0.01em;
-}
+/* body override — use Inter/Noto from first definition */
 
 h1,
 h2,
@@ -1696,7 +1678,7 @@ h4,
 .lp-hero-title,
 .lp-section-title,
 .site-logo {
-  font-family: var(--font-serif), "Hiragino Mincho ProN", serif;
+  font-family: var(--font-inter), var(--font-noto), sans-serif;
   letter-spacing: -0.02em;
   font-weight: 600;
 }
@@ -1744,7 +1726,7 @@ main {
 }
 
 .hero-label {
-  color: var(--accent);
+  color: var(--blue);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1767,8 +1749,8 @@ main {
 }
 
 .site-header {
-  border-bottom: 1px solid var(--line-soft);
-  background: rgba(251, 248, 242, 0.84);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.95);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -1819,7 +1801,7 @@ main {
   bottom: -8px;
   width: 100%;
   height: 1px;
-  background: var(--accent);
+  background: var(--blue);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform .18s ease;
@@ -1835,9 +1817,7 @@ main {
 }
 
 .site-footer {
-  border-top: 1px solid var(--line-soft);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(246,241,232,0.85) 100%);
+  background: var(--navy);
   margin-top: 88px;
 }
 
@@ -1854,27 +1834,27 @@ main {
 .footer-title {
   font-size: 13px;
   font-weight: 700;
-  color: var(--navy);
+  color: #ffffff;
   margin-bottom: 14px;
   letter-spacing: 0.06em;
 }
 
 .footer-links a {
   font-size: 14px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.65);
   transition: color .18s ease;
 }
 
 .footer-links a:hover {
-  color: var(--navy);
+  color: #ffffff;
 }
 
 .footer-copy {
-  border-top: 1px solid var(--line-soft);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   margin-top: 28px;
   padding-top: 18px;
   font-size: 12px;
-  color: var(--ink-faint);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 /* home cards */
@@ -1887,7 +1867,7 @@ main {
 
 .link-card {
   background: rgba(255,255,255,0.78);
-  border: 1px solid var(--line-soft);
+  border: 1px solid var(--border);
   border-radius: 18px;
   padding: 28px;
   box-shadow: 0 10px 30px rgba(24, 35, 50, 0.05);
@@ -1933,7 +1913,7 @@ main {
   font-size: 24px;
   margin-top: 42px;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--border);
 }
 
 .article-body p,
@@ -1965,7 +1945,7 @@ main {
 }
 
 .lp-primary-btn {
-  background: linear-gradient(180deg, #c89a78 0%, #b78460 100%);
+  background: linear-gradient(180deg, #c89a78 0%, #2563eb 100%);
   box-shadow:
     0 10px 30px rgba(183, 132, 96, 0.22),
     inset 0 1px 0 rgba(255,255,255,.34);

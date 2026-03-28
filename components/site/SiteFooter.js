@@ -8,7 +8,7 @@ export default function SiteFooter() {
         <div className="footer-grid">
           <div>
             <div className="footer-title">99advisory</div>
-            <p className="page-lead" style={{ margin: 0 }}>
+            <p className="page-lead" style={{ margin: 0, color: 'rgba(255,255,255,0.65)', fontSize: '14px' }}>
               中小企業向けに、管理会計・資金繰り・事業計画・経営判断の整理を支援する
               CFOアドバイザリーサービスです。
             </p>
