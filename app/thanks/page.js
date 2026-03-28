@@ -95,7 +95,7 @@ function ThanksContent() {
           font-size: 15px;
           color: var(--muted);
           line-height: 1.8;
-          margin: 0 0 20px;
+          margin: 0 0 40px;
         }
         .th-note {
           font-size: 13px;
@@ -156,7 +156,7 @@ function ThanksContent() {
           <h1 className="th-heading">{heading}</h1>
           <p className="th-body">{body}</p>
           <p className="th-note">
-            受付確認メールをお送りしています。メールが届かない場合は、迷惑メールフォルダもご確認ください。
+            受付確認メールをお送りしました。届かない場合は info@99advisory.jp までご連絡ください。
           </p>
           <div className="th-actions">
             <Link href={next.href} className="th-btn-primary">{next.label}</Link>
