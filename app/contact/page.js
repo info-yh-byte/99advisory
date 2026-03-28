@@ -61,128 +61,249 @@ export default function ContactPage() {
   }
 
   return (
-    <div style={{ maxWidth: '640px', margin: '0 auto', padding: '64px 24px 96px' }}>
-      <p style={{ fontSize: '12px', letterSpacing: '0.12em', color: 'var(--accent)', fontWeight: 600, margin: '0 0 12px' }}>
-        CONTACT
-      </p>
-      <h1 style={{ fontSize: 'clamp(24px, 5vw, 36px)', color: 'var(--navy)', fontWeight: 800, margin: '0 0 20px', lineHeight: 1.3 }}>
-        まずは、状況を聞かせてください
-      </h1>
-      <p style={{ fontSize: '15px', color: 'var(--muted)', lineHeight: 1.8, margin: '0 0 28px' }}>
-        サービスをご検討中の方、どこに相談すべきか迷っている方、どちらもお気軽にどうぞ。内容を確認したうえで、2営業日以内にご連絡します。
-      </p>
+    <>
+      <style>{`
+        .ct-header {
+          background: var(--bg);
+          padding: 80px 40px 0;
+        }
+        .ct-wrap {
+          max-width: 640px;
+          margin: 0 auto;
+        }
+        .ct-eyebrow {
+          display: block;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--blue);
+          margin-bottom: 16px;
+        }
+        .ct-heading {
+          font-size: clamp(28px, 4vw, 40px);
+          font-weight: 800;
+          color: var(--navy);
+          line-height: 1.3;
+          margin: 0 0 16px;
+        }
+        .ct-lead {
+          font-size: 15px;
+          color: var(--muted);
+          line-height: 1.8;
+          margin: 0 0 24px;
+        }
+        .ct-badges {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-bottom: 0;
+        }
+        .ct-badge {
+          font-size: 12px;
+          font-weight: 600;
+          color: var(--faint);
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: 9999px;
+          padding: 5px 14px;
+        }
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '40px' }}>
-        {['秘密厳守・NDA締結可', '初回相談は無料', '売り込みは行いません'].map((badge) => (
-          <span key={badge} style={{ fontSize: '13px', background: 'var(--cream)', border: '1px solid var(--line-soft)', borderRadius: '4px', padding: '6px 14px', color: 'var(--muted)' }}>
-            {badge}
-          </span>
-        ))}
-      </div>
+        .ct-form-section {
+          background: var(--bg);
+          padding: 48px 40px 96px;
+        }
+        .ct-form-wrap {
+          max-width: 640px;
+          margin: 0 auto;
+        }
+        .ct-submit-error {
+          background: #fef2f2;
+          border: 1px solid #fecaca;
+          border-radius: var(--radius-sm);
+          padding: 14px 18px;
+          color: #b91c1c;
+          font-size: 14px;
+          margin-bottom: 24px;
+          line-height: 1.6;
+        }
+        .ct-form {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+        .ct-field {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        .ct-label {
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--text);
+        }
+        .ct-required {
+          color: #e53e3e;
+          margin-left: 4px;
+        }
+        .ct-input {
+          width: 100%;
+          padding: 12px 14px;
+          font-size: 15px;
+          border: 1px solid var(--border);
+          border-radius: var(--radius-sm);
+          background: var(--bg);
+          color: var(--text);
+          outline: none;
+          box-sizing: border-box;
+          font-family: inherit;
+          transition: border-color 0.15s;
+        }
+        .ct-input:focus {
+          border-color: var(--blue);
+          box-shadow: 0 0 0 3px rgba(37,99,235,0.08);
+        }
+        .ct-input-error {
+          border-color: #fca5a5;
+        }
+        .ct-input-error:focus {
+          border-color: #ef4444;
+          box-shadow: 0 0 0 3px rgba(239,68,68,0.08);
+        }
+        .ct-textarea {
+          min-height: 120px;
+          resize: vertical;
+        }
+        .ct-field-error {
+          font-size: 13px;
+          color: #b91c1c;
+          margin: 0;
+        }
+        .ct-submit-btn {
+          width: 100%;
+          padding: 16px;
+          background: var(--navy);
+          color: #fff;
+          font-size: 16px;
+          font-weight: 700;
+          border: none;
+          border-radius: var(--radius-sm);
+          cursor: pointer;
+          transition: opacity 0.2s;
+          font-family: inherit;
+        }
+        .ct-submit-btn:hover:not(:disabled) { opacity: 0.88; }
+        .ct-submit-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+        .ct-form-note {
+          font-size: 13px;
+          color: var(--hint);
+          text-align: center;
+          margin-top: 16px;
+          line-height: 1.7;
+        }
 
-      {submitError && (
-        <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '6px', padding: '14px 18px', color: '#b91c1c', fontSize: '14px', marginBottom: '24px' }}>
-          {submitError}
+        @media (max-width: 768px) {
+          .ct-header { padding: 60px 20px 0; }
+          .ct-form-section { padding: 40px 20px 72px; }
+        }
+      `}</style>
+
+      {/* Section 1: Header */}
+      <section className="ct-header">
+        <div className="ct-wrap">
+          <span className="ct-eyebrow">Contact</span>
+          <h1 className="ct-heading">まずは、状況を聞かせてください</h1>
+          <p className="ct-lead">
+            サービスをご検討中の方、どこに相談すべきか迷っている方、
+            どちらもお気軽にどうぞ。内容を確認したうえで、2営業日以内にご連絡します。
+          </p>
+          <div className="ct-badges">
+            {['秘密厳守・NDA締結可', '初回相談は無料', '売り込みは行いません'].map((badge) => (
+              <span key={badge} className="ct-badge">{badge}</span>
+            ))}
+          </div>
         </div>
-      )}
+      </section>
 
-      <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        <Field label="会社名" required error={errors.company}>
-          <input
-            type="text"
-            name="company"
-            value={form.company}
-            onChange={handleChange}
-            placeholder="株式会社○○"
-            style={inputStyle(!!errors.company)}
-          />
-        </Field>
+      {/* Section 2: Form */}
+      <section className="ct-form-section">
+        <div className="ct-form-wrap">
+          {submitError && (
+            <div className="ct-submit-error">{submitError}</div>
+          )}
 
-        <Field label="お名前" required error={errors.name}>
-          <input
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="山田 太郎"
-            style={inputStyle(!!errors.name)}
-          />
-        </Field>
+          <form onSubmit={handleSubmit} noValidate className="ct-form">
+            <div className="ct-field">
+              <label className="ct-label">
+                会社名<span className="ct-required">*</span>
+              </label>
+              <input
+                type="text"
+                name="company"
+                value={form.company}
+                onChange={handleChange}
+                placeholder="株式会社〇〇"
+                className={`ct-input${errors.company ? ' ct-input-error' : ''}`}
+              />
+              {errors.company && <p className="ct-field-error">{errors.company}</p>}
+            </div>
 
-        <Field label="メールアドレス" required error={errors.email}>
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="info@example.com"
-            style={inputStyle(!!errors.email)}
-          />
-        </Field>
+            <div className="ct-field">
+              <label className="ct-label">
+                お名前<span className="ct-required">*</span>
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="山田 太郎"
+                className={`ct-input${errors.name ? ' ct-input-error' : ''}`}
+              />
+              {errors.name && <p className="ct-field-error">{errors.name}</p>}
+            </div>
 
-        <Field label="ご相談内容" error={errors.message}>
-          <textarea
-            name="message"
-            value={form.message}
-            onChange={handleChange}
-            placeholder="例：資金繰りが苦しく、どこから手をつけるべきか分からない。まず何を整理すればよいか知りたい。"
-            rows={5}
-            style={{ ...inputStyle(false), minHeight: '120px', resize: 'vertical' }}
-          />
-        </Field>
+            <div className="ct-field">
+              <label className="ct-label">
+                メールアドレス<span className="ct-required">*</span>
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="taro@example.com"
+                className={`ct-input${errors.email ? ' ct-input-error' : ''}`}
+              />
+              {errors.email && <p className="ct-field-error">{errors.email}</p>}
+            </div>
 
-        <button
-          type="submit"
-          disabled={submitting}
-          style={{
-            background: 'var(--navy)',
-            color: 'var(--white)',
-            fontSize: '16px',
-            fontWeight: 600,
-            width: '100%',
-            padding: '16px',
-            borderRadius: '6px',
-            border: 'none',
-            cursor: submitting ? 'not-allowed' : 'pointer',
-            opacity: submitting ? 0.7 : 1,
-            transition: 'opacity .2s',
-          }}
-        >
-          {submitting ? '送信中...' : '相談内容を送る'}
-        </button>
-      </form>
+            <div className="ct-field">
+              <label className="ct-label">ご相談内容</label>
+              <textarea
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                placeholder="例：利益は出ているが現金が残らない理由を整理したい"
+                className="ct-input ct-textarea"
+              />
+            </div>
 
-      <p style={{ fontSize: '13px', color: 'var(--ink-faint)', textAlign: 'center', marginTop: '20px' }}>
-        送信後、受付確認メールをお送りします。メールが届かない場合は info@99advisory.jp までご連絡ください。
-      </p>
-    </div>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="ct-submit-btn"
+            >
+              {submitting ? '送信中...' : '相談内容を送る'}
+            </button>
+          </form>
+
+          <p className="ct-form-note">
+            送信後、受付確認メールをお送りします。メールが届かない場合は
+            info@99advisory.jp までご連絡ください。
+          </p>
+        </div>
+      </section>
+    </>
   );
-}
-
-function Field({ label, required, error, children }) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-      <label style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>
-        {label}
-        {required && <span style={{ color: 'var(--accent)', marginLeft: '4px' }}>*</span>}
-      </label>
-      {children}
-      {error && <p style={{ fontSize: '13px', color: '#b91c1c', margin: 0 }}>{error}</p>}
-    </div>
-  );
-}
-
-function inputStyle(hasError) {
-  return {
-    width: '100%',
-    padding: '12px 14px',
-    fontSize: '15px',
-    border: `1px solid ${hasError ? '#fca5a5' : 'var(--line-soft)'}`,
-    borderRadius: '6px',
-    background: 'var(--white)',
-    color: 'var(--text)',
-    outline: 'none',
-    boxSizing: 'border-box',
-    fontFamily: 'inherit',
-  };
 }
