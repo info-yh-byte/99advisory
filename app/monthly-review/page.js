@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import LPHero from '@/components/lp/LPHero';
 import LPSection from '@/components/lp/LPSection';
-import { LPFitGrid, LPInfoGrid, LPStackList } from '@/components/lp/LPCardGrid';
+import { LPStepFlow, LPFitGrid } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
 import LPLeadForm from '@/components/lp/LPLeadForm';
 import LPBottomBar from '@/components/lp/LPBottomBar';
@@ -12,117 +13,108 @@ import LPTrustNote from '@/components/lp/LPTrustNote';
 
 const PROBLEMS = [
   {
+    no: '01',
     title: '毎月試算表が届くが、どう読めばいいかわからない',
-    body: '数字は出ているが、何が良くて何が悪いのか、自社でどう判断すればよいかが整理できていない状態です。'
+    body: '数字は出ているが、何が良くて何が悪いのか、どう判断すればよいかまで整理できていない。'
   },
   {
+    no: '02',
     title: '数字を見ても、次に何をすべきかが判断できない',
-    body: '月次の数字は把握しているが、それをもとに何を動かすかの優先順位がつけられていません。'
+    body: '月次の数字は把握しているが、それをもとに何を動かすかの優先順位がつけられていない。'
   },
   {
-    title: '経営会議や月次ミーティングが形骸化している',
-    body: '毎月同じ資料を確認するだけで終わり、議論や意思決定につながっていない状態です。'
+    no: '03',
+    title: '月次ミーティングが数字の確認で終わり、行動につながらない',
+    body: '毎月同じ資料を確認するだけで終わり、何が決まったかが曖昧なまま次の月へ進んでいる。'
   },
   {
-    title: '利益は出ているはずなのに、手元に残らない状態が続いている',
-    body: '試算表では黒字でも、なぜ手元に残らないかを整理できておらず、判断の根拠が曖昧です。'
+    no: '04',
+    title: '利益は出ているはずなのに、手元に残らないが続いている',
+    body: '試算表では黒字でも、なぜ手元に残らないかを整理できておらず、判断の根拠が曖昧。'
   },
   {
-    title: '銀行や社内への説明に毎回時間がかかっている',
-    body: '数字をまとめる作業が毎月発生しており、説明のたびにゼロから整理し直しています。'
-  },
-  {
-    title: '月次の数字は出るが、経営会議が「確認の場」で終わっている',
-    body: '数字を「見る」ことと、「使う」ことが切り離されたままです。'
+    no: '05',
+    title: '外部の視点を入れながら、継続的に数字を見てほしい',
+    body: '内部だけでは見えにくいことを、月次で整理・指摘してくれる外部の目が欲しい。'
   }
 ];
 
-const ORGANIZES = [
+const DELIVERABLES = [
   {
-    label: '01',
-    title: '数字の動きを整理する',
-    body: '試算表・資金繰り表・前月比較をもとに、今月何が起きたかを整理します。'
+    color: 'blue',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+    ),
+    title: '今月の論点サマリー',
+    body: '今月何が起きたかを3点以内で整理したメモ。セッション前にお送りし、議論の起点にします。'
   },
   {
-    label: '02',
-    title: '判断の論点を絞る',
-    body: '見えてきた課題を優先順位つきで整理し、今月どこに手を打つかを明確にします。'
+    color: 'green',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+      </svg>
+    ),
+    title: '判断・確認事項リスト',
+    body: 'セッションで出た次にやること・次回確認することを箇条書きで整理した議事メモ。'
   },
   {
-    label: '03',
-    title: '次の行動へ落とす',
-    body: '話した内容を、その場の感想で終わらせず、会議や社内共有に使える形へ整えます。'
+    color: 'purple',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+    ),
+    title: '次月の注視ポイント',
+    body: '来月のレビューで特に確認すべき数字・論点を1〜2点に絞って添付します。'
   }
 ];
 
-const PROCESS_STEPS = [
+const STEPS = [
   {
-    label: 'STEP 1',
-    title: '前月の数字をご共有いただく',
-    body: '試算表・資金繰り表など、毎月の数字資料をご送付いただきます。'
+    title: '前月の数字を共有いただく（試算表・資金繰り表）',
+    body: '毎月決まったタイミングで数字資料をお送りいただきます。'
   },
   {
-    label: 'STEP 2',
-    title: '事前に内容を確認し、当日の論点を整理する',
-    body: '資料を確認したうえで、当日のレビューで扱う論点を事前に整理します。'
+    title: '論点を事前に整理（論点サマリーを送付）',
+    body: '資料を確認し、セッションで扱う今月の論点を事前にお送りします。'
   },
   {
-    label: 'STEP 3',
-    title: 'オンラインで60分のレビューを行う',
-    body: '毎月1回、オンラインで数字の動きと判断の整理を行います。'
+    title: 'オンラインで60分のレビューセッション',
+    body: '数字の動きと判断の整理をオンラインで行います。Zoom等に対応しています。'
   },
   {
-    label: 'STEP 4',
-    title: '翌営業日に、議事メモとアクションリストをお送りする',
-    body: 'レビュー後、論点・優先確認数字・アクションリストをまとめてお送りします。'
+    title: '翌営業日に議事メモ・確認事項リストを送付',
+    body: '論点・判断内容・次回確認事項を整理してお送りします。'
   }
 ];
 
 const INCLUDED = [
   '月次レビューセッション（60分 × 月1回）',
-  '事前準備・論点整理',
-  'セッション後の議事メモ・アクションリスト送付',
+  '事前論点整理・論点サマリー送付',
+  'セッション後の議事メモ・確認事項リスト',
   '月中の簡易相談（メール）'
 ];
 
-const EXCLUDED = [
-  '記帳・税務申告・融資手続き代行',
-  '追加セッション（別途相談）'
-];
-
-const FIT_YES = [
-  '月次の数字は出ているが、経営判断に十分使えていない',
-  '経理や税理士はいるが、数字を経営判断につなぐ整理役がいない',
-  '毎月30〜60分、経営者または財務担当者が同席できる',
-  '継続的に、数字の見方と判断の質を整えたい'
-];
-
-const FIT_NO = [
-  '記帳、税務申告、融資手続きの代行そのものを求めている',
-  'まだ月次の数字がほとんど整っておらず、まず資料整備から必要',
-  '単発の診断だけを求めていて、継続的な見直しは想定していない'
+const NOT_INCLUDED = [
+  '記帳・税務申告',
+  '予算策定・中期計画の立案'
 ];
 
 const FAQS = [
   {
-    q: '税理士がいても利用できますか？',
-    a: 'はい。税務・記帳は税理士の領域です。このサービスは、数字を経営判断につなぐための整理とレビューを担うため、役割は重複しません。'
+    q: '月次経営レポートと両方使えますか？',
+    a: 'はい。資料整理は月次経営レポート、読み解きと判断整理は月次経営レビューと役割を分けてご利用いただけます。'
   },
   {
-    q: '最初の月から始められますか？',
-    a: 'お問い合わせ後、初回ヒアリング（無料・30分）で現状と課題を確認します。その後、翌月からのスタートが可能です。'
-  },
-  {
-    q: '途中で解約できますか？',
-    a: '最低契約期間（3ヶ月）以降は、1ヶ月前のご連絡で解約いただけます。'
+    q: '税理士や顧問がいても使えますか？',
+    a: '税務・記帳は税理士の領域です。このサービスは数字を判断につなげる役割なので重複しません。'
   },
   {
     q: 'オンラインのみですか？',
-    a: '基本はオンラインです。対面をご希望の場合はご相談ください。'
-  },
-  {
-    q: '月次経営レポートとの違いは何ですか？',
-    a: '月次経営レポートは、数字を整理して見やすい形へ整える入口支援です。月次経営レビューは、その整理した数字をもとに、毎月の判断と行動までつなげる継続サポートです。'
+    a: '基本はオンライン（Zoom等）です。対面をご希望の場合はご相談ください。'
   }
 ];
 
@@ -144,14 +136,7 @@ export default function MonthlyReviewPage() {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   const canSubmit = useMemo(() => {
-    return (
-      form.company &&
-      form.name &&
-      form.email &&
-      form.industry &&
-      form.revenue &&
-      !isSubmitting
-    );
+    return form.company && form.name && form.email && form.industry && form.revenue && !isSubmitting;
   }, [form, isSubmitting]);
 
   function handleChange(e) {
@@ -200,92 +185,389 @@ export default function MonthlyReviewPage() {
 
   return (
     <>
+      <style>{`
+        .rv-diff-card {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 28px 24px;
+        }
+        .rv-diff-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+          margin-bottom: 16px;
+        }
+        .rv-diff-col-label {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          color: var(--faint);
+          margin-bottom: 6px;
+          text-transform: uppercase;
+        }
+        .rv-diff-col-title {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 4px;
+        }
+        .rv-diff-col-body {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.6;
+        }
+        .rv-diff-col-current {
+          border-left: 3px solid var(--blue);
+          padding-left: 14px;
+        }
+        .rv-diff-note {
+          font-size: 13px;
+          color: var(--muted);
+          margin-bottom: 12px;
+        }
+        .rv-diff-link {
+          font-size: 13px;
+          color: var(--blue);
+          text-decoration: none;
+        }
+        .rv-diff-link:hover { text-decoration: underline; }
+        .rv-problem-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .rv-problem-card {
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          padding: 20px 20px 20px 24px;
+        }
+        .rv-problem-card:last-child:nth-child(odd) {
+          grid-column: 1;
+          max-width: calc(50% - 6px);
+        }
+        .rv-problem-no {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: var(--blue);
+          margin-bottom: 8px;
+        }
+        .rv-problem-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 6px;
+          line-height: 1.5;
+        }
+        .rv-problem-body {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.7;
+        }
+        .rv-deliv-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+        .rv-deliv-card {
+          border-radius: var(--radius-lg);
+          padding: 28px 24px;
+        }
+        .rv-deliv-card-blue { background: var(--blue-light); border: 1px solid var(--blue-pale); }
+        .rv-deliv-card-green { background: var(--green-light); border: 1px solid var(--green-pale); }
+        .rv-deliv-card-purple { background: var(--purple-light); border: 1px solid var(--purple-pale); }
+        .rv-deliv-icon {
+          width: 44px;
+          height: 44px;
+          border-radius: var(--radius-sm);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 16px;
+        }
+        .rv-deliv-card-blue .rv-deliv-icon { background: var(--blue-pale); color: var(--blue); }
+        .rv-deliv-card-green .rv-deliv-icon { background: var(--green-pale); color: var(--green); }
+        .rv-deliv-card-purple .rv-deliv-icon { background: var(--purple-pale); color: var(--purple); }
+        .rv-deliv-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 8px;
+        }
+        .rv-deliv-body {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.7;
+        }
+        .rv-price-block {
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 32px 28px;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px;
+          align-items: start;
+        }
+        .rv-price-label {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: var(--faint);
+          margin-bottom: 8px;
+          text-transform: uppercase;
+        }
+        .rv-price-amount {
+          font-size: 36px;
+          font-weight: 800;
+          color: var(--navy);
+          line-height: 1.1;
+          margin-bottom: 4px;
+        }
+        .rv-price-unit {
+          font-size: 13px;
+          color: var(--muted);
+          margin-bottom: 8px;
+        }
+        .rv-price-note {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.6;
+          padding: 12px 16px;
+          background: var(--surface);
+          border-radius: var(--radius-sm);
+        }
+        .rv-check-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .rv-check-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          font-size: 14px;
+          color: var(--text-sub);
+          line-height: 1.5;
+        }
+        .rv-check-item::before {
+          content: '✓';
+          color: var(--green);
+          font-weight: 700;
+          flex-shrink: 0;
+          margin-top: 1px;
+        }
+        .rv-cross-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.5;
+        }
+        .rv-cross-item::before {
+          content: '−';
+          color: var(--hint);
+          font-weight: 700;
+          flex-shrink: 0;
+        }
+        .rv-price-right-title {
+          font-size: 13px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 12px;
+        }
+        .rv-cross-label {
+          font-size: 12px;
+          color: var(--faint);
+          font-weight: 600;
+          margin: 16px 0 8px;
+        }
+        .rv-next-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .rv-next-card {
+          display: block;
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          padding: 20px 24px;
+          text-decoration: none;
+          transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .rv-next-card:hover {
+          border-color: var(--blue);
+          box-shadow: 0 2px 12px rgba(37,99,235,0.08);
+        }
+        .rv-next-badge {
+          display: inline-block;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          color: var(--blue);
+          background: var(--blue-light);
+          border: 1px solid var(--blue-pale);
+          border-radius: 9999px;
+          padding: 3px 10px;
+          margin-bottom: 10px;
+        }
+        .rv-next-title {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 6px;
+        }
+        .rv-next-body {
+          font-size: 12px;
+          color: var(--muted);
+          line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+          .rv-diff-row { grid-template-columns: 1fr; }
+          .rv-problem-grid { grid-template-columns: 1fr; }
+          .rv-problem-card:last-child:nth-child(odd) { grid-column: auto; max-width: 100%; }
+          .rv-deliv-grid { grid-template-columns: 1fr; }
+          .rv-price-block { grid-template-columns: 1fr; gap: 20px; }
+          .rv-next-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
       <LPHero
-        eyebrow="月次経営レビュー / 継続サポート"
-        title={<>毎月の数字を、<br />次の判断と行動につなげる。</>}
-        lead="試算表や資金繰り表を、受け取って終わりにしていませんか。月に一度、数字を一緒に整理し、今月どこを見るべきか、何を決めるべきか、次に何を動かすかまで整えます。"
-        ctaLabel="初回ヒアリングを予約する（無料）"
+        eyebrow="月次経営レビュー｜継続支援"
+        title="毎月の数字を、経営判断につなげる。"
+        lead="資料はある。数字も出ている。でも「今月何が起きたか」「次に何をすべきか」まで整理しきれていない。月に一度、数字を一緒に読み解き、次の判断と行動を整理する時間をつくります。"
+        ctaLabel="お問い合わせ・ご相談"
         ctaHref="#form"
-        note="まだ課題が整理しきれていない段階でも問題ありません"
+        note="最低契約期間3ヶ月。3ヶ月以降は1ヶ月前の連絡で解約可能です"
       />
 
-      <LPSection tone="cream" kicker="現状確認" title="こんな状態が続いていませんか">
-        <LPStackList items={PROBLEMS} />
-      </LPSection>
-
-      <LPSection tone="white" kicker="サービス内容" title="このサービスで整理すること">
-        <LPInfoGrid items={ORGANIZES} columns={3} numbered />
-      </LPSection>
-
-      <LPSection tone="stone" kicker="成果物" title="お渡しするもの">
-        <div className="lp-prose">
-          <p>毎月のレビュー後には、議事録だけではなく、「今月見えてきた論点」「優先して確認すべき数字」「次回までのアクション」を整理したメモをお送りします。</p>
-          <p>たとえば、売上・粗利・資金残高の変化を簡潔に整理したサマリー、今月の注意点をまとめた論点メモ、次回までに社内で動かすことを整理したアクションリストなど、毎月の判断にそのまま使いやすい形でお返しします。</p>
+      <LPSection tone="stone" kicker="月次経営レポートとの違い" title="2つのサービスの役割">
+        <div className="rv-diff-card">
+          <div className="rv-diff-row">
+            <div>
+              <div className="rv-diff-col-label">月次経営レポート</div>
+              <div className="rv-diff-col-title">資料を整えて納品する</div>
+              <div className="rv-diff-col-body">試算表・資金繰り表を受け取り、会議や説明に使いやすい形に整えて毎月納品します。</div>
+            </div>
+            <div className="rv-diff-col-current">
+              <div className="rv-diff-col-label" style={{color:'var(--blue)'}}>月次経営レビュー（このページ）</div>
+              <div className="rv-diff-col-title">資料を一緒に読んで、判断を決める</div>
+              <div className="rv-diff-col-body">月次の数字を共に読み解き、今月の論点と次のアクションまで整理します。</div>
+            </div>
+          </div>
+          <div className="rv-diff-note">両方ご利用いただくことも可能です。</div>
+          <Link href="/monthly-report/" className="rv-diff-link">月次経営レポートを見る →</Link>
         </div>
       </LPSection>
 
-      <LPSection tone="white" kicker="向き・不向き" title="このような会社に向いています">
+      <LPSection tone="white" kicker="こんな状態が続いていませんか" title="月次レビューが必要な5つの状態">
+        <div className="rv-problem-grid">
+          {PROBLEMS.map((p) => (
+            <div className="rv-problem-card" key={p.no}>
+              <div className="rv-problem-no">{p.no}</div>
+              <div className="rv-problem-title">{p.title}</div>
+              <div className="rv-problem-body">{p.body}</div>
+            </div>
+          ))}
+        </div>
+      </LPSection>
+
+      <LPSection tone="stone" kicker="お渡しするもの" title="毎月のセッションで得られる3つの成果">
+        <div className="rv-deliv-grid">
+          {DELIVERABLES.map((d) => (
+            <div className={`rv-deliv-card rv-deliv-card-${d.color}`} key={d.title}>
+              <div className="rv-deliv-icon">{d.icon}</div>
+              <div className="rv-deliv-title">{d.title}</div>
+              <div className="rv-deliv-body">{d.body}</div>
+            </div>
+          ))}
+        </div>
+      </LPSection>
+
+      <LPSection tone="white" kicker="進め方" title="毎月の流れ">
+        <LPStepFlow items={STEPS} />
+      </LPSection>
+
+      <LPSection tone="stone" kicker="向いている会社" title="このサービスが向いている会社・向いていない会社">
         <LPFitGrid
           yesTitle="向いている会社"
-          yesItems={FIT_YES}
-          noTitle="このようなご要望には向いていません"
-          noItems={FIT_NO}
+          yesItems={[
+            '売上1億〜10億円規模',
+            '経営者または財務担当者が月1回、数字に向き合える',
+            '資料はあるが、そこから判断につなげる時間と視点が足りない',
+            '継続的に数字を見る外部の目が欲しい'
+          ]}
+          noTitle="向いていない会社"
+          noItems={[
+            '記帳・税務申告の代行を求めている会社',
+            '単発の診断だけを求めていて、継続的な見直しは想定していない会社',
+            'まず月次数字の資料整備から必要な会社（→月次経営レポートへ）'
+          ]}
         />
       </LPSection>
 
-      <LPSection tone="cream" kicker="進め方" title="進め方">
-        <LPInfoGrid items={PROCESS_STEPS} columns={2} numbered />
-      </LPSection>
-
-      <LPSection tone="white" kicker="料金" title="料金">
-        <div className="lp-pricing-block">
-          <p className="lp-pricing-intro">毎月1回のセッション料金ではなく、事前整理・レビュー・整理メモ・月中の簡易相談まで含めた、月次の判断支援としてご提供します。</p>
-          <div className="lp-pricing-main">
-            <span className="lp-pricing-amount">月額 250,000円</span>
-            <span className="lp-pricing-tax">（税別）</span>
+      <LPSection tone="white" kicker="料金" title="費用と含まれる内容">
+        <div className="rv-price-block">
+          <div>
+            <div className="rv-price-label">月額・継続契約</div>
+            <div className="rv-price-amount">250,000<span style={{fontSize:'18px',fontWeight:600}}>円</span></div>
+            <div className="rv-price-unit">税別 / 月額</div>
+            <div className="rv-price-note">最低契約期間：3ヶ月。3ヶ月以降は1ヶ月前のご連絡で解約可能です。</div>
           </div>
-          <p className="lp-pricing-min">最低契約期間：3ヶ月</p>
-          <div className="lp-pricing-lists">
-            <div className="lp-pricing-col">
-              <p className="lp-pricing-col-head">含まれるもの</p>
-              <ul className="lp-pricing-ul">
-                {INCLUDED.map((item) => <li key={item}>{item}</li>)}
-              </ul>
-            </div>
-            <div className="lp-pricing-col">
-              <p className="lp-pricing-col-head is-excluded">含まれないもの</p>
-              <ul className="lp-pricing-ul is-excluded">
-                {EXCLUDED.map((item) => <li key={item}>{item}</li>)}
-              </ul>
-            </div>
+          <div>
+            <div className="rv-price-right-title">含まれる内容</div>
+            <ul className="rv-check-list">
+              {INCLUDED.map((item) => (
+                <li className="rv-check-item" key={item}>{item}</li>
+              ))}
+            </ul>
+            <div className="rv-cross-label">含まれないもの</div>
+            {NOT_INCLUDED.map((item) => (
+              <div className="rv-cross-item" key={item}>{item}</div>
+            ))}
           </div>
         </div>
       </LPSection>
 
-      <LPSection tone="white" kicker="FAQ" title="よくある質問">
+      <LPSection tone="stone" kicker="FAQ" title="よくあるご質問">
         <LPFaq items={FAQS} openIndex={openFaqIndex} onToggle={toggleFaq} />
       </LPSection>
 
-      <LPSection tone="stone" kicker="継続的な深化" title="必要に応じて、さらに運用を深めることもできます">
-        <div className="lp-prose">
-          <p>月次レビューを続ける中で、必要に応じて、KPI設計や月次運用の整備、予実差異のコメント整理、粗利改善の定点観測など、より深い継続支援へ進めることもできます。</p>
-          <p>どこまで深めるかは、レビューの中で状況を見ながら一緒に判断します。最初から全部を決める必要はありません。</p>
+      <LPSection tone="white" kicker="次のステップ" title="より深い経営支援が必要な場合">
+        <div className="rv-next-grid">
+          <Link href="/yojitsu/" className="rv-next-card">
+            <div className="rv-next-badge">上位支援</div>
+            <div className="rv-next-title">予実管理伴走</div>
+            <div className="rv-next-body">計画と実績の差異を毎月分析し、次の判断材料に変えます。月次経営レビューとの併用も可能です。</div>
+          </Link>
+          <Link href="/meeting-design/" className="rv-next-card">
+            <div className="rv-next-badge">スポット支援</div>
+            <div className="rv-next-title">経営会議設計</div>
+            <div className="rv-next-body">会議の型を一度整えることで、月次の判断が動きやすくなります。</div>
+          </Link>
         </div>
       </LPSection>
 
       <LPSection
         tone="dark"
-        kicker="まずは現状をお聞かせください"
-        title="初回ヒアリングのご予約（無料・30分）"
-        subtitle="まだ課題が整理しきれていない段階でも問題ありません。内容確認後、2営業日以内にご連絡します。"
+        kicker="お問い合わせ"
+        title="まずは現状をお聞かせください。"
+        subtitle="送信後、受付確認メールをお送りします。2営業日以内にご連絡いたします。"
         narrow
         id="form"
       >
         <LPTrustNote
           items={[
-            'まず現状をお聞きするだけの場です',
-            '無理な提案・売り込みはしません',
-            'NDA締結にも対応しています'
+            '秘密厳守・NDA締結可',
+            'まず状況確認からお聞きします',
+            '無理な提案・売り込みはしません'
           ]}
         />
 
@@ -307,53 +589,21 @@ export default function MonthlyReviewPage() {
             </>
           }
           fields={[
-            {
-              name: 'company',
-              label: '会社名',
-              required: true,
-              placeholder: '株式会社○○'
-            },
-            {
-              name: 'name',
-              label: 'お名前',
-              required: true,
-              placeholder: '山田 太郎'
-            },
-            {
-              name: 'email',
-              label: 'メールアドレス',
-              type: 'email',
-              required: true,
-              placeholder: 'info@example.com'
-            },
-            {
-              name: 'industry',
-              label: '業種',
-              required: true,
-              placeholder: '例：製造業、小売業、サービス業'
-            },
-            {
-              name: 'revenue',
-              label: '売上規模（概算）',
-              required: true,
-              placeholder: '例：1〜3億円'
-            },
-            {
-              name: 'message',
-              label: 'ご相談内容・現在の課題（任意）',
-              type: 'textarea',
-              required: false,
-              placeholder: '例：毎月試算表は届くが、読み方と次のアクションがわからない。経営会議を実質的なものにしたい。'
-            }
+            { name: 'company', label: '会社名', required: true, placeholder: '株式会社○○' },
+            { name: 'name', label: 'お名前', required: true, placeholder: '山田 太郎' },
+            { name: 'email', label: 'メールアドレス', type: 'email', required: true, placeholder: 'info@example.com' },
+            { name: 'industry', label: '業種', required: true, placeholder: '例：製造業、小売業、サービス業' },
+            { name: 'revenue', label: '売上規模（概算）', required: true, placeholder: '例：1〜3億円' },
+            { name: 'message', label: 'ご相談内容・現在の課題（任意）', type: 'textarea', required: false, placeholder: '例：毎月試算表は届くが、読み方と次のアクションがわからない。' }
           ]}
         />
       </LPSection>
 
       <LPBottomBar
-        primaryLabel="初回ヒアリングを予約する"
+        primaryLabel="お問い合わせ"
         primaryHref="#form"
-        secondaryLabel="サービス一覧を見る"
-        secondaryHref="/services/"
+        secondaryLabel="相談する"
+        secondaryHref="/contact/"
       />
     </>
   );
