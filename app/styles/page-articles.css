@@ -109,17 +109,47 @@
 
 .article-body pre {
   overflow-x: auto;
-  background: #1f2937;
-  color: #f9fafb;
-  padding: 16px;
-  border-radius: 12px;
+  background: #f3f4f6;
+  color: #1f2937;
+  padding: 16px 20px;
+  border-radius: 10px;
   margin: 20px 0;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 .article-body pre code {
   background: transparent;
   padding: 0;
   color: inherit;
+}
+
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.article-body th {
+  text-align: left;
+  padding: 10px 14px;
+  font-weight: 700;
+  color: var(--navy);
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+}
+
+.article-body td {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text);
+}
+
+.article-body tbody tr:nth-child(even) td {
+  background: #f8fafc;
 }
 
 @media (max-width: 768px) {
