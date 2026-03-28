@@ -23,6 +23,7 @@ const serviceLabel = {
   seizo: { label: "財務健康診断", href: "/seizo" },
   yojitsu: { label: "予実管理伴走", href: "/yojitsu/" },
   "monthly-report": { label: "月次経営レポート", href: "/monthly-report/" },
+  "meeting-design": { label: "経営会議設計", href: "/meeting-design/" },
 };
 
 export const dynamicParams = false;
