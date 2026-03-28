@@ -21,6 +21,7 @@ const serviceLabel = {
   cashflow: { label: "キャッシュフロー改善", href: "/cashflow" },
   "bank-plan": { label: "銀行融資・事業計画", href: "/bank-plan" },
   seizo: { label: "財務健康診断", href: "/seizo" },
+  yojitsu: { label: "予実管理伴走", href: "/yojitsu/" },
 };
 
 export const dynamicParams = false;
