@@ -34,6 +34,22 @@ export function LPInfoGrid({ items, columns = 3, numbered = false }) {
   );
 }
 
+export function LPStepFlow({ items }) {
+  return (
+    <div className="lp-step-list">
+      {items.map((item, i) => (
+        <div className="lp-step-item" key={item.title}>
+          <div className="lp-step-no">{String(i + 1).padStart(2, '0')}</div>
+          <div className="lp-step-body">
+            <div className="lp-step-title">{item.title}</div>
+            {item.body ? <div className="lp-step-desc">{item.body}</div> : null}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function LPFitGrid({ yesTitle, yesItems, noTitle, noItems }) {
   return (
     <div className="lp-fit-grid">

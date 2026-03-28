@@ -7,14 +7,14 @@ export default function LPHero({
   note
 }) {
   return (
-    <section className="lp-hero lp-dark">
+    <section className="lp-hero">
       <div className="lp-wrap lp-wrap-narrow">
         <div className="lp-hero-shell">
           {eyebrow ? <div className="lp-eyebrow">{eyebrow}</div> : null}
 
           <h1 className="lp-hero-title">{title}</h1>
 
-          {lead ? <p className="lp-lead lp-lead-dark">{lead}</p> : null}
+          {lead ? <p className="lp-lead">{lead}</p> : null}
 
           <div className="lp-hero-actions">
             <a href={ctaHref} className="lp-primary-btn">
