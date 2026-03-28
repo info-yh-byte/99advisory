@@ -20,6 +20,7 @@ const COLORS = {
 const categoryLabel = {
   cashflow: "資金繰り",
   bank: "銀行・融資",
+  seizo: "財務診断",
   management: "経営管理",
   marketing: "広告・マーケ",
 };
