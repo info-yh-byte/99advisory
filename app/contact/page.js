@@ -52,7 +52,7 @@ export default function ContactPage() {
       });
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.detail || data.error || '送信に失敗しました');
-      router.push('/thanks');
+      router.push('/thanks?service=contact');
     } catch (err) {
       setSubmitError(err.message || '送信に失敗しました。時間を置いて再度お試しください。');
     } finally {

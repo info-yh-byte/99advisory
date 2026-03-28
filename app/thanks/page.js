@@ -6,190 +6,163 @@ import { Suspense } from 'react';
 
 const SERVICE_MAP = {
   seizo: {
-    title: '経営数字診断の資料請求を受け付けました',
-    description:
-      'ご入力いただいたメールアドレス宛に、自動返信メールをお送りしています。まずはメールをご確認ください。',
-    resources: [
-      {
-        href: '/seizo/',
-        label: 'サービスページ',
-        title: '経営数字診断ページに戻る',
-        body: '内容をもう一度確認したい場合はこちら。'
-      },
-      {
-        href: '/articles/',
-        label: '記事一覧',
-        title: '先に記事を読む',
-        body: '経営判断や数字の見方に関する記事を読めます。'
-      },
-      {
-        href: '/contact/',
-        label: 'お問い合わせ',
-        title: 'そのまま相談する',
-        body: '状況がはっきりしている場合は、こちらからご相談ください。'
-      }
-    ]
+    heading: '財務健康診断へのお問い合わせを受け付けました',
+    body: '内容を確認のうえ、2営業日以内にご連絡いたします。初回ヒアリング（30分・無料）の日程をご提案します。',
+    next: { label: '財務健康診断の詳細を見る', href: '/seizo/' },
   },
   cashflow: {
-    title: '資金繰りチェック資料の請求を受け付けました',
-    description:
-      'ご入力いただいたメールアドレス宛に、自動返信メールをお送りしています。届かない場合は迷惑メールフォルダもご確認ください。',
-    resources: [
-      {
-        href: '/articles/profit-vs-cash/',
-        label: '関連記事',
-        title: '黒字なのに現金が残らない理由',
-        body: '利益と現金がズレる基本構造を、先に整理できます。'
-      },
-      {
-        href: '/cashflow/',
-        label: 'サービスページ',
-        title: '資金繰り改善支援ページに戻る',
-        body: '支援内容をあらためて確認したい場合はこちら。'
-      },
-      {
-        href: '/contact/',
-        label: 'お問い合わせ',
-        title: 'そのまま相談する',
-        body: '状況が具体的であれば、相談内容をそのままお送りください。'
-      }
-    ]
-  },
-  'monthly-review': {
-    title: '初回ヒアリングのご予約を受け付けました',
-    description:
-      'ご入力いただいたメールアドレス宛に、受付確認メールをお送りしています。内容を確認のうえ、2営業日以内にご連絡いたします。',
-    resources: [
-      {
-        href: '/monthly-review/',
-        label: 'サービスページ',
-        title: '月次経営レビューのページに戻る',
-        body: '進め方や料金をあらためて確認したい場合はこちら。'
-      },
-      {
-        href: '/articles/',
-        label: '記事一覧',
-        title: '先に記事を読む',
-        body: '経営判断や数字の見方に関する記事を読めます。'
-      },
-      {
-        href: '/services/',
-        label: 'サービス一覧',
-        title: 'その他のサービスを見る',
-        body: '資金繰り改善・融資準備など、他の支援メニューはこちら。'
-      }
-    ]
-  },
-
-  contact: {
-    title: 'お問い合わせを受け付けました',
-    description:
-      'ご入力いただいたメールアドレス宛に、受付確認メールをお送りしています。内容を確認次第、通常2営業日以内にご返信いたします。',
-    resources: [
-      {
-        href: '/services/',
-        label: 'サービス一覧',
-        title: 'サービスの概要を見る',
-        body: '各支援メニューの内容と進め方を確認できます。'
-      },
-      {
-        href: '/articles/',
-        label: '記事一覧',
-        title: '先に記事を読む',
-        body: '資金繰り・経営判断に関する記事一覧はこちら。'
-      },
-      {
-        href: '/',
-        label: 'トップページ',
-        title: 'ホームへ戻る',
-        body: '99advisoryのトップページに戻ります。'
-      }
-    ]
+    heading: '資金繰り診断へのお問い合わせを受け付けました',
+    body: '内容を確認のうえ、2営業日以内にご連絡いたします。初回ヒアリング（30分・無料）の日程をご提案します。',
+    next: { label: '資金繰り診断の詳細を見る', href: '/cashflow/' },
   },
   'bank-plan': {
-    title: '融資準備資料の請求を受け付けました',
-    description:
-      'ご入力いただいたメールアドレス宛に、自動返信メールをお送りしています。メール内の案内をご確認ください。',
-    resources: [
-      {
-        href: '/articles/bank-loan-checkpoints/',
-        label: '関連記事',
-        title: '銀行融資を受ける前に確認しておくべき5つのポイント',
-        body: '銀行が見ている論点を先に確認できます。'
-      },
-      {
-        href: '/bank-plan/',
-        label: 'サービスページ',
-        title: '銀行融資支援ページに戻る',
-        body: '支援内容や相談の流れを見直したい場合はこちら。'
-      },
-      {
-        href: '/contact/',
-        label: 'お問い合わせ',
-        title: 'そのまま相談する',
-        body: '融資・借換え・リスケ前の相談がある場合はこちら。'
-      }
-    ]
-  }
+    heading: '銀行向け事業計画へのお問い合わせを受け付けました',
+    body: '内容を確認のうえ、2営業日以内にご連絡いたします。融資スケジュールがある場合はその旨をお知らせください。',
+    next: { label: '銀行向け事業計画の詳細を見る', href: '/bank-plan/' },
+  },
+  'monthly-report': {
+    heading: '月次経営レポートへのお問い合わせを受け付けました',
+    body: '内容を確認のうえ、2営業日以内にご連絡いたします。初回ヒアリング（30分・無料）の日程をご提案します。',
+    next: { label: '月次経営レポートの詳細を見る', href: '/monthly-report/' },
+  },
+  'monthly-review': {
+    heading: '月次経営レビューへのお問い合わせを受け付けました',
+    body: '内容を確認のうえ、2営業日以内にご連絡いたします。初回ヒアリング（30分・無料）の日程をご提案します。',
+    next: { label: '月次経営レビューの詳細を見る', href: '/monthly-review/' },
+  },
+  yojitsu: {
+    heading: '予実管理伴走へのお問い合わせを受け付けました',
+    body: '内容を確認のうえ、2営業日以内にご連絡いたします。現在の予実管理の状況もあわせてご共有ください。',
+    next: { label: '予実管理伴走の詳細を見る', href: '/yojitsu/' },
+  },
+  'meeting-design': {
+    heading: '経営会議設計へのお問い合わせを受け付けました',
+    body: '内容を確認のうえ、2営業日以内にご連絡いたします。現在の会議体の構成があればご共有いただけると助かります。',
+    next: { label: '経営会議設計の詳細を見る', href: '/meeting-design/' },
+  },
+  contact: {
+    heading: 'お問い合わせを受け付けました',
+    body: '内容を確認のうえ、2営業日以内にご連絡いたします。',
+    next: { label: 'サービス一覧を見る', href: '/services/' },
+  },
 };
 
-function getThanksContent(service) {
-  return SERVICE_MAP[service] || {
-    title: '送信を受け付けました',
-    description:
-      'ご入力いただいたメールアドレス宛に、自動返信メールをお送りしています。まずはメールをご確認ください。',
-    resources: [
-      {
-        href: '/articles/',
-        label: '記事一覧',
-        title: '先に記事を読む',
-        body: '関連する記事一覧はこちらです。'
-      },
-      {
-        href: '/contact/',
-        label: 'お問い合わせ',
-        title: 'そのまま相談する',
-        body: '相談をご希望の場合はこちらからお送りください。'
-      }
-    ]
-  };
-}
+const DEFAULT = {
+  heading: '送信を受け付けました',
+  body: '内容を確認のうえ、2営業日以内にご連絡いたします。',
+  next: { label: 'サービス一覧を見る', href: '/services/' },
+};
 
 function ThanksContent() {
   const searchParams = useSearchParams();
   const service = searchParams.get('service') || '';
-  const content = getThanksContent(service);
+  const { heading, body, next } = SERVICE_MAP[service] || DEFAULT;
 
   return (
     <>
-      <div className="thanks-shell">
-        <div className="thanks-badge">THANK YOU</div>
-        <h1 className="thanks-title">{content.title}</h1>
-        <p className="thanks-description">{content.description}</p>
+      <style>{`
+        .th-page {
+          background: var(--bg);
+          min-height: 100vh;
+          display: flex;
+          align-items: flex-start;
+          justify-content: center;
+          padding: 96px 40px;
+        }
+        .th-wrap {
+          max-width: 560px;
+          width: 100%;
+          text-align: center;
+        }
+        .th-icon {
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          background: #eff6ff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 28px;
+        }
+        .th-heading {
+          font-size: clamp(20px, 3vw, 26px);
+          font-weight: 800;
+          color: var(--navy);
+          line-height: 1.4;
+          margin: 0 0 16px;
+        }
+        .th-body {
+          font-size: 15px;
+          color: var(--muted);
+          line-height: 1.8;
+          margin: 0 0 20px;
+        }
+        .th-note {
+          font-size: 13px;
+          color: var(--hint);
+          line-height: 1.7;
+          margin: 0 0 36px;
+        }
+        .th-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          align-items: center;
+        }
+        .th-btn-primary {
+          display: inline-block;
+          padding: 14px 32px;
+          background: var(--navy);
+          color: #fff;
+          font-size: 15px;
+          font-weight: 700;
+          border-radius: 9999px;
+          text-decoration: none;
+          transition: opacity 0.2s;
+          width: 100%;
+          max-width: 360px;
+          box-sizing: border-box;
+        }
+        .th-btn-primary:hover { opacity: 0.88; }
+        .th-btn-secondary {
+          display: inline-block;
+          padding: 13px 32px;
+          background: transparent;
+          color: var(--navy);
+          font-size: 15px;
+          font-weight: 600;
+          border-radius: 9999px;
+          border: 1.5px solid var(--border);
+          text-decoration: none;
+          transition: border-color 0.2s, color 0.2s;
+          width: 100%;
+          max-width: 360px;
+          box-sizing: border-box;
+        }
+        .th-btn-secondary:hover { border-color: var(--navy); }
 
-        <div className="thanks-note">
-          メールが見当たらない場合は、迷惑メールフォルダ・プロモーションタブもご確認ください。
+        @media (max-width: 768px) {
+          .th-page { padding: 72px 20px; }
+        }
+      `}</style>
+
+      <div className="th-page">
+        <div className="th-wrap">
+          <div className="th-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+              <path d="M6 14.5l5.5 5.5L22 9" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <h1 className="th-heading">{heading}</h1>
+          <p className="th-body">{body}</p>
+          <p className="th-note">
+            受付確認メールをお送りしています。メールが届かない場合は、迷惑メールフォルダもご確認ください。
+          </p>
+          <div className="th-actions">
+            <Link href={next.href} className="th-btn-primary">{next.label}</Link>
+            <Link href="/" className="th-btn-secondary">トップページへ</Link>
+          </div>
         </div>
-
-        <div className="thanks-actions">
-          <Link href="/contact/" className="thanks-primary">
-            相談内容を送る
-          </Link>
-          <Link href="/" className="thanks-secondary">
-            ホームへ戻る
-          </Link>
-        </div>
-      </div>
-
-      <div className="thanks-resource-grid">
-        {content.resources.map((item) => (
-          <Link key={item.href + item.title} href={item.href} className="thanks-resource-card">
-            <div className="thanks-resource-label">{item.label}</div>
-            <div className="thanks-resource-title">{item.title}</div>
-            <div className="thanks-resource-body">{item.body}</div>
-            <div className="thanks-resource-link">見る →</div>
-          </Link>
-        ))}
       </div>
     </>
   );
@@ -197,12 +170,8 @@ function ThanksContent() {
 
 export default function ThanksPage() {
   return (
-    <div className="thanks-page">
-      <div className="thanks-wrap">
-        <Suspense>
-          <ThanksContent />
-        </Suspense>
-      </div>
-    </div>
+    <Suspense>
+      <ThanksContent />
+    </Suspense>
   );
 }
