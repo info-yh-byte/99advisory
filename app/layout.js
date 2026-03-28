@@ -25,7 +25,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ja" className={`${inter.variable} ${notoSansJP.variable}`}>
-      <body>
+      <body className={`${inter.variable} ${notoSansJP.variable}`}>
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

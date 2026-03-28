@@ -11,11 +11,14 @@ export default function SiteHeader() {
         </Link>
 
         <nav className="site-nav">
-          {navigation.header.map((item) => (
+          {navigation.header.filter(item => item.href !== '/contact/').map((item) => (
             <Link key={item.href} href={item.href}>
               {item.label}
             </Link>
           ))}
+          <Link href="/contact/" className="site-nav-cta">
+            相談する
+          </Link>
         </nav>
       </div>
     </header>
