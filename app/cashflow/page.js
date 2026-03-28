@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import LPHero from '@/components/lp/LPHero';
+import LPProblemSection from '@/components/lp/LPProblemSection';
 import LPSection from '@/components/lp/LPSection';
 import { LPStepFlow, LPFitGrid } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
@@ -188,40 +189,6 @@ export default function CashflowPage() {
   return (
     <>
       <style>{`
-        .cf-problem-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-        .cf-problem-card {
-          background: var(--bg);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-md);
-          padding: 20px 20px 20px 24px;
-        }
-        .cf-problem-card:last-child:nth-child(odd) {
-          grid-column: 1;
-          max-width: calc(50% - 6px);
-        }
-        .cf-problem-no {
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          color: var(--blue);
-          margin-bottom: 8px;
-        }
-        .cf-problem-title {
-          font-size: 15px;
-          font-weight: 700;
-          color: var(--text);
-          margin-bottom: 6px;
-          line-height: 1.5;
-        }
-        .cf-problem-body {
-          font-size: 13px;
-          color: var(--muted);
-          line-height: 1.7;
-        }
         .cf-deliv-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -386,8 +353,6 @@ export default function CashflowPage() {
           line-height: 1.6;
         }
         @media (max-width: 768px) {
-          .cf-problem-grid { grid-template-columns: 1fr; }
-          .cf-problem-card:last-child:nth-child(odd) { grid-column: auto; max-width: 100%; }
           .cf-deliv-grid { grid-template-columns: 1fr; }
           .cf-price-block { grid-template-columns: 1fr; gap: 20px; }
           .cf-next-grid { grid-template-columns: 1fr; }
@@ -403,17 +368,12 @@ export default function CashflowPage() {
         note="メールアドレスに支援内容と進め方をお送りします"
       />
 
-      <LPSection tone="stone" kicker="こんな悩みはありませんか" title="資金繰りで経営者が直面しやすい5つの状態">
-        <div className="cf-problem-grid">
-          {PROBLEMS.map((p) => (
-            <div className="cf-problem-card" key={p.no}>
-              <div className="cf-problem-no">{p.no}</div>
-              <div className="cf-problem-title">{p.title}</div>
-              <div className="cf-problem-body">{p.body}</div>
-            </div>
-          ))}
-        </div>
-      </LPSection>
+      <LPProblemSection
+        tone="stone"
+        kicker="こんな悩みはありませんか"
+        title="資金繰りで経営者が直面しやすい5つの状態"
+        items={PROBLEMS}
+      />
 
       <LPSection tone="white" kicker="支援で得られるもの" title="支援後に手元に残る3つの成果物">
         <div className="cf-deliv-grid">

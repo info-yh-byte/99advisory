@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import LPHero from '@/components/lp/LPHero';
+import LPProblemSection from '@/components/lp/LPProblemSection';
 import LPSection from '@/components/lp/LPSection';
 import { LPStepFlow, LPFitGrid } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
@@ -232,40 +233,6 @@ export default function MonthlyReviewPage() {
           text-decoration: none;
         }
         .rv-diff-link:hover { text-decoration: underline; }
-        .rv-problem-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-        .rv-problem-card {
-          background: var(--bg);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-md);
-          padding: 20px 20px 20px 24px;
-        }
-        .rv-problem-card:last-child:nth-child(odd) {
-          grid-column: 1;
-          max-width: calc(50% - 6px);
-        }
-        .rv-problem-no {
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          color: var(--blue);
-          margin-bottom: 8px;
-        }
-        .rv-problem-title {
-          font-size: 15px;
-          font-weight: 700;
-          color: var(--text);
-          margin-bottom: 6px;
-          line-height: 1.5;
-        }
-        .rv-problem-body {
-          font-size: 13px;
-          color: var(--muted);
-          line-height: 1.7;
-        }
         .rv-deliv-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -431,8 +398,6 @@ export default function MonthlyReviewPage() {
         }
         @media (max-width: 768px) {
           .rv-diff-row { grid-template-columns: 1fr; }
-          .rv-problem-grid { grid-template-columns: 1fr; }
-          .rv-problem-card:last-child:nth-child(odd) { grid-column: auto; max-width: 100%; }
           .rv-deliv-grid { grid-template-columns: 1fr; }
           .rv-price-block { grid-template-columns: 1fr; gap: 20px; }
           .rv-next-grid { grid-template-columns: 1fr; }
@@ -467,17 +432,12 @@ export default function MonthlyReviewPage() {
         </div>
       </LPSection>
 
-      <LPSection tone="white" kicker="こんな状態が続いていませんか" title="月次レビューが必要な5つの状態">
-        <div className="rv-problem-grid">
-          {PROBLEMS.map((p) => (
-            <div className="rv-problem-card" key={p.no}>
-              <div className="rv-problem-no">{p.no}</div>
-              <div className="rv-problem-title">{p.title}</div>
-              <div className="rv-problem-body">{p.body}</div>
-            </div>
-          ))}
-        </div>
-      </LPSection>
+      <LPProblemSection
+        tone="white"
+        kicker="こんな状態が続いていませんか"
+        title="月次レビューが必要な5つの状態"
+        items={PROBLEMS}
+      />
 
       <LPSection tone="stone" kicker="お渡しするもの" title="毎月のセッションで得られる3つの成果">
         <div className="rv-deliv-grid">

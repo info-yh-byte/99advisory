@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import LPHero from '@/components/lp/LPHero';
+import LPProblemSection from '@/components/lp/LPProblemSection';
 import LPSection from '@/components/lp/LPSection';
 import { LPStepFlow, LPFitGrid } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
@@ -181,40 +182,6 @@ export default function MeetingDesignPage() {
   return (
     <>
       <style>{`
-        .md-problem-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-        .md-problem-card {
-          background: var(--bg);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-md);
-          padding: 20px 20px 20px 24px;
-        }
-        .md-problem-card:last-child:nth-child(odd) {
-          grid-column: 1;
-          max-width: calc(50% - 6px);
-        }
-        .md-problem-no {
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          color: var(--blue);
-          margin-bottom: 8px;
-        }
-        .md-problem-title {
-          font-size: 15px;
-          font-weight: 700;
-          color: var(--text);
-          margin-bottom: 6px;
-          line-height: 1.5;
-        }
-        .md-problem-body {
-          font-size: 13px;
-          color: var(--muted);
-          line-height: 1.7;
-        }
         .md-deliv-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -404,8 +371,6 @@ export default function MeetingDesignPage() {
           line-height: 1.6;
         }
         @media (max-width: 768px) {
-          .md-problem-grid { grid-template-columns: 1fr; }
-          .md-problem-card:last-child:nth-child(odd) { grid-column: auto; max-width: 100%; }
           .md-deliv-grid { grid-template-columns: 1fr; }
           .md-price-block { grid-template-columns: 1fr; gap: 20px; }
           .md-next-card { max-width: 100%; }
@@ -421,17 +386,12 @@ export default function MeetingDesignPage() {
         note="会議設計のみ。運営・ファシリテーションは含まれません"
       />
 
-      <LPSection tone="stone" kicker="こんな状態が続いていませんか" title="会議が機能しない5つの状態">
-        <div className="md-problem-grid">
-          {PROBLEMS.map((p) => (
-            <div className="md-problem-card" key={p.no}>
-              <div className="md-problem-no">{p.no}</div>
-              <div className="md-problem-title">{p.title}</div>
-              <div className="md-problem-body">{p.body}</div>
-            </div>
-          ))}
-        </div>
-      </LPSection>
+      <LPProblemSection
+        tone="stone"
+        kicker="こんな状態が続いていませんか"
+        title="会議が機能しない5つの状態"
+        items={PROBLEMS}
+      />
 
       <LPSection tone="white" kicker="お渡しするもの" title="納品する3つの設計資料">
         <div className="md-deliv-grid">

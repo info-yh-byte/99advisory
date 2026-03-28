@@ -8,11 +8,26 @@ export const metadata = {
 };
 
 const PROBLEMS = [
-  '利益は出ているのに、現金が思ったほど残らない',
-  '毎月の数字を見ても、何を優先すべきか決めきれない',
-  '銀行や社内への説明資料づくりが、いつも後回しになる',
-  '資金繰りに不安はあるが、どこから整理すればいいか見えない',
-  '単発の相談だけでなく、継続的に相談できる先が欲しい',
+  {
+    tag: '資金繰り',
+    text: '利益は出ているのに、現金が思ったほど残らない',
+  },
+  {
+    tag: '優先判断',
+    text: '毎月の数字を見ても、何を優先すべきか決めきれない',
+  },
+  {
+    tag: '説明準備',
+    text: '銀行や社内への説明資料づくりが、いつも後回しになる',
+  },
+  {
+    tag: '状況整理',
+    text: '資金繰りに不安はあるが、どこから整理すればいいか見えない',
+  },
+  {
+    tag: '継続相談',
+    text: '単発の相談だけでなく、継続的に相談できる先が欲しい',
+  },
 ];
 
 export default function HomePage() {
@@ -144,39 +159,121 @@ export default function HomePage() {
           padding: 72px 40px;
         }
         .hp-problems-inner {
-          max-width: 820px;
+          max-width: 1040px;
           margin: 0 auto;
         }
-        .hp-problem-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-        .hp-problem-card {
+        .hp-problem-shell {
           background: #fff;
-          border-radius: 20px;
-          padding: 28px 24px;
-          display: flex;
-          align-items: flex-start;
+          border: 1px solid var(--border);
+          border-radius: calc(var(--radius-xl) + 4px);
+          padding: 16px;
+          display: grid;
+          grid-template-columns: minmax(240px, 288px) minmax(0, 1fr);
           gap: 16px;
         }
-        .hp-problem-card.is-last {
-          grid-column: 1;
-          max-width: calc(50% - 6px);
+        .hp-problem-side {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-xl);
+          padding: 28px 24px;
+        }
+        .hp-problem-side-badge {
+          display: inline-flex;
+          align-items: center;
+          padding: 6px 12px;
+          border-radius: var(--radius-pill);
+          background: #fff;
+          border: 1px solid var(--border);
+          color: var(--blue);
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: .08em;
+          text-transform: uppercase;
+          margin-bottom: 16px;
+        }
+        .hp-problem-side-title {
+          font-size: 28px;
+          font-weight: 700;
+          color: var(--navy);
+          line-height: 1.3;
+          letter-spacing: -0.03em;
+          margin: 0 0 12px;
+        }
+        .hp-problem-side-body {
+          font-size: 14px;
+          color: var(--muted);
+          line-height: 1.85;
+          margin: 0 0 24px;
+        }
+        .hp-problem-side-note {
+          border-top: 1px solid var(--border);
+          padding-top: 18px;
+        }
+        .hp-problem-side-note-title {
+          display: block;
+          font-size: 12px;
+          font-weight: 700;
+          color: var(--text-sub);
+          letter-spacing: .04em;
+          margin-bottom: 8px;
+        }
+        .hp-problem-side-note-text {
+          font-size: 13px;
+          color: var(--faint);
+          line-height: 1.75;
+          margin: 0;
+        }
+        .hp-problem-list {
+          list-style: none;
+          margin: 0;
+          padding: 6px 0;
+          background: #fff;
+          border: 1px solid var(--border);
+          border-radius: var(--radius-xl);
+          overflow: hidden;
+        }
+        .hp-problem-row {
+          display: grid;
+          grid-template-columns: 92px minmax(0, 1fr);
+          gap: 18px;
+          align-items: center;
+          padding: 22px 24px;
+          border-bottom: 1px solid var(--border);
+        }
+        .hp-problem-row:last-child {
+          border-bottom: none;
+        }
+        .hp-problem-meta {
+          display: grid;
+          gap: 8px;
+          justify-items: start;
         }
         .hp-problem-num {
-          font-size: 11px;
-          font-weight: 800;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 52px;
+          height: 30px;
+          padding: 0 12px;
+          border-radius: var(--radius-pill);
+          background: var(--blue-light);
           color: var(--blue);
-          min-width: 24px;
-          padding-top: 3px;
-          letter-spacing: .05em;
-          flex-shrink: 0;
+          font-size: 12px;
+          font-weight: 800;
+          letter-spacing: .08em;
+        }
+        .hp-problem-tag {
+          font-size: 12px;
+          font-weight: 700;
+          color: var(--hint);
+          letter-spacing: .04em;
         }
         .hp-problem-text {
-          font-size: 15px;
-          color: var(--text-sub);
-          line-height: 1.65;
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--navy);
+          line-height: 1.55;
+          letter-spacing: -0.02em;
           margin: 0;
         }
 
@@ -497,12 +594,27 @@ export default function HomePage() {
           .hp-about-inner, .hp-services-inner, .hp-deliv-inner, .hp-final-inner {
             padding: 0;
           }
-          .hp-problem-grid {
+          .hp-problem-shell {
             grid-template-columns: 1fr;
+            padding: 14px;
           }
-          .hp-problem-card.is-last {
-            grid-column: auto;
-            max-width: none;
+          .hp-problem-side {
+            padding: 24px 20px;
+          }
+          .hp-problem-side-title {
+            font-size: 24px;
+          }
+          .hp-problem-list {
+            padding: 0;
+          }
+          .hp-problem-row {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            padding: 18px 20px;
+            align-items: flex-start;
+          }
+          .hp-problem-text {
+            font-size: 16px;
           }
           .hp-svc-grid,
           .hp-deliv-grid {
@@ -553,16 +665,36 @@ export default function HomePage() {
           <p className="hp-kicker">よくある悩み</p>
           <h2 className="hp-heading">こんな状態で、止まっていませんか</h2>
           <p className="hp-lead">経営者・財務担当者からよくお聞きする5つの課題です。</p>
-          <div className="hp-problem-grid">
-            {PROBLEMS.map((text, i) => (
-              <div
-                key={text}
-                className={`hp-problem-card${i === 4 ? ' is-last' : ''}`}
-              >
-                <span className="hp-problem-num">{String(i + 1).padStart(2, '0')}</span>
-                <p className="hp-problem-text">{text}</p>
+          <div className="hp-problem-shell">
+            <div className="hp-problem-side">
+              <span className="hp-problem-side-badge">5つの相談テーマ</span>
+              <p className="hp-problem-side-title">
+                数字は見えていても、
+                <br />
+                判断材料の整理で止まりやすい場面です。
+              </p>
+              <p className="hp-problem-side-body">
+                資金繰り、優先順位、社内外への説明準備。
+                課題はひとつだけでなく、複数が重なって現れることがよくあります。
+              </p>
+              <div className="hp-problem-side-note">
+                <span className="hp-problem-side-note-title">まず整えること</span>
+                <p className="hp-problem-side-note-text">
+                  数字を増やすことではなく、いま判断に必要な視点を揃えて見える形にすることです。
+                </p>
               </div>
-            ))}
+            </div>
+            <ul className="hp-problem-list">
+              {PROBLEMS.map(({ tag, text }, i) => (
+                <li key={text} className="hp-problem-row">
+                  <div className="hp-problem-meta">
+                    <span className="hp-problem-num">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="hp-problem-tag">{tag}</span>
+                  </div>
+                  <p className="hp-problem-text">{text}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

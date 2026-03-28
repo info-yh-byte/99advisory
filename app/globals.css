@@ -1218,6 +1218,75 @@ main {
   line-height: 1.9;
 }
 
+.lp-problem-shell {
+  padding: 10px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,.9) 0%, rgba(248,250,252,.86) 100%);
+  border: 1px solid rgba(24, 35, 50, 0.08);
+  box-shadow: 0 10px 30px rgba(17, 30, 48, 0.05);
+}
+
+.lp-problem-list {
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(24, 35, 50, 0.08);
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(10px);
+}
+
+.lp-problem-item {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 24px 22px;
+  border-bottom: 1px solid rgba(24, 35, 50, 0.08);
+}
+
+.lp-problem-item:last-child {
+  border-bottom: none;
+}
+
+.lp-problem-meta {
+  display: grid;
+  justify-items: start;
+}
+
+.lp-problem-no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.10);
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.lp-problem-copy {
+  min-width: 0;
+}
+
+.lp-problem-title {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+
+.lp-problem-body {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
 .lp-fit-col {
   padding: 26px;
   background:
@@ -1356,6 +1425,17 @@ main {
   .lp-fit-col,
   .lp-faq-item {
     border-radius: 16px;
+  }
+
+  .lp-problem-shell,
+  .lp-problem-list {
+    border-radius: 16px;
+  }
+
+  .lp-problem-item {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 18px 18px;
   }
 }
 

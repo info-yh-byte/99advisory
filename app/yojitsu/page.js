@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import LPHero from '@/components/lp/LPHero';
+import LPProblemSection from '@/components/lp/LPProblemSection';
 import LPSection from '@/components/lp/LPSection';
 import { LPStepFlow, LPFitGrid } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
@@ -194,40 +195,6 @@ export default function YojitsuPage() {
           font-size: 13px;
           color: var(--hint);
         }
-        .yj-problem-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-        .yj-problem-card {
-          background: var(--bg);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-md);
-          padding: 20px 20px 20px 24px;
-        }
-        .yj-problem-card:last-child:nth-child(odd) {
-          grid-column: 1;
-          max-width: calc(50% - 6px);
-        }
-        .yj-problem-no {
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          color: var(--blue);
-          margin-bottom: 8px;
-        }
-        .yj-problem-title {
-          font-size: 15px;
-          font-weight: 700;
-          color: var(--text);
-          margin-bottom: 6px;
-          line-height: 1.5;
-        }
-        .yj-problem-body {
-          font-size: 13px;
-          color: var(--muted);
-          line-height: 1.7;
-        }
         .yj-deliv-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -409,8 +376,6 @@ export default function YojitsuPage() {
         }
         @media (max-width: 768px) {
           .yj-hero-note { padding: 10px 16px; }
-          .yj-problem-grid { grid-template-columns: 1fr; }
-          .yj-problem-card:last-child:nth-child(odd) { grid-column: auto; max-width: 100%; }
           .yj-deliv-grid { grid-template-columns: 1fr; }
           .yj-price-block { grid-template-columns: 1fr; gap: 20px; }
           .yj-next-grid { grid-template-columns: 1fr; }
@@ -430,17 +395,12 @@ export default function YojitsuPage() {
         ※ このサービスは、すでに年度予算またはそれに準じる計画がある会社向けです。
       </div>
 
-      <LPSection tone="stone" kicker="こんな状態が続いていませんか" title="予実管理が機能しない5つの状態">
-        <div className="yj-problem-grid">
-          {PROBLEMS.map((p) => (
-            <div className="yj-problem-card" key={p.no}>
-              <div className="yj-problem-no">{p.no}</div>
-              <div className="yj-problem-title">{p.title}</div>
-              <div className="yj-problem-body">{p.body}</div>
-            </div>
-          ))}
-        </div>
-      </LPSection>
+      <LPProblemSection
+        tone="stone"
+        kicker="こんな状態が続いていませんか"
+        title="予実管理が機能しない5つの状態"
+        items={PROBLEMS}
+      />
 
       <LPSection tone="white" kicker="お渡しするもの" title="毎月納品する3つの成果物">
         <div className="yj-deliv-grid">

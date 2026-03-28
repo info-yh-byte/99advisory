@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import LPHero from '@/components/lp/LPHero';
+import LPProblemSection from '@/components/lp/LPProblemSection';
 import LPSection from '@/components/lp/LPSection';
 import { LPStepFlow, LPFitGrid } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
@@ -189,41 +190,6 @@ export default function SeizoPage() {
   return (
     <>
       <style>{`
-        .sz-problem-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-        .sz-problem-card {
-          background: var(--bg);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-md);
-          padding: 20px 20px 20px 24px;
-          position: relative;
-        }
-        .sz-problem-card:last-child:nth-child(odd) {
-          grid-column: 1;
-          max-width: calc(50% - 6px);
-        }
-        .sz-problem-no {
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          color: var(--blue);
-          margin-bottom: 8px;
-        }
-        .sz-problem-title {
-          font-size: 15px;
-          font-weight: 700;
-          color: var(--text);
-          margin-bottom: 6px;
-          line-height: 1.5;
-        }
-        .sz-problem-body {
-          font-size: 13px;
-          color: var(--muted);
-          line-height: 1.7;
-        }
         .sz-deliv-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -398,8 +364,6 @@ export default function SeizoPage() {
           line-height: 1.6;
         }
         @media (max-width: 768px) {
-          .sz-problem-grid { grid-template-columns: 1fr; }
-          .sz-problem-card:last-child:nth-child(odd) { grid-column: auto; max-width: 100%; }
           .sz-deliv-grid { grid-template-columns: 1fr; }
           .sz-price-block { grid-template-columns: 1fr; gap: 20px; }
           .sz-next-grid { grid-template-columns: 1fr; }
@@ -415,17 +379,12 @@ export default function SeizoPage() {
         note="メールアドレスに支援概要と進め方をお送りします"
       />
 
-      <LPSection tone="stone" kicker="こんな悩みはありませんか" title="経営者がよく抱える5つの状態">
-        <div className="sz-problem-grid">
-          {PROBLEMS.map((p) => (
-            <div className="sz-problem-card" key={p.no}>
-              <div className="sz-problem-no">{p.no}</div>
-              <div className="sz-problem-title">{p.title}</div>
-              <div className="sz-problem-body">{p.body}</div>
-            </div>
-          ))}
-        </div>
-      </LPSection>
+      <LPProblemSection
+        tone="stone"
+        kicker="こんな悩みはありませんか"
+        title="経営者がよく抱える5つの状態"
+        items={PROBLEMS}
+      />
 
       <LPSection tone="white" kicker="診断で得られるもの" title="支援後に手元に残る3つの成果物">
         <div className="sz-deliv-grid">
