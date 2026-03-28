@@ -2,106 +2,125 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import LPHero from '@/components/lp/LPHero';
 import LPSection from '@/components/lp/LPSection';
-import { LPFitGrid, LPInfoGrid, LPStackList } from '@/components/lp/LPCardGrid';
+import { LPStepFlow, LPFitGrid } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
 import LPLeadForm from '@/components/lp/LPLeadForm';
 import LPBottomBar from '@/components/lp/LPBottomBar';
 import LPTrustNote from '@/components/lp/LPTrustNote';
-import LPResourceCards from '@/components/lp/LPResourceCards';
 
-const SYMPTOMS = [
+const PROBLEMS = [
   {
+    no: '01',
     title: '利益は出ているのに、月末の残高が不安',
-    body: '試算表では黒字でも、口座残高に余裕がなく、常に資金繰りが気になる状態です。'
+    body: '試算表では黒字でも、口座残高に余裕がない。利益と現金のズレがどこで起きているか見えていない。'
   },
   {
-    title: '入金と支払いのズレが大きい',
-    body: '売上は立っているが、回収前に支払いが先に来て苦しくなる。売掛金や支払サイトの整理が弱い状態です。'
+    no: '02',
+    title: '入金と支払いのタイミングがいつもずれている',
+    body: '売上は立っているが、回収前に支払いが先に来て苦しくなる。サイトの整理が後回しになっている。'
   },
   {
-    title: 'どこに資金が詰まっているのか分からない',
-    body: '在庫、売掛金、借入返済、外注費など、どこを先に見るべきか整理できていません。'
+    no: '03',
+    title: 'どこに資金が詰まっているか分からない',
+    body: '売掛金・在庫・借入返済・外注費など、どこを先に見るべきか整理できていない。'
   },
   {
-    title: '資金繰りが社長の勘に依存している',
-    body: '「今月はなんとかいけそう」で回していて、3か月先の見通しが弱い状態です。'
+    no: '04',
+    title: '資金繰りが経営者の感覚に依存している',
+    body: '「今月はなんとかいけそう」で回していて、3か月先の見通しが数字で持てていない。'
+  },
+  {
+    no: '05',
+    title: '改善したいが、どこから手をつけるか分からない',
+    body: '回収条件・借入返済・在庫圧縮など、優先順位がつかず、動けないまま時間が経っている。'
   }
 ];
 
-const CAUSES = [
+const DELIVERABLES = [
   {
-    title: '売掛金の回収が遅く、利益より先に現金が苦しくなる',
-    body: '売上は立っていても、現金化まで時間がかかると、その間の支払いを先に負担することになります。'
+    color: 'blue',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+    ),
+    title: '資金詰まり構造図',
+    body: '売掛・在庫・借入・回収サイトなど、現金がどこで詰まっているかを一枚に整理します。'
   },
   {
-    title: '在庫・仕掛・前払いが増え、現金が事業の中に滞留する',
-    body: '利益計算上は見えにくくても、実際には現金が在庫や仕掛の形で寝ていることがあります。'
+    color: 'green',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+      </svg>
+    ),
+    title: '優先改善アクション',
+    body: '改善インパクトが大きい箇所を、実行しやすさと合わせて優先順位で整理します。'
   },
   {
-    title: '借入返済や投資支出が、利益以上に現金を減らしている',
-    body: 'P/L上は黒字でも、返済や設備投資で現金が減ると、残高の不安は解消しません。'
+    color: 'purple',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+      </svg>
+    ),
+    title: '3か月見通しシート',
+    body: '入出金の見通しを月次で整理し、いつ・どこで残高が下がるかを見える状態にします。'
   }
 ];
 
-const NUMBERS = [
+const STEPS = [
   {
-    label: '01',
-    title: '営業キャッシュフロー',
-    body: '本業で現金を生めているかを確認する最初の数字です。'
+    title: '初回ヒアリング',
+    body: '試算表・借入一覧・入出金の状況を共有いただき、資金詰まりの全体像を確認します。'
   },
   {
-    label: '02',
-    title: '売掛金・在庫・買掛金の回転',
-    body: '現金がどこで滞留しているかを把握するために見ます。'
+    title: '構造の特定',
+    body: '利益と現金のズレがどこで起きているかを、御社固有の構造として明らかにします。'
   },
   {
-    label: '03',
-    title: '借入返済額と月次残高推移',
-    body: '利益が出ていても現金が減る原因が、返済負担なのかを見極めます。'
+    title: '優先順位の整理',
+    body: '何から手をつけるべきかを、改善インパクトと実行しやすさの両面から整理します。'
+  },
+  {
+    title: '資料納品・説明',
+    body: '資金詰まり構造図・優先改善アクション・見通しシートをお渡しし、内容を説明します。'
   }
 ];
 
-const SUPPORTS = [
-  {
-    title: '現状把握',
-    body: '試算表、借入一覧、売掛・在庫状況などを見ながら、どこに資金が詰まっているかを整理します。'
-  },
-  {
-    title: '構造整理',
-    body: '利益と現金のズレを、御社固有の構造として言語化し、何がボトルネックかを明らかにします。'
-  },
-  {
-    title: '優先順位づけ',
-    body: '何から手を付けるべきかを、改善インパクトと実行しやすさの両面から整理します。'
-  }
+const INCLUDED = [
+  'ヒアリング2回（各60分）',
+  '資金詰まり構造図（1枚）',
+  '優先改善アクション一覧',
+  '3か月見通しシート',
+  '納品後30日間のメール質問対応'
 ];
 
-const FIT_YES = [
-  '利益と現金のズレを整理したい会社',
-  '社長の勘ではなく、数字で資金繰りを見たい会社',
-  '借入・売掛・在庫のどこが重いかを把握したい会社'
-];
-
-const FIT_NO = [
-  'とにかく今すぐ融資申請書だけ作りたい会社',
-  '数字の整理ではなく、税務申告だけを求めている会社',
-  '短期の資金手当てのみを外注したい会社'
+const NOT_INCLUDED = [
+  '月次の継続サポート（別途相談可）',
+  '記帳・会計ソフト入力',
+  '税務申告書の作成'
 ];
 
 const FAQS = [
   {
     q: 'まだ数字が整っていなくても相談できますか？',
-    a: 'できます。むしろ、数字が整理されていない状態そのものが支援対象です。試算表の見方、資金繰りの把握、確認すべき優先順位から整理します。'
+    a: 'できます。むしろ、数字が整理されていない状態そのものが支援対象です。試算表の見方や確認すべき優先順位から整理します。'
   },
   {
     q: '税理士がいても依頼する意味はありますか？',
-    a: 'あります。税理士は申告や記帳の専門家であり、資金繰り改善の優先順位づけや、経営判断の伴走までは業務範囲外であることが多いです。役割は重複しません。'
+    a: 'あります。税理士は申告や記帳の専門家です。資金繰り改善の優先順位づけや、経営判断の伴走までは業務範囲外であることが多く、役割は重複しません。'
   },
   {
     q: '資料請求だけでも問題ありませんか？',
     a: '問題ありません。まずは資料を見て、自社に合うかどうかを判断してください。申し込みは任意です。'
+  },
+  {
+    q: '150,000円は税別ですか？',
+    a: '税別です。別途消費税がかかります。継続支援や月次サポートについては、初回相談時にご相談ください。'
   }
 ];
 
@@ -168,68 +187,296 @@ export default function CashflowPage() {
 
   return (
     <>
+      <style>{`
+        .cf-problem-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .cf-problem-card {
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          padding: 20px 20px 20px 24px;
+        }
+        .cf-problem-card:last-child:nth-child(odd) {
+          grid-column: 1;
+          max-width: calc(50% - 6px);
+        }
+        .cf-problem-no {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: var(--blue);
+          margin-bottom: 8px;
+        }
+        .cf-problem-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 6px;
+          line-height: 1.5;
+        }
+        .cf-problem-body {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.7;
+        }
+        .cf-deliv-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+        .cf-deliv-card {
+          border-radius: var(--radius-lg);
+          padding: 28px 24px;
+        }
+        .cf-deliv-card-blue { background: var(--blue-light); border: 1px solid var(--blue-pale); }
+        .cf-deliv-card-green { background: var(--green-light); border: 1px solid var(--green-pale); }
+        .cf-deliv-card-purple { background: var(--purple-light); border: 1px solid var(--purple-pale); }
+        .cf-deliv-icon {
+          width: 44px;
+          height: 44px;
+          border-radius: var(--radius-sm);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 16px;
+        }
+        .cf-deliv-card-blue .cf-deliv-icon { background: var(--blue-pale); color: var(--blue); }
+        .cf-deliv-card-green .cf-deliv-icon { background: var(--green-pale); color: var(--green); }
+        .cf-deliv-card-purple .cf-deliv-icon { background: var(--purple-pale); color: var(--purple); }
+        .cf-deliv-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 8px;
+        }
+        .cf-deliv-body {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.7;
+        }
+        .cf-price-block {
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 32px 28px;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px;
+          align-items: start;
+        }
+        .cf-price-label {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: var(--faint);
+          margin-bottom: 8px;
+          text-transform: uppercase;
+        }
+        .cf-price-amount {
+          font-size: 36px;
+          font-weight: 800;
+          color: var(--navy);
+          line-height: 1.1;
+          margin-bottom: 4px;
+        }
+        .cf-price-unit {
+          font-size: 13px;
+          color: var(--muted);
+          margin-bottom: 20px;
+        }
+        .cf-price-note {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.6;
+          padding: 12px 16px;
+          background: var(--surface);
+          border-radius: var(--radius-sm);
+        }
+        .cf-check-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .cf-check-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          font-size: 14px;
+          color: var(--text-sub);
+          line-height: 1.5;
+        }
+        .cf-check-item::before {
+          content: '✓';
+          color: var(--green);
+          font-weight: 700;
+          flex-shrink: 0;
+          margin-top: 1px;
+        }
+        .cf-cross-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.5;
+        }
+        .cf-cross-item::before {
+          content: '−';
+          color: var(--hint);
+          font-weight: 700;
+          flex-shrink: 0;
+        }
+        .cf-price-right-title {
+          font-size: 13px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 12px;
+        }
+        .cf-cross-label {
+          font-size: 12px;
+          color: var(--faint);
+          font-weight: 600;
+          margin: 16px 0 8px;
+        }
+        .cf-next-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .cf-next-card {
+          display: block;
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          padding: 20px 24px;
+          text-decoration: none;
+          transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .cf-next-card:hover {
+          border-color: var(--blue);
+          box-shadow: 0 2px 12px rgba(37,99,235,0.08);
+        }
+        .cf-next-badge {
+          display: inline-block;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          color: var(--blue);
+          background: var(--blue-light);
+          border: 1px solid var(--blue-pale);
+          border-radius: 9999px;
+          padding: 3px 10px;
+          margin-bottom: 10px;
+        }
+        .cf-next-title {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 6px;
+        }
+        .cf-next-body {
+          font-size: 12px;
+          color: var(--muted);
+          line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+          .cf-problem-grid { grid-template-columns: 1fr; }
+          .cf-problem-card:last-child:nth-child(odd) { grid-column: auto; max-width: 100%; }
+          .cf-deliv-grid { grid-template-columns: 1fr; }
+          .cf-price-block { grid-template-columns: 1fr; gap: 20px; }
+          .cf-next-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
       <LPHero
-        eyebrow="利益は出ているのに現金が残らない会社へ"
-        title={<>利益は出ているのに、<br />現金が残らない。</>}
-        lead="資金繰りの苦しさは、数字が悪いからではなく、利益と現金のズレが整理されていないことから起きる場合があります。まずは、どこで現金が減っているのかを構造で整理します。"
-        ctaLabel="資金繰りチェック資料を受け取る"
+        eyebrow="資金繰り改善支援"
+        title="利益と現金のズレを、構造で整理する。"
+        lead="黒字なのに現金が残らない。入金と支払いのタイミングが合わない。そんな状態は、数字が悪いからではなく、利益と現金のズレが整理されていないことから起きます。まずは、どこで現金が詰まっているかを明らかにします。"
+        ctaLabel="資金繰り改善資料を受け取る"
         ctaHref="#form"
         note="メールアドレスに支援内容と進め方をお送りします"
       />
 
-      <LPSection tone="cream" kicker="こんな状態になっていませんか？" title="当てはまるなら、一度整理する価値があります">
-        <LPStackList items={SYMPTOMS} />
-        <LPResourceCards
-          title="先に整理したい方向けの読み物"
-          items={[
-            {
-              href: '/articles/profit-vs-cash/',
-              label: '関連記事',
-              title: '黒字なのに現金が残らない理由',
-              body: '利益と現金のズレを先に整理したい方向けです。'
-            },
-            {
-              href: '/articles/',
-              label: '記事一覧',
-              title: '他の記事も見る',
-              body: '資金繰り・経営判断に関する記事一覧はこちら。'
-            },
-            {
-              href: '/contact/',
-              label: 'お問い合わせ',
-              title: '先に相談したい',
-              body: '状況が具体的なら、そのまま相談内容をお送りください。'
-            }
-          ]}
-        />
+      <LPSection tone="stone" kicker="こんな悩みはありませんか" title="資金繰りで経営者が直面しやすい5つの状態">
+        <div className="cf-problem-grid">
+          {PROBLEMS.map((p) => (
+            <div className="cf-problem-card" key={p.no}>
+              <div className="cf-problem-no">{p.no}</div>
+              <div className="cf-problem-title">{p.title}</div>
+              <div className="cf-problem-body">{p.body}</div>
+            </div>
+          ))}
+        </div>
       </LPSection>
 
-      <LPSection tone="white" kicker="構造の整理" title="「利益≠現金」になる3つの構造的な原因">
-        <LPInfoGrid items={CAUSES} columns={3} />
+      <LPSection tone="white" kicker="支援で得られるもの" title="支援後に手元に残る3つの成果物">
+        <div className="cf-deliv-grid">
+          {DELIVERABLES.map((d) => (
+            <div className={`cf-deliv-card cf-deliv-card-${d.color}`} key={d.title}>
+              <div className="cf-deliv-icon">{d.icon}</div>
+              <div className="cf-deliv-title">{d.title}</div>
+              <div className="cf-deliv-body">{d.body}</div>
+            </div>
+          ))}
+        </div>
       </LPSection>
 
-      <LPSection tone="stone" kicker="まず見る数字" title="まず確認すべき3つの数字">
-        <LPInfoGrid items={NUMBERS} columns={3} numbered />
+      <LPSection tone="stone" kicker="進め方" title="支援の流れ">
+        <LPStepFlow items={STEPS} />
       </LPSection>
 
-      <LPSection tone="white" kicker="支援内容" title="99advisoryの資金繰り改善サポート">
-        <LPInfoGrid items={SUPPORTS} columns={3} />
+      <LPSection tone="white" kicker="料金" title="費用と含まれる内容">
+        <div className="cf-price-block">
+          <div className="cf-price-left">
+            <div className="cf-price-label">スポット支援</div>
+            <div className="cf-price-amount">150,000<span style={{fontSize:'18px',fontWeight:600}}>円</span></div>
+            <div className="cf-price-unit">税別 / 一回完結</div>
+            <div className="cf-price-note">月次の継続サポートへの移行も相談可能です。継続支援については初回相談時にご確認ください。</div>
+          </div>
+          <div className="cf-price-right">
+            <div className="cf-price-right-title">含まれる内容</div>
+            <ul className="cf-check-list">
+              {INCLUDED.map((item) => (
+                <li className="cf-check-item" key={item}>{item}</li>
+              ))}
+            </ul>
+            <div className="cf-cross-label">含まれないもの</div>
+            {NOT_INCLUDED.map((item) => (
+              <div className="cf-cross-item" key={item}>{item}</div>
+            ))}
+          </div>
+        </div>
       </LPSection>
 
       <LPSection tone="white" kicker="向き・不向き" title="このサービスが向いている会社・向いていない会社">
         <LPFitGrid
           yesTitle="向いている会社"
-          yesItems={FIT_YES}
+          yesItems={[
+            '利益と現金のズレを整理したい会社',
+            '数字で資金繰りを見られるようにしたい会社',
+            '借入・売掛・在庫のどこが重いかを把握したい会社',
+            '3か月先の見通しを持ちたい会社'
+          ]}
           noTitle="向いていない会社"
-          noItems={FIT_NO}
+          noItems={[
+            '税務申告だけを求めている会社',
+            '短期の資金手当てのみを外注したい会社',
+            '数字の整理をせず申請だけ進めたい会社'
+          ]}
         />
       </LPSection>
 
       <LPSection
         tone="dark"
         kicker="資料請求"
-        title="まずは30分、数字を一緒に整理しませんか？"
-        subtitle="概要資料では、よくある資金繰り悪化パターン、見るべき数字、初回相談の進め方をまとめています。"
+        title="まずは、利益と現金のズレを整理しませんか？"
+        subtitle="概要資料では、よくある資金繰り悪化パターン、見るべき3つの数字、初回相談の進め方をまとめています。"
         narrow
         id="form"
       >
@@ -251,7 +498,7 @@ export default function CashflowPage() {
           isSubmitting={isSubmitting}
           message={message}
           isSuccess={isSuccess}
-          submitLabel="資金繰りチェック資料を受け取る"
+          submitLabel="資金繰り改善資料を受け取る"
           helpText={
             <>
               受付後、自動でメールをお送りします。届かない場合は迷惑メールフォルダもご確認ください。<br />
@@ -285,6 +532,21 @@ export default function CashflowPage() {
 
       <LPSection tone="white" kicker="FAQ" title="よくあるご質問">
         <LPFaq items={FAQS} openIndex={openFaqIndex} onToggle={toggleFaq} />
+      </LPSection>
+
+      <LPSection tone="stone" kicker="次のステップ" title="改善後に検討される支援">
+        <div className="cf-next-grid">
+          <Link href="/seizo/" className="cf-next-card">
+            <div className="cf-next-badge">財務診断</div>
+            <div className="cf-next-title">財務健康診断</div>
+            <div className="cf-next-body">資金繰りだけでなく、利益構造・費用構造・案件採算まで含めて会社の財務を整理します。</div>
+          </Link>
+          <Link href="/monthly-report/" className="cf-next-card">
+            <div className="cf-next-badge">月次レポート</div>
+            <div className="cf-next-title">月次レポート支援</div>
+            <div className="cf-next-body">整理した資金繰り構造をベースに、月次で数字を追い続ける仕組みをつくります。</div>
+          </Link>
+        </div>
       </LPSection>
 
       <LPBottomBar

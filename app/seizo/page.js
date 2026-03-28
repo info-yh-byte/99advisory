@@ -2,84 +2,107 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import LPHero from '@/components/lp/LPHero';
 import LPSection from '@/components/lp/LPSection';
-import { LPFitGrid, LPInfoGrid, LPStackList } from '@/components/lp/LPCardGrid';
+import { LPStepFlow, LPFitGrid } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
 import LPLeadForm from '@/components/lp/LPLeadForm';
 import LPBottomBar from '@/components/lp/LPBottomBar';
 import LPTrustNote from '@/components/lp/LPTrustNote';
-import LPResourceCards from '@/components/lp/LPResourceCards';
 
-const SYMPTOMS = [
+const PROBLEMS = [
   {
-    title: '案件ごとの採算が見えていない',
-    body: '忙しく動いているのに、どの案件が利益を残し、どの案件が資金を圧迫しているのか分からない状態です。'
+    no: '01',
+    title: '案件ごとの採算がつかめていない',
+    body: '忙しく動いているのに、どの案件が利益を残し、どの案件が資金を圧迫しているか分からない。'
   },
   {
-    title: '試算表を見ても、次の打ち手が決まらない',
-    body: '月次資料は出ているが、経営判断にどう使えばよいか整理されていない状態です。'
+    no: '02',
+    title: '試算表はあるが、次の打ち手が決まらない',
+    body: '月次資料は出ているが、どの数字をどう読んで、何を判断すればよいかまで整理できていない。'
   },
   {
-    title: '売上はあるのに、利益や現金が思ったほど残らない',
-    body: '粗利、固定費、外注、回収条件など、どこに原因があるかを構造で見たい会社向けです。'
+    no: '03',
+    title: '売上はあるのに、利益や現金が残らない',
+    body: '粗利、固定費、外注費、回収条件のどこに原因があるのかを構造で見られていない状態。'
   },
   {
-    title: '銀行や社内に、数字をうまく説明できない',
-    body: '現場感覚はあるが、数字と言葉で整理して伝えるところに不安がある状態です。'
+    no: '04',
+    title: '固定費と変動費の切り分けができていない',
+    body: '人件費・外注費・設備負担などが混ざって見えていると、利益構造の改善ポイントが見えにくくなる。'
+  },
+  {
+    no: '05',
+    title: '銀行や社内に、数字でうまく説明できない',
+    body: '現場感覚はあるが、それを数字と言葉に整理して伝えるところに自信が持てない。'
   }
 ];
 
-const ISSUES = [
+const DELIVERABLES = [
   {
-    title: '案件別採算が曖昧',
-    body: '売上は追っていても、案件ごとの粗利や利益貢献が見えず、頑張っている案件ほど苦しくなることがあります。'
+    color: 'blue',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+      </svg>
+    ),
+    title: '財務構造マップ',
+    body: '試算表・借入状況・費用構造を一枚に整理。利益と現金の流れが一目でわかる状態にします。'
   },
   {
-    title: '固定費と変動費の切り分けが弱い',
-    body: '人件費、外注費、設備負担などが混ざって見えていると、利益構造の改善ポイントが見えにくくなります。'
+    color: 'green',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+      </svg>
+    ),
+    title: '優先論点リスト',
+    body: '改善インパクトが大きい箇所を、実行しやすさと合わせて優先順位で整理します。'
   },
   {
-    title: '数字が「管理資料」で止まり、経営判断に変わっていない',
-    body: '月次試算表があるだけでは足りず、どこを見てどう判断するかまで整理する必要があります。'
+    color: 'purple',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+      </svg>
+    ),
+    title: '経営判断メモ',
+    body: '次の一手の根拠と論点を文字で整理。社内外への説明材料にも使えます。'
   }
 ];
 
-const SUPPORTS = [
+const STEPS = [
   {
-    label: '01',
-    title: '現状の数字を整理する',
-    body: '試算表、案件別情報、回収条件、費用構造などを見ながら、今の経営の見えにくさを整理します。'
+    title: '初回ヒアリング',
+    body: '試算表・借入状況・現場の状況を共有いただき、整理の優先順位を確認します。'
   },
   {
-    label: '02',
-    title: '利益が残りにくい構造を見つける',
-    body: '案件、粗利、固定費、外注、入出金タイミングなどから、どこが詰まりになっているかを明らかにします。'
+    title: '財務構造の整理',
+    body: '利益・現金・費用の流れを整理し、どこに詰まりがあるかを明らかにします。'
   },
   {
-    label: '03',
-    title: '次に打つべき手を優先順位で整理する',
-    body: '価格、案件選別、見積精度、外注管理、回収条件など、何から着手すべきかを整理します。'
+    title: '優先論点の抽出',
+    body: '改善インパクトが大きい箇所を、実行しやすさと合わせて整理します。'
+  },
+  {
+    title: '資料納品・説明',
+    body: '財務構造マップ・優先論点リスト・経営判断メモをお渡しし、内容を説明します。'
   }
 ];
 
-const VIEWPOINTS = [
-  '案件別採算が見える状態になっているか',
-  '粗利がどこで落ちているか把握できているか',
-  '固定費・外注費の負担構造が整理されているか',
-  '売上ではなく利益と現金で判断できているか'
+const INCLUDED = [
+  'ヒアリング2回（各60分）',
+  '財務構造マップ（1枚）',
+  '優先論点リスト',
+  '経営判断メモ',
+  '納品後30日間のメール質問対応'
 ];
 
-const FIT_YES = [
-  '製造業・建設業・受託業など、案件単位で採算がぶれやすい会社',
-  '試算表はあるが、経営判断に使い切れていない会社',
-  '利益や現金が残りにくい原因を整理したい会社'
-];
-
-const FIT_NO = [
-  '税務申告だけを依頼したい会社',
-  '今すぐLPや広告運用だけを頼みたい会社',
-  '数字の整理をせず、単発の資料作成だけを求めている会社'
+const NOT_INCLUDED = [
+  '顧問契約・継続支援（別途相談可）',
+  '記帳・会計ソフト入力',
+  '税務申告書の作成'
 ];
 
 const FAQS = [
@@ -94,6 +117,10 @@ const FAQS = [
   {
     q: '顧問税理士がいても相談する意味はありますか？',
     a: 'あります。税理士は申告や会計処理の専門家であり、案件別採算の見方や経営判断の優先順位づけまで一緒に整理する役割とは重なりません。'
+  },
+  {
+    q: '150,000円は税別ですか？',
+    a: '税別です。別途消費税がかかります。分割払いや月次サポートへの移行については、初回相談時にご相談ください。'
   }
 ];
 
@@ -161,60 +188,299 @@ export default function SeizoPage() {
 
   return (
     <>
+      <style>{`
+        .sz-problem-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .sz-problem-card {
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          padding: 20px 20px 20px 24px;
+          position: relative;
+        }
+        .sz-problem-card:last-child:nth-child(odd) {
+          grid-column: 1;
+          max-width: calc(50% - 6px);
+        }
+        .sz-problem-no {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: var(--blue);
+          margin-bottom: 8px;
+        }
+        .sz-problem-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 6px;
+          line-height: 1.5;
+        }
+        .sz-problem-body {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.7;
+        }
+        .sz-deliv-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+        .sz-deliv-card {
+          border-radius: var(--radius-lg);
+          padding: 28px 24px;
+        }
+        .sz-deliv-card-blue {
+          background: var(--blue-light);
+          border: 1px solid var(--blue-pale);
+        }
+        .sz-deliv-card-green {
+          background: var(--green-light);
+          border: 1px solid var(--green-pale);
+        }
+        .sz-deliv-card-purple {
+          background: var(--purple-light);
+          border: 1px solid var(--purple-pale);
+        }
+        .sz-deliv-icon {
+          width: 44px;
+          height: 44px;
+          border-radius: var(--radius-sm);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 16px;
+        }
+        .sz-deliv-card-blue .sz-deliv-icon { background: var(--blue-pale); color: var(--blue); }
+        .sz-deliv-card-green .sz-deliv-icon { background: var(--green-pale); color: var(--green); }
+        .sz-deliv-card-purple .sz-deliv-icon { background: var(--purple-pale); color: var(--purple); }
+        .sz-deliv-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 8px;
+        }
+        .sz-deliv-body {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.7;
+        }
+        .sz-price-block {
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 32px 28px;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px;
+          align-items: start;
+        }
+        .sz-price-left {}
+        .sz-price-label {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: var(--faint);
+          margin-bottom: 8px;
+          text-transform: uppercase;
+        }
+        .sz-price-amount {
+          font-size: 36px;
+          font-weight: 800;
+          color: var(--navy);
+          line-height: 1.1;
+          margin-bottom: 4px;
+        }
+        .sz-price-unit {
+          font-size: 13px;
+          color: var(--muted);
+          margin-bottom: 20px;
+        }
+        .sz-price-note {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.6;
+          padding: 12px 16px;
+          background: var(--surface);
+          border-radius: var(--radius-sm);
+        }
+        .sz-check-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .sz-check-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          font-size: 14px;
+          color: var(--text-sub);
+          line-height: 1.5;
+        }
+        .sz-check-item::before {
+          content: '✓';
+          color: var(--green);
+          font-weight: 700;
+          flex-shrink: 0;
+          margin-top: 1px;
+        }
+        .sz-cross-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.5;
+        }
+        .sz-cross-item::before {
+          content: '−';
+          color: var(--hint);
+          font-weight: 700;
+          flex-shrink: 0;
+        }
+        .sz-price-right-title {
+          font-size: 13px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 12px;
+        }
+        .sz-cross-label {
+          font-size: 12px;
+          color: var(--faint);
+          font-weight: 600;
+          margin: 16px 0 8px;
+        }
+        .sz-next-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .sz-next-card {
+          display: block;
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          padding: 20px 24px;
+          text-decoration: none;
+          transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .sz-next-card:hover {
+          border-color: var(--blue);
+          box-shadow: 0 2px 12px rgba(37,99,235,0.08);
+        }
+        .sz-next-badge {
+          display: inline-block;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          color: var(--blue);
+          background: var(--blue-light);
+          border: 1px solid var(--blue-pale);
+          border-radius: 9999px;
+          padding: 3px 10px;
+          margin-bottom: 10px;
+        }
+        .sz-next-title {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 6px;
+        }
+        .sz-next-body {
+          font-size: 12px;
+          color: var(--muted);
+          line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+          .sz-problem-grid { grid-template-columns: 1fr; }
+          .sz-problem-card:last-child:nth-child(odd) { grid-column: auto; max-width: 100%; }
+          .sz-deliv-grid { grid-template-columns: 1fr; }
+          .sz-price-block { grid-template-columns: 1fr; gap: 20px; }
+          .sz-next-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
       <LPHero
-        eyebrow="製造・建設・受託業の経営者へ"
-        title={<>案件と数字がつながると、<br />経営判断は変わる。</>}
-        lead="売上はあるのに利益が残らない。試算表はあるのに、次の一手が決めにくい。そんな状態に対して、案件別採算、粗利、固定費、回収条件などを整理し、数字を経営判断につなげます。"
-        ctaLabel="経営数字診断の資料を受け取る"
+        eyebrow="財務健康診断｜診断支援"
+        title="会社全体の数字を、一度整理する。"
+        lead="試算表はあるのに次の手が決まらない。利益は出ているのに現金が残らない。そんな状態に対して、財務構造・利益・現金のつながりを整理し、経営判断につながる形に変えます。"
+        ctaLabel="診断支援の資料を受け取る"
         ctaHref="#form"
         note="メールアドレスに支援概要と進め方をお送りします"
       />
 
-      <LPSection tone="cream" kicker="こんな状態になっていませんか？" title="現場は動いているのに、数字が判断につながっていない会社へ">
-        <LPStackList items={SYMPTOMS} />
-        <LPResourceCards
-          title="先に整理したい方向けの読み物"
-          items={[
-            {
-              href: '/articles/',
-              label: '記事一覧',
-              title: '経営判断に関する記事一覧を見る',
-              body: '数字、資金繰り、融資などに関する記事をまとめて見られます。'
-            },
-            {
-              href: '/seizo/',
-              label: 'サービスページ',
-              title: '経営数字診断の内容を見直す',
-              body: '支援内容や対象企業をあらためて確認したい方向けです。'
-            },
-            {
-              href: '/contact/',
-              label: 'お問い合わせ',
-              title: '先に相談したい',
-              body: '現状の悩みが具体的なら、そのまま相談内容を送れます。'
-            }
-          ]}
-        />
+      <LPSection tone="stone" kicker="こんな悩みはありませんか" title="経営者がよく抱える5つの状態">
+        <div className="sz-problem-grid">
+          {PROBLEMS.map((p) => (
+            <div className="sz-problem-card" key={p.no}>
+              <div className="sz-problem-no">{p.no}</div>
+              <div className="sz-problem-title">{p.title}</div>
+              <div className="sz-problem-body">{p.body}</div>
+            </div>
+          ))}
+        </div>
       </LPSection>
 
-      <LPSection tone="white" kicker="よくある論点" title="製造・建設・受託業で起きやすい3つの見えにくさ">
-        <LPInfoGrid items={ISSUES} columns={3} />
+      <LPSection tone="white" kicker="診断で得られるもの" title="支援後に手元に残る3つの成果物">
+        <div className="sz-deliv-grid">
+          {DELIVERABLES.map((d) => (
+            <div className={`sz-deliv-card sz-deliv-card-${d.color}`} key={d.title}>
+              <div className="sz-deliv-icon">{d.icon}</div>
+              <div className="sz-deliv-title">{d.title}</div>
+              <div className="sz-deliv-body">{d.body}</div>
+            </div>
+          ))}
+        </div>
       </LPSection>
 
-      <LPSection tone="stone" kicker="支援内容" title="99advisoryの経営数字診断で行うこと">
-        <LPInfoGrid items={SUPPORTS} columns={3} numbered />
+      <LPSection tone="stone" kicker="進め方" title="支援の流れ">
+        <LPStepFlow items={STEPS} />
       </LPSection>
 
-      <LPSection tone="white" kicker="見る視点" title="まず確認する4つの視点">
-        <LPStackList items={VIEWPOINTS} />
+      <LPSection tone="white" kicker="料金" title="費用と含まれる内容">
+        <div className="sz-price-block">
+          <div className="sz-price-left">
+            <div className="sz-price-label">スポット診断</div>
+            <div className="sz-price-amount">150,000<span style={{fontSize:'18px',fontWeight:600}}>円</span></div>
+            <div className="sz-price-unit">税別 / 一回完結</div>
+            <div className="sz-price-note">月次サポートへの移行も相談可能です。継続支援については初回相談時にご確認ください。</div>
+          </div>
+          <div className="sz-price-right">
+            <div className="sz-price-right-title">含まれる内容</div>
+            <ul className="sz-check-list">
+              {INCLUDED.map((item) => (
+                <li className="sz-check-item" key={item}>{item}</li>
+              ))}
+            </ul>
+            <div className="sz-cross-label">含まれないもの</div>
+            {NOT_INCLUDED.map((item) => (
+              <div className="sz-cross-item" key={item}>{item}</div>
+            ))}
+          </div>
+        </div>
       </LPSection>
 
       <LPSection tone="white" kicker="向き・不向き" title="このサービスが向いている会社・向いていない会社">
         <LPFitGrid
           yesTitle="向いている会社"
-          yesItems={FIT_YES}
+          yesItems={[
+            '試算表はあるが、経営判断に使い切れていない会社',
+            '利益や現金が残りにくい原因を整理したい会社',
+            '案件別採算のブレが大きい会社',
+            '銀行や社内への説明を整えたい会社'
+          ]}
           noTitle="向いていない会社"
-          noItems={FIT_NO}
+          noItems={[
+            '税務申告だけを依頼したい会社',
+            '数字の整理をせず単発の資料作成だけを求める会社',
+            '今すぐ融資申請書だけ欲しい会社'
+          ]}
         />
       </LPSection>
 
@@ -222,7 +488,7 @@ export default function SeizoPage() {
         tone="dark"
         kicker="資料請求"
         title="まずは、自社の数字の見えにくさを整理しませんか？"
-        subtitle="概要資料では、よくある利益構造の詰まり方、案件別採算を見る視点、初回相談の進め方をまとめています。"
+        subtitle="概要資料では、よくある利益構造の詰まり方、財務構造マップのサンプル、初回相談の進め方をまとめています。"
         narrow
         id="form"
       >
@@ -244,7 +510,7 @@ export default function SeizoPage() {
           isSubmitting={isSubmitting}
           message={message}
           isSuccess={isSuccess}
-          submitLabel="経営数字診断の資料を受け取る"
+          submitLabel="診断支援の資料を受け取る"
           helpText={
             <>
               受付後、自動でメールをお送りします。届かない場合は迷惑メールフォルダもご確認ください。<br />
@@ -283,6 +549,21 @@ export default function SeizoPage() {
 
       <LPSection tone="white" kicker="FAQ" title="よくあるご質問">
         <LPFaq items={FAQS} openIndex={openFaqIndex} onToggle={toggleFaq} />
+      </LPSection>
+
+      <LPSection tone="stone" kicker="次のステップ" title="診断後に検討される支援">
+        <div className="sz-next-grid">
+          <Link href="/monthly-report/" className="sz-next-card">
+            <div className="sz-next-badge">月次レポート</div>
+            <div className="sz-next-title">月次レポート支援</div>
+            <div className="sz-next-body">診断で整理した財務構造をベースに、月次で数字を追い続ける仕組みをつくります。</div>
+          </Link>
+          <Link href="/monthly-review/" className="sz-next-card">
+            <div className="sz-next-badge">経営会議</div>
+            <div className="sz-next-title">月次経営会議サポート</div>
+            <div className="sz-next-body">月次の数字をもとに、経営判断を会議の中で確実に回す仕組みを整えます。</div>
+          </Link>
+        </div>
       </LPSection>
 
       <LPBottomBar

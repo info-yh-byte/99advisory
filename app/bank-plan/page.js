@@ -2,162 +2,132 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import LPHero from '@/components/lp/LPHero';
 import LPSection from '@/components/lp/LPSection';
-import { LPFitGrid, LPInfoGrid, LPStackList } from '@/components/lp/LPCardGrid';
+import { LPStepFlow, LPFitGrid } from '@/components/lp/LPCardGrid';
 import LPFaq from '@/components/lp/LPFaq';
 import LPLeadForm from '@/components/lp/LPLeadForm';
 import LPBottomBar from '@/components/lp/LPBottomBar';
 import LPTrustNote from '@/components/lp/LPTrustNote';
-import LPResourceCards from '@/components/lp/LPResourceCards';
 
-const SYMPTOMS = [
+const PROBLEMS = [
   {
-    title: '銀行に何を説明すべきか分からない',
-    body: '数字はあるが、どの順番で何を伝えるべきか整理できていない状態です。'
+    no: '01',
+    title: '銀行に何をどう説明すればよいか分からない',
+    body: '数字はあるが、どの順番で何を伝えるべきか整理できていない。銀行が何を確認したいかが見えていない。'
   },
   {
-    title: '事業計画書が形になっていない',
-    body: '売上見込みや返済計画の根拠が弱く、説明できる資料に落ちていません。'
+    no: '02',
+    title: '事業計画の内容が根拠として弱い',
+    body: '売上見込みや費用の根拠が整理されておらず、数字を問われると説明しきれない状態。'
   },
   {
-    title: '銀行面談で突っ込まれそうで不安',
-    body: '利益、借入、返済余力、資金使途など、どこを聞かれるかを整理したい状態です。'
+    no: '03',
+    title: '説明材料が整理されないまま面談が近づいている',
+    body: '決算書・試算表・借入一覧などが手元にあるが、面談で使えるレベルに整えられていない。'
   },
   {
-    title: '借換え・追加融資・リスケ前に準備したい',
-    body: '現状の数字をどう見せるか、どこを先に整えるかを明確にしたい会社向けです。'
-  }
-];
-
-const REASONS = [
-  {
-    title: '数字はあるのに、読み手の順番で整理されていない',
-    body: '銀行は「現状」「使途」「返済可能性」の順で見ます。そこに沿っていない資料は読まれにくくなります。'
-  },
-  {
-    title: '売上計画の根拠が弱く、再現性が見えない',
-    body: '数字だけを置いても、なぜ達成できるのかが見えなければ納得されません。'
-  },
-  {
+    no: '04',
     title: '現状説明と将来計画がつながっていない',
-    body: '直近の実績、現在の課題、今後の打ち手がつながっていないと、計画書は説得力を失います。'
+    body: '直近の実績と今後の打ち手が別々に存在していて、一本の話として整理されていない。'
+  },
+  {
+    no: '05',
+    title: '借換え・追加調達・条件変更の前に整理したい',
+    body: '現状の数字をどう見せるか、どこを先に整えるか、面談前に論点を確認したい。'
   }
 ];
 
-const POINTS = [
+const DELIVERABLES = [
   {
-    label: '01',
-    title: '現状の数字を、銀行が読める形で並べる',
-    body: '決算書・試算表・借入状況を、説明順に整理します。'
+    color: 'blue',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+      </svg>
+    ),
+    title: '財務サマリー資料',
+    body: '決算書・試算表・借入状況を、銀行が読みやすい順番で整理した説明用資料。'
   },
   {
-    label: '02',
-    title: '計画の根拠を言葉と数字でつなぐ',
-    body: '売上、粗利、固定費、返済原資がどう積み上がるかを示します。'
+    color: 'green',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+    ),
+    title: '計画整理ドキュメント',
+    body: '現状・使途・返済見通しの3点を軸に、銀行が確認する順番で整えた計画書。'
   },
   {
-    label: '03',
-    title: '「何に使い、どう返すか」を明確にする',
-    body: '資金使途と返済可能性を、面談で説明できる状態に整えます。'
+    color: 'purple',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    ),
+    title: '想定Q&Aシート',
+    body: '銀行から聞かれやすい論点を整理し、面談で答えられる状態を作るための準備資料。'
   }
 ];
 
-const CASES = [
+const STEPS = [
   {
-    title: '追加融資前の整理',
-    body: '利益は出ていたが、資金使途と返済計画の説明が弱かった会社。借入一覧と月次推移を整理し、説明順を組み直した。'
+    title: '初回ヒアリング',
+    body: '現状の数字・相談目的・今ある資料を確認し、整理の方針と優先順位を決めます。'
   },
   {
-    title: '借換え前の整理',
-    body: '借入本数が多く、経営者自身も全体像を把握しきれていなかった会社。借入条件、返済負担、改善余地を一覧化して面談準備を進めた。'
+    title: '論点の整理',
+    body: '銀行が確認する「現状・使途・返済余力」の順番に沿って、必要な論点を整えます。'
   },
   {
-    title: 'リスケ前の説明整理',
-    body: 'いきなり「厳しい」と伝えるのではなく、現状、原因、改善方針の順で説明できるように資料を組み直した。'
+    title: '資料の作成・整備',
+    body: '財務サマリー・計画整理ドキュメント・想定Q&Aを作成・整理します。'
+  },
+  {
+    title: '確認・納品',
+    body: '内容を共有し、面談で説明できる状態になっているかを確認します。'
   }
 ];
 
-const PATTERNS = [
-  '数字は並んでいるが、どこが重要か分からない計画書',
-  '売上計画が強気だが、根拠の説明が薄い計画書',
-  '資金使途は書いてあるが、返済原資の説明が弱い計画書',
-  '経営者の頭の中にはあるが、資料として整理されていない状態'
+const SPOT_INCLUDED = [
+  'ヒアリング2回（各60分）',
+  '財務サマリー資料',
+  '計画整理ドキュメント',
+  '想定Q&Aシート',
+  '納品後30日間のメール質問対応'
 ];
 
-const PLAN_FIT = [
-  {
-    title: 'まず整理したい会社',
-    body: '資料がバラバラ、何が足りないか分からない、銀行に出す前に論点整理から始めたい会社向けです。'
-  },
-  {
-    title: '計画と説明まで整えたい会社',
-    body: 'すでに一部資料はあるが、面談で説明できる粒度まで詰めたい会社向けです。'
-  }
+const MONTHLY_INCLUDED = [
+  '月次の数字確認（月1回・60分）',
+  '計画と実績のズレ整理',
+  '銀行対話の論点更新',
+  '都度のメール相談対応'
 ];
 
-const SUPPORT_PLANS = [
-  {
-    title: '整理プラン',
-    body: '現状の数字、借入状況、資金使途、銀行が見やすい順番を整理します。まず全体像を掴みたい会社向けです。'
-  },
-  {
-    title: '整理＋面談準備プラン',
-    body: '整理に加えて、面談でどう説明するか、何を聞かれやすいか、どこを補足すべきかまで整えます。'
-  }
-];
-
-const FREE_SESSION = [
-  '今ある資料で何が足りないか',
-  '銀行が気にしやすい論点は何か',
-  '先に整理すべき数字はどれか'
-];
-
-const LENSES = [
-  '返済可能性',
-  '資金使途の明確さ',
-  '直近実績と今後計画のつながり',
-  '経営者が数字を理解しているか'
-];
-
-const FIT_YES = [
-  '融資前に数字と説明を整えたい会社',
-  '借換え・追加融資・リスケ前に準備したい会社',
-  '銀行との対話を、勘ではなく資料で進めたい会社'
-];
-
-const FIT_NO = [
-  'とにかく急ぎで体裁だけの計画書が欲しい会社',
-  '税務申告だけを求めている会社',
-  '経営状況の整理を一切せずに、申請だけを進めたい会社'
-];
-
-const FLOW = [
-  '初回相談：現状と目的を確認',
-  '必要資料の確認：今あるもの、足りないものを整理',
-  '論点整理：銀行が見る順番に並べ替え',
-  '必要に応じて面談準備：説明順と補足論点を詰める'
-];
-
-const BEFORE_CONTACT = [
-  '決算書または試算表',
-  '借入一覧（残高・返済額・金利が分かるもの）',
-  '今回の資金使途のメモ',
-  '現在気になっている論点'
+const NOT_INCLUDED = [
+  '銀行との交渉・代理申請',
+  '記帳・会計ソフト入力',
+  '税務申告書の作成'
 ];
 
 const FAQS = [
   {
     q: 'まだ資料が揃っていなくても相談できますか？',
-    a: 'できます。むしろ、資料が足りない状態でどこから整えるべきかを整理するのが最初の支援です。現時点である資料から進められます。'
+    a: 'できます。資料が足りない状態でどこから整えるべきかを整理するのが最初の支援です。現時点にある資料から進められます。'
   },
   {
-    q: '銀行提出用の事業計画書がまだありません。それでも対象ですか？',
-    a: '対象です。まずは現状の数字と説明材料を整理し、銀行が確認したい論点に沿って、どの資料が必要かを整えていきます。'
+    q: '計画書がまだありません。それでも対象ですか？',
+    a: '対象です。まずは現状の数字と説明材料を整理し、銀行が確認したい論点に沿って必要な資料を整えていきます。'
   },
   {
     q: '資料だけ受け取って、依頼しなくても問題ありませんか？',
     a: '問題ありません。まずは資料を見て、自社に合いそうかをご判断ください。'
+  },
+  {
+    q: 'スポットと月次サポートはどう使い分けますか？',
+    a: '面談前の準備が目的であればスポットを、定期的に銀行対話の論点を更新したい場合は月次サポートが向いています。どちらから始めるかは初回相談時に整理します。'
   }
 ];
 
@@ -224,95 +194,321 @@ export default function BankPlanPage() {
 
   return (
     <>
+      <style>{`
+        .bp-problem-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .bp-problem-card {
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          padding: 20px 20px 20px 24px;
+        }
+        .bp-problem-card:last-child:nth-child(odd) {
+          grid-column: 1;
+          max-width: calc(50% - 6px);
+        }
+        .bp-problem-no {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: var(--blue);
+          margin-bottom: 8px;
+        }
+        .bp-problem-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 6px;
+          line-height: 1.5;
+        }
+        .bp-problem-body {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.7;
+        }
+        .bp-deliv-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+        .bp-deliv-card {
+          border-radius: var(--radius-lg);
+          padding: 28px 24px;
+        }
+        .bp-deliv-card-blue { background: var(--blue-light); border: 1px solid var(--blue-pale); }
+        .bp-deliv-card-green { background: var(--green-light); border: 1px solid var(--green-pale); }
+        .bp-deliv-card-purple { background: var(--purple-light); border: 1px solid var(--purple-pale); }
+        .bp-deliv-icon {
+          width: 44px;
+          height: 44px;
+          border-radius: var(--radius-sm);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 16px;
+        }
+        .bp-deliv-card-blue .bp-deliv-icon { background: var(--blue-pale); color: var(--blue); }
+        .bp-deliv-card-green .bp-deliv-icon { background: var(--green-pale); color: var(--green); }
+        .bp-deliv-card-purple .bp-deliv-icon { background: var(--purple-pale); color: var(--purple); }
+        .bp-deliv-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 8px;
+        }
+        .bp-deliv-body {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.7;
+        }
+        .bp-price-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+        .bp-price-card {
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 28px 24px;
+        }
+        .bp-price-card-featured {
+          background: var(--blue-light);
+          border-color: var(--blue-pale);
+        }
+        .bp-price-badge {
+          display: inline-block;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          border-radius: 9999px;
+          padding: 3px 10px;
+          margin-bottom: 12px;
+        }
+        .bp-price-card .bp-price-badge {
+          color: var(--faint);
+          background: var(--surface);
+          border: 1px solid var(--border);
+        }
+        .bp-price-card-featured .bp-price-badge {
+          color: var(--blue);
+          background: var(--blue-pale);
+          border: 1px solid var(--blue-pale);
+        }
+        .bp-price-amount {
+          font-size: 32px;
+          font-weight: 800;
+          color: var(--navy);
+          line-height: 1.1;
+          margin-bottom: 4px;
+        }
+        .bp-price-unit {
+          font-size: 12px;
+          color: var(--muted);
+          margin-bottom: 20px;
+        }
+        .bp-price-desc {
+          font-size: 13px;
+          color: var(--text-sub);
+          margin-bottom: 16px;
+          line-height: 1.6;
+        }
+        .bp-check-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .bp-check-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          font-size: 13px;
+          color: var(--text-sub);
+          line-height: 1.5;
+        }
+        .bp-check-item::before {
+          content: '✓';
+          color: var(--green);
+          font-weight: 700;
+          flex-shrink: 0;
+          margin-top: 1px;
+        }
+        .bp-cross-note {
+          margin-top: 16px;
+          padding: 12px 16px;
+          background: var(--surface);
+          border-radius: var(--radius-sm);
+          font-size: 12px;
+          color: var(--muted);
+          line-height: 1.6;
+        }
+        .bp-cross-label {
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+        .bp-cross-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+          font-size: 12px;
+          color: var(--muted);
+          line-height: 1.5;
+          margin-bottom: 4px;
+        }
+        .bp-cross-item::before {
+          content: '−';
+          color: var(--hint);
+          font-weight: 700;
+          flex-shrink: 0;
+        }
+        .bp-next-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .bp-next-card {
+          display: block;
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          padding: 20px 24px;
+          text-decoration: none;
+          transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .bp-next-card:hover {
+          border-color: var(--blue);
+          box-shadow: 0 2px 12px rgba(37,99,235,0.08);
+        }
+        .bp-next-badge {
+          display: inline-block;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          color: var(--blue);
+          background: var(--blue-light);
+          border: 1px solid var(--blue-pale);
+          border-radius: 9999px;
+          padding: 3px 10px;
+          margin-bottom: 10px;
+        }
+        .bp-next-title {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--text);
+          margin-bottom: 6px;
+        }
+        .bp-next-body {
+          font-size: 12px;
+          color: var(--muted);
+          line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+          .bp-problem-grid { grid-template-columns: 1fr; }
+          .bp-problem-card:last-child:nth-child(odd) { grid-column: auto; max-width: 100%; }
+          .bp-deliv-grid { grid-template-columns: 1fr; }
+          .bp-price-grid { grid-template-columns: 1fr; }
+          .bp-next-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
       <LPHero
-        eyebrow="銀行提出前・借入相談前の経営者へ"
+        eyebrow="銀行対話準備支援"
         title="計画書を、銀行が読める資料へ整理する。"
-        lead="融資の可否は、数字の良し悪しだけでなく、何をどう説明できるかでも変わります。銀行が気にする論点に沿って、事業計画と説明材料を整理します。"
-        ctaLabel="融資準備資料を受け取る"
+        lead="何をどう説明するかが整っていないと、数字の良し悪しに関わらず話が前に進みません。銀行が確認する「現状・使途・返済余力」の順番に沿って、事業の状況と計画を整理します。"
+        ctaLabel="銀行対話準備資料を受け取る"
         ctaHref="#form"
         note="メールアドレスに支援概要と進め方をお送りします"
       />
 
-      <LPSection tone="cream" kicker="こんな悩み、心当たりはありますか？" title="申請の前に、一度整理する価値があります">
-        <LPStackList items={SYMPTOMS} />
-        <LPResourceCards
-          title="先に整理したい方向けの読み物"
-          items={[
-            {
-              href: '/articles/bank-loan-checkpoints/',
-              label: '関連記事',
-              title: '銀行融資を受ける前に確認しておくべき5つのポイント',
-              body: '銀行が見ている論点を先に整理したい方向けです。'
-            },
-            {
-              href: '/articles/',
-              label: '記事一覧',
-              title: '他の記事も見る',
-              body: '融資・経営判断に関する記事一覧はこちら。'
-            },
-            {
-              href: '/contact/',
-              label: 'お問い合わせ',
-              title: '先に相談したい',
-              body: '融資前の状況が具体的なら、そのまま相談内容を送れます。'
-            }
-          ]}
-        />
+      <LPSection tone="stone" kicker="こんな悩みはありませんか" title="銀行対話の前に経営者が感じる5つの状態">
+        <div className="bp-problem-grid">
+          {PROBLEMS.map((p) => (
+            <div className="bp-problem-card" key={p.no}>
+              <div className="bp-problem-no">{p.no}</div>
+              <div className="bp-problem-title">{p.title}</div>
+              <div className="bp-problem-body">{p.body}</div>
+            </div>
+          ))}
+        </div>
       </LPSection>
 
-      <LPSection tone="white" kicker="読まれない理由" title="計画書が「読まれない」本当の理由">
-        <LPInfoGrid items={REASONS} columns={3} />
+      <LPSection tone="white" kicker="支援で得られるもの" title="支援後に手元に残る3つの成果物">
+        <div className="bp-deliv-grid">
+          {DELIVERABLES.map((d) => (
+            <div className={`bp-deliv-card bp-deliv-card-${d.color}`} key={d.title}>
+              <div className="bp-deliv-icon">{d.icon}</div>
+              <div className="bp-deliv-title">{d.title}</div>
+              <div className="bp-deliv-body">{d.body}</div>
+            </div>
+          ))}
+        </div>
       </LPSection>
 
-      <LPSection tone="stone" kicker="整理ポイント" title="事業の現状と計画が伝わる3つの整理ポイント">
-        <LPInfoGrid items={POINTS} columns={3} numbered />
+      <LPSection tone="stone" kicker="進め方" title="支援の流れ">
+        <LPStepFlow items={STEPS} />
       </LPSection>
 
-      <LPSection tone="white" kicker="相談事例（匿名）" title="よくある相談の整理パターン">
-        <LPInfoGrid items={CASES} columns={3} />
-      </LPSection>
-
-      <LPSection tone="cream" kicker="よくあるつまずき" title="銀行に指摘されやすい4つの計画書パターン">
-        <LPStackList items={PATTERNS} />
-      </LPSection>
-
-      <LPSection tone="white" kicker="どちらが向いているか" title="あなたはどちらのプランが向いていますか？">
-        <LPInfoGrid items={PLAN_FIT} columns={2} />
-      </LPSection>
-
-      <LPSection tone="stone" kicker="支援プラン" title="99advisoryの2つの支援プラン">
-        <LPInfoGrid items={SUPPORT_PLANS} columns={2} />
-      </LPSection>
-
-      <LPSection tone="white" kicker="初回30分でわかること" title="初回30分の無料相談でわかること">
-        <LPStackList items={FREE_SESSION} />
-      </LPSection>
-
-      <LPSection tone="cream" kicker="整理の視点" title="どんな視点で整理するのか">
-        <LPStackList items={LENSES} />
+      <LPSection tone="white" kicker="料金" title="2つの支援プラン">
+        <div className="bp-price-grid">
+          <div className="bp-price-card">
+            <div className="bp-price-badge">スポット</div>
+            <div className="bp-price-amount">200,000<span style={{fontSize:'16px',fontWeight:600}}>円</span></div>
+            <div className="bp-price-unit">税別 / 一回完結</div>
+            <div className="bp-price-desc">面談前の準備が目的。今ある資料を整理し、説明できる状態を作りたい会社向け。</div>
+            <ul className="bp-check-list">
+              {SPOT_INCLUDED.map((item) => (
+                <li className="bp-check-item" key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="bp-price-card bp-price-card-featured">
+            <div className="bp-price-badge">月次サポート</div>
+            <div className="bp-price-amount">100,000<span style={{fontSize:'16px',fontWeight:600}}>円</span></div>
+            <div className="bp-price-unit">税別 / 月額</div>
+            <div className="bp-price-desc">定期的に銀行対話の論点を更新したい会社向け。計画と実績のズレを月次で確認します。</div>
+            <ul className="bp-check-list">
+              {MONTHLY_INCLUDED.map((item) => (
+                <li className="bp-check-item" key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="bp-cross-note">
+          <div className="bp-cross-label">いずれのプランにも含まれないもの</div>
+          {NOT_INCLUDED.map((item) => (
+            <div className="bp-cross-item" key={item}>{item}</div>
+          ))}
+        </div>
       </LPSection>
 
       <LPSection tone="white" kicker="向き・不向き" title="このサービスが向いている会社・向いていない会社">
         <LPFitGrid
           yesTitle="向いている会社"
-          yesItems={FIT_YES}
+          yesItems={[
+            '銀行面談前に数字と説明を整えたい会社',
+            '借換え・追加調達・条件変更の前に準備したい会社',
+            '銀行との対話を、感覚ではなく資料で進めたい会社',
+            '計画と実績のズレを定期的に確認したい会社'
+          ]}
           noTitle="向いていない会社"
-          noItems={FIT_NO}
+          noItems={[
+            '体裁だけの計画書が急ぎで欲しい会社',
+            '税務申告だけを求めている会社',
+            '状況整理なしに、申請だけ進めたい会社'
+          ]}
         />
-      </LPSection>
-
-      <LPSection tone="stone" kicker="ご相談の流れ" title="ご相談の流れ">
-        <LPStackList items={FLOW} />
-      </LPSection>
-
-      <LPSection tone="white" kicker="相談前に確認できること" title="相談する前に確認できること">
-        <LPStackList items={BEFORE_CONTACT} />
       </LPSection>
 
       <LPSection
         tone="dark"
         kicker="資料請求"
-        title="今の資料で何が足りないかを、30分で整理しませんか。"
+        title="今の資料で何が足りないかを、一緒に整理しませんか。"
         subtitle="概要資料では、銀行が確認する論点、計画整理の進め方、初回相談で確認する内容をまとめています。"
         narrow
         id="form"
@@ -320,7 +516,7 @@ export default function BankPlanPage() {
         <LPTrustNote
           items={[
             '資料が揃っていなくても相談できます',
-            'まずは不足資料と論点整理から始めます',
+            'まずは不足論点の整理から始めます',
             '資料請求だけでも問題ありません'
           ]}
         />
@@ -335,7 +531,7 @@ export default function BankPlanPage() {
           isSubmitting={isSubmitting}
           message={message}
           isSuccess={isSuccess}
-          submitLabel="融資準備資料を受け取る"
+          submitLabel="銀行対話準備資料を受け取る"
           helpText={
             <>
               受付後、自動でメールをお送りします。届かない場合は迷惑メールフォルダもご確認ください。<br />
@@ -354,7 +550,7 @@ export default function BankPlanPage() {
               label: '今回の相談目的',
               type: 'textarea',
               required: true,
-              placeholder: '例：追加融資の相談前に、銀行へどう説明するか整理したい'
+              placeholder: '例：追加調達の相談前に、銀行へどう説明するか整理したい'
             },
             {
               name: 'email',
@@ -369,6 +565,21 @@ export default function BankPlanPage() {
 
       <LPSection tone="white" kicker="FAQ" title="よくあるご質問">
         <LPFaq items={FAQS} openIndex={openFaqIndex} onToggle={toggleFaq} />
+      </LPSection>
+
+      <LPSection tone="stone" kicker="次のステップ" title="整理後に検討される支援">
+        <div className="bp-next-grid">
+          <Link href="/seizo/" className="bp-next-card">
+            <div className="bp-next-badge">財務診断</div>
+            <div className="bp-next-title">財務健康診断</div>
+            <div className="bp-next-body">銀行対話の土台となる財務構造・利益・現金のつながりを、診断として整理します。</div>
+          </Link>
+          <Link href="/cashflow/" className="bp-next-card">
+            <div className="bp-next-badge">資金繰り</div>
+            <div className="bp-next-title">資金繰り改善支援</div>
+            <div className="bp-next-body">利益と現金のズレを構造で整理し、資金繰りの安定を図ります。</div>
+          </Link>
+        </div>
       </LPSection>
 
       <LPBottomBar
