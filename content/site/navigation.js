@@ -3,7 +3,6 @@ const navigation = {
     { label: 'ホーム', href: '/' },
     { label: 'サービス一覧', href: '/services/' },
     { label: '記事一覧', href: '/articles/' },
-    { label: '会社情報', href: '/company/' },
     { label: 'お問い合わせ', href: '/contact/' }
   ],
   footerServices: [
