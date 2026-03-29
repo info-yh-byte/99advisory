@@ -529,15 +529,15 @@ export default function BankPlanPage() {
 
       <LPSection tone="stone" kicker="次のステップ" title="整理後に検討される支援">
         <div className="bp-next-grid">
-          <Link href="/seizo/" className="bp-next-card">
-            <div className="bp-next-badge">財務診断</div>
-            <div className="bp-next-title">財務健康診断</div>
-            <div className="bp-next-body">銀行対話の土台となる財務構造・利益・現金のつながりを、診断として整理します。</div>
+          <Link href="/monthly-review/" className="bp-next-card">
+            <div className="bp-next-badge">伴走支援</div>
+            <div className="bp-next-title">月次経営レビュー</div>
+            <div className="bp-next-body">事業計画の数字を毎月追いながら、判断と行動を整理する継続支援です。</div>
           </Link>
-          <Link href="/cashflow/" className="bp-next-card">
-            <div className="bp-next-badge">資金繰り</div>
-            <div className="bp-next-title">資金繰り改善支援</div>
-            <div className="bp-next-body">利益と現金のズレを構造で整理し、資金繰りの安定を図ります。</div>
+          <Link href="/yojitsu/" className="bp-next-card">
+            <div className="bp-next-badge">予実管理</div>
+            <div className="bp-next-title">予実管理伴走</div>
+            <div className="bp-next-body">計画と実績の差異を継続的に分析し、次の判断材料に変えます。</div>
           </Link>
         </div>
       </LPSection>

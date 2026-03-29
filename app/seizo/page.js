@@ -518,8 +518,8 @@ export default function SeizoPage() {
             <div className="sz-next-body">診断で整理した財務構造をベースに、月次で数字を追い続ける仕組みをつくります。</div>
           </Link>
           <Link href="/monthly-review/" className="sz-next-card">
-            <div className="sz-next-badge">経営会議</div>
-            <div className="sz-next-title">月次経営会議サポート</div>
+            <div className="sz-next-badge">伴走支援</div>
+            <div className="sz-next-title">月次経営レビュー</div>
             <div className="sz-next-body">月次の数字をもとに、経営判断を会議の中で確実に回す仕組みを整えます。</div>
           </Link>
         </div>

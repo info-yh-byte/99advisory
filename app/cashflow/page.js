@@ -496,15 +496,15 @@ export default function CashflowPage() {
 
       <LPSection tone="stone" kicker="次のステップ" title="改善後に検討される支援">
         <div className="cf-next-grid">
-          <Link href="/seizo/" className="cf-next-card">
-            <div className="cf-next-badge">財務診断</div>
-            <div className="cf-next-title">財務健康診断</div>
-            <div className="cf-next-body">資金繰りだけでなく、利益構造・費用構造・案件採算まで含めて会社の財務を整理します。</div>
-          </Link>
           <Link href="/monthly-report/" className="cf-next-card">
-            <div className="cf-next-badge">月次レポート</div>
-            <div className="cf-next-title">月次レポート支援</div>
-            <div className="cf-next-body">整理した資金繰り構造をベースに、月次で数字を追い続ける仕組みをつくります。</div>
+            <div className="cf-next-badge">月次整理</div>
+            <div className="cf-next-title">月次経営レポート</div>
+            <div className="cf-next-body">整理した資金繰り構造をもとに、毎月の数字を追い続ける仕組みをつくります。</div>
+          </Link>
+          <Link href="/monthly-review/" className="cf-next-card">
+            <div className="cf-next-badge">伴走支援</div>
+            <div className="cf-next-title">月次経営レビュー</div>
+            <div className="cf-next-body">月次の数字を読んで、次の判断と行動を一緒に整理する継続支援です。</div>
           </Link>
         </div>
       </LPSection>

@@ -93,6 +93,39 @@
   border-color: var(--navy);
 }
 
+.th-related {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+.th-related-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--hint);
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+}
+
+.th-related-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: center;
+}
+
+.th-related-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue);
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.th-related-link:hover {
+  opacity: 0.75;
+}
+
 @media (max-width: 768px) {
   .th-page {
     padding: 72px 20px;
