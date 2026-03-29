@@ -20,19 +20,19 @@ const SERVICES = [
     href: '/cashflow/',
   },
   {
-    tier: '月次整理',
+    tier: '整理支援',
     name: '銀行向け事業計画',
     desc: '銀行説明に使いやすい計画・月次資料を整備する',
     href: '/bank-plan/',
   },
   {
-    tier: '月次整理',
+    tier: '整理支援',
     name: '月次経営レポート',
     desc: '毎月の数字を整理した資料として納品する継続支援',
     href: '/monthly-report/',
   },
   {
-    tier: '継続支援',
+    tier: '伴走支援',
     name: '月次経営レビュー',
     desc: '月に一度、数字を読んで判断と行動を整理するセッション',
     href: '/monthly-review/',
@@ -44,7 +44,7 @@ const SERVICES = [
     href: '/yojitsu/',
   },
   {
-    tier: '上位（スポット）',
+    tier: 'スポット設計',
     name: '経営会議設計',
     desc: '判断が動く会議の型を一度設計するスポット支援',
     href: '/meeting-design/',
@@ -368,11 +368,11 @@ export default function ServicesPage() {
       <section className="sv-header">
         <div className="sv-wrap-narrow">
           <span className="sv-eyebrow">Services</span>
-          <h1 className="sv-h1">状況に応じて選べる、3つの支援</h1>
+          <h1 className="sv-h1">数字を整理して、<br />経営判断を進めやすい形へ。</h1>
           <p className="sv-lead">
-            まず現状を整理したいとき。毎月の数字を判断に使いやすい形へ整えたいとき。
-            重要な経営判断に、継続して伴走してほしいとき。
-            九十九アドバイザリーでは、そうした段階に応じて、支援を3つに分けています。
+            財務の現状把握から、資料整備、月次の判断伴走まで。
+            99advisoryでは、中小企業の経営管理に関わる支援を段階別に整理しています。
+            課題が明確な方も、まだ整理しきれていない方も、そのままご覧ください。
           </p>
         </div>
       </section>
@@ -380,9 +380,9 @@ export default function ServicesPage() {
       {/* Section 2: 3-card service menu */}
       <section className="sv-menu-section">
         <div className="sv-wrap">
-          <div className="sv-section-kicker">支援メニュー</div>
-          <h2 className="sv-section-heading">状況に合わせて、単独でご利用いただけます</h2>
-          <p className="sv-section-sub">診断だけ、月次整理だけ、レビューだけの利用も可能です。</p>
+          <div className="sv-section-kicker">3つの支援カテゴリ</div>
+          <h2 className="sv-section-heading">支援は、大きく3段階に分かれています</h2>
+          <p className="sv-section-sub">現状整理のための診断支援、資料を整える整理支援、毎月の判断に入る伴走支援の3段階で構成しています。単独でのご利用も可能です。</p>
 
           <div className="sv-menu-grid">
             {/* Card A: 診断 */}
@@ -419,7 +419,7 @@ export default function ServicesPage() {
 
             {/* Card C: 月次レビュー */}
             <div className="sv-menu-card sv-menu-card-c">
-              <span className="sv-menu-badge">New</span>
+              <span className="sv-menu-badge">継続支援</span>
               <div className="sv-menu-title">月次レビュー</div>
               <ul className="sv-menu-problems">
                 <li className="sv-menu-problem">数字を見ながら次の一手を整理したい</li>
@@ -440,8 +440,8 @@ export default function ServicesPage() {
       {/* Section 3: All 7 services */}
       <section className="sv-list-section">
         <div className="sv-wrap">
-          <div className="sv-section-kicker">すべてのサービス</div>
-          <h2 className="sv-section-heading">個別サービスの詳細はこちら</h2>
+          <div className="sv-section-kicker">個別サービス</div>
+          <h2 className="sv-section-heading">各サービスの詳細を見る</h2>
           <div className="sv-list-grid">
             {SERVICES.map((svc) => (
               <Link key={svc.href} href={svc.href} className="sv-svc-card">
